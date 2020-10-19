@@ -1,16 +1,16 @@
 # vital_signs_ui_template
 
-A new Flutter project.
+UI added, VS visualization page, BT connectivity
 
-## Getting Started
+### For Jeff:
+Duplicate any of the `formsfill_page `and change it as needed for new pages.
 
-This project is a starting point for a Flutter application.
+### For Jack:
+for Alert part, please look into the `Processing/BTconnection.dart`.
+Function: `_checkAndIssueWarning`
 
-A few resources to get you started if this is your first Flutter project:
+For the static variables look into `core/configVS.dart`. 
+I was using the local_config part for storing the alert range. You can use json file to do this as david asked.
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+I have tried to put comments. Although, codes might not look organized due to the regular experiments. 
+PS. I don't think you can test the alert system from this app, as it needs the device connected to go to that page.
