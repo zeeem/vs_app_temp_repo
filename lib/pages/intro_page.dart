@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vital_signs_ui_template/core/consts.dart';
-import 'package:vital_signs_ui_template/pages/home_page.dart';
+import 'package:vital_signs_ui_template/pages/connectDevice.dart';
 import 'package:vital_signs_ui_template/pages/nav_bar_test.dart';
 import 'package:vital_signs_ui_template/pages/vital_signs_viz.dart';
 
@@ -65,7 +65,7 @@ class _IntroPageState extends State<IntroPage> {
               onTap: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (_) => VitalSignsViz(),
+                    builder: (_) => ConnectDevice(),
                   ),
                 );
               },
