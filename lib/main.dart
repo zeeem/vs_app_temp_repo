@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:vital_signs_ui_template/pages/formsfill_page.dart';
 import 'package:vital_signs_ui_template/pages/intro_page.dart';
+import 'package:vital_signs_ui_template/pages/condition_page.dart';
 
 void main() {
   runApp(MyApp());

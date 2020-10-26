@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:vital_signs_ui_template/core/consts.dart';
 import 'package:vital_signs_ui_template/pages/intro_page.dart';
-
+import 'package:vital_signs_ui_template/pages/condition_page.dart';
 //import 'package:vital_signs_ui_template/pages/home_page.dart';
 
 class FormsfillPage3 extends StatefulWidget {
@@ -86,7 +86,7 @@ class _FormsfillPageState3 extends State<FormsfillPage3> {
                     SizedBox(height: 30.0),
                     TextField(
                       decoration: InputDecoration(
-                          labelText: 'PATIENT NUMBER/ID',
+                          labelText: 'BRACELET ID',
                           labelStyle: TextStyle(
                               fontFamily: 'OpenSans',
                               fontWeight: FontWeight.bold,
@@ -123,7 +123,7 @@ class _FormsfillPageState3 extends State<FormsfillPage3> {
               onTap: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (_) => IntroPage(), //TermsConditionsPage(),
+                    builder: (_) => ConditionPage(), //TermsConditionsPage(),
                   ),
                 );
               },

@@ -71,7 +71,7 @@ class _FormsfillPageState2 extends State<FormsfillPage2> {
               ),
             ),
             Container(
-                padding: EdgeInsets.only(top: 10.0, left: 20.0, right: 20.0),
+                padding: EdgeInsets.only(top: 45.0, left: 20.0, right: 20.0),
                 child: Column(
                   children: <Widget>[
                     TextField(
@@ -98,7 +98,18 @@ class _FormsfillPageState2 extends State<FormsfillPage2> {
                     SizedBox(height: 30.0),
                     TextField(
                       decoration: InputDecoration(
-                          labelText: 'CONTACT NUMBER',
+                          labelText: 'EMERGENCY CONTACT 1',
+                          labelStyle: TextStyle(
+                              fontFamily: 'OpenSans',
+                              fontWeight: FontWeight.bold,
+                              color: Colors.grey),
+                          focusedBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.lightBlue))),
+                    ),
+                    SizedBox(height: 30.0),
+                    TextField(
+                      decoration: InputDecoration(
+                          labelText: 'EMERGENCY CONTACT 2',
                           labelStyle: TextStyle(
                               fontFamily: 'OpenSans',
                               fontWeight: FontWeight.bold,

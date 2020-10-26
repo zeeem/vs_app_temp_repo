@@ -3,6 +3,8 @@ import 'package:vital_signs_ui_template/core/consts.dart';
 import 'package:vital_signs_ui_template/pages/intro_page.dart';
 
 import 'formsfill_page2.dart';
+import 'dart:io';
+import 'package:path_provider/path_provider.dart';
 //import 'package:vital_signs_ui_template/pages/home_page.dart';
 
 class FormsfillPage extends StatefulWidget {
@@ -63,7 +65,7 @@ class _FormsfillPageState extends State<FormsfillPage> {
               ),
             ),
             Container(
-                padding: EdgeInsets.only(top: 10.0, left: 20.0, right: 20.0),
+                padding: EdgeInsets.only(top: 45.0, left: 20.0, right: 20.0),
                 child: Column(
                   children: <Widget>[
                     TextField(
@@ -98,9 +100,31 @@ class _FormsfillPageState extends State<FormsfillPage> {
                           focusedBorder: UnderlineInputBorder(
                               borderSide: BorderSide(color: Colors.lightBlue))),
                     ),
+                    SizedBox(height: 30.0),
+                    TextField(
+                      decoration: InputDecoration(
+                          labelText: 'PASSWORD',
+                          labelStyle: TextStyle(
+                              fontFamily: 'OpenSans',
+                              fontWeight: FontWeight.bold,
+                              color: Colors.grey),
+                          focusedBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.lightBlue))),
+                    ),
+                    SizedBox(height: 30.0),
+                    TextField(
+                      decoration: InputDecoration(
+                          labelText: 'CONFIRM PASSWORD',
+                          labelStyle: TextStyle(
+                              fontFamily: 'OpenSans',
+                              fontWeight: FontWeight.bold,
+                              color: Colors.grey),
+                          focusedBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.lightBlue))),
+                    ),
                   ],
                 )),
-            SizedBox(height: 90),
+            SizedBox(height: 30),
             GestureDetector(
               onTap: () {
                 Navigator.of(context).push(
