@@ -1,405 +1,114 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:vital_signs_ui_template/core/consts.dart';
-import 'package:vital_signs_ui_template/core/my_flutter_icons.dart';
+import 'package:vital_signs_ui_template/pages/vital_signs_viz.dart';
+import 'package:vital_signs_ui_template/Processing/widgets.dart';
+import 'package:flutter_blue/flutter_blue.dart';
 
-class HomePage extends StatefulWidget {
+class ConnectDevice extends StatelessWidget {
   @override
-  _HomePageState createState() => _HomePageState();
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      color: Colors.lightBlue,
+      home: StreamBuilder<BluetoothState>(
+          stream: FlutterBlue.instance.state,
+          initialData: BluetoothState.unknown,
+          builder: (c, snapshot) {
+            final state = snapshot.data;
+            if (state == BluetoothState.on) {
+              return TestBTScan();
+            }
+            return BluetoothOffScreen(state: state);
+          }),
+    );
+  }
 }
 
-class _HomePageState extends State<HomePage> {
+class BluetoothOffScreen extends StatelessWidget {
+  const BluetoothOffScreen({Key key, this.state}) : super(key: key);
+
+  final BluetoothState state;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.backgroundColor,
-      body: Stack(
-        children: <Widget>[
-          Container(
-            height: 200,
-            decoration: BoxDecoration(
-              color: AppColors.mainColor,
-              borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(15),
-                bottomRight: Radius.circular(15),
-              ),
+      backgroundColor: Colors.lightBlue,
+      body: Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Icon(
+              Icons.bluetooth_disabled,
+              size: 200.0,
+              color: Colors.white54,
             ),
-          ),
-          Container(
-            padding: EdgeInsets.only(top: 25),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Padding(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 15,
-                    vertical: 55,
-                  ),
-                  child: Text(
-                    "Welcome, Mark",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 32,
-                    ),
-                  ),
-                ),
-                Container(
-                  width: 400,
-                  height: 130,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(7),
-                    ),
-                    border: Border.all(color: Colors.white),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black26,
-                        offset: Offset(0, 0),
-                        spreadRadius: 1,
-                        blurRadius: 3,
-                      ),
-                    ],
-                  ),
-                  margin: EdgeInsets.symmetric(horizontal: 15),
-                  child: Row(
-                    children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.only(left: 5, bottom: 110),
-                        child: Icon(
-                          MyFlutterApp.heartbeat,
-                          size: 30,
-                        ),
-                      ),
-                      Column(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Padding(
-                                padding:
-                                    const EdgeInsets.only(left: 5, bottom: 35),
-                                child: Text(
-                                  "Heart Rate",
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.black,
-                                      fontSize: 22),
-                                ),
-                              )
-                            ],
-                          ),
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Padding(
-                                padding: const EdgeInsets.all(4),
-                                child: Text(
-                                  "90",
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.black,
-                                      fontSize: 45),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 10),
-                  child: Container(
-                    width: 400,
-                    height: 130,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(7),
-                      ),
-                      border: Border.all(color: Colors.white),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black26,
-                          offset: Offset(0, 0),
-                          spreadRadius: 1,
-                          blurRadius: 3,
-                        ),
-                      ],
-                    ),
-                    margin: EdgeInsets.symmetric(horizontal: 15),
-                    child: Row(
-                      children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.only(left: 5, bottom: 110),
-                          child: Icon(
-                            MyFlutterApp.temperatire,
-                            size: 30,
-                          ),
-                        ),
-                        Column(
-                          mainAxisSize: MainAxisSize.min,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 5, bottom: 35),
-                                  child: Text(
-                                    "Temperature",
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.black,
-                                        fontSize: 22),
-                                  ),
-                                )
-                              ],
-                            ),
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                Padding(
-                                  padding: const EdgeInsets.all(4),
-                                  child: Text(
-                                    "35.6",
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.black,
-                                        fontSize: 45),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 10),
-                  child: Container(
-                    width: 400,
-                    height: 130,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(7),
-                      ),
-                      border: Border.all(color: Colors.white),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black26,
-                          offset: Offset(0, 0),
-                          spreadRadius: 1,
-                          blurRadius: 3,
-                        ),
-                      ],
-                    ),
-                    margin: EdgeInsets.symmetric(horizontal: 15),
-                    child: Row(
-                      children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.only(left: 5, bottom: 110),
-                          child: Icon(
-                            MyFlutterApp.air,
-                            size: 30,
-                          ),
-                        ),
-                        Column(
-                          mainAxisSize: MainAxisSize.min,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 5, bottom: 35),
-                                  child: Text(
-                                    "Oxygen Saturation",
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.black,
-                                        fontSize: 22),
-                                  ),
-                                )
-                              ],
-                            ),
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                Padding(
-                                  padding: const EdgeInsets.all(4),
-                                  child: Text(
-                                    "35.6",
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.black,
-                                        fontSize: 45),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 10),
-                  child: Container(
-                    width: 400,
-                    height: 130,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(7),
-                      ),
-                      border: Border.all(color: Colors.white),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black26,
-                          offset: Offset(0, 0),
-                          spreadRadius: 1,
-                          blurRadius: 3,
-                        ),
-                      ],
-                    ),
-                    margin: EdgeInsets.symmetric(horizontal: 15),
-                    child: Row(
-                      children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.only(left: 5, bottom: 110),
-                          child: Icon(
-                            MyFlutterApp.lungs,
-                            size: 30,
-                          ),
-                        ),
-                        Column(
-                          mainAxisSize: MainAxisSize.min,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 5, bottom: 35),
-                                  child: Text(
-                                    "Respiration Rate",
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.black,
-                                        fontSize: 22),
-                                  ),
-                                )
-                              ],
-                            ),
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                Padding(
-                                  padding: const EdgeInsets.all(4),
-                                  child: Text(
-                                    "35.6",
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.black,
-                                        fontSize: 45),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 10),
-                  child: Container(
-                    width: 400,
-                    height: 130,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(7),
-                      ),
-                      border: Border.all(color: Colors.white),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black26,
-                          offset: Offset(0, 0),
-                          spreadRadius: 1,
-                          blurRadius: 3,
-                        ),
-                      ],
-                    ),
-                    margin: EdgeInsets.symmetric(horizontal: 15),
-                    child: Row(
-                      children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.only(left: 5, bottom: 110),
-                          child: Icon(
-                            MyFlutterApp.droplet,
-                            size: 30,
-                          ),
-                        ),
-                        Column(
-                          mainAxisSize: MainAxisSize.min,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 5, bottom: 35),
-                                  child: Text(
-                                    "Blood Pressure",
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.black,
-                                        fontSize: 22),
-                                  ),
-                                )
-                              ],
-                            ),
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                Padding(
-                                  padding: const EdgeInsets.all(4),
-                                  child: Text(
-                                    "35.6",
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.black,
-                                        fontSize: 45),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ],
+            Text(
+              'Bluetooth Adapter is ${state.toString().substring(15)}.',
+              style: Theme.of(context)
+                  .primaryTextTheme
+                  .subhead
+                  .copyWith(color: Colors.white),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
+  }
+}
+
+class TestBTScan extends StatefulWidget {
+  @override
+  _TestBTScanState createState() => _TestBTScanState();
+}
+
+class _TestBTScanState extends State<TestBTScan> {
+  FlutterBlue flutterBlue2 = FlutterBlue.instance;
+  final String DEVICE_ID = "66:55:44:33:22:11";
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: FloatingActionButton(
+          onPressed: () {
+            scanAndConnect();
+          },
+        ),
+      ),
+    );
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+//    scanAndConnect();
+  }
+
+  scanAndConnect() async {
+    // Start scanning
+    flutterBlue2.startScan(timeout: Duration(seconds: 4));
+
+// Listen to scan results
+    flutterBlue2.scanResults.listen((results) {
+      print('scan results below');
+
+      for (ScanResult r in results) {
+        print('name -- ${r.device.name} found! id: ${r.device.id}');
+
+        if (r.device.id.toString() == DEVICE_ID) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) {
+//              print('state ----- ${r.device.state}');
+              r.device.connect();
+//              return SensorPage(device: r.device);
+            }),
+          );
+        }
+      }
+    });
+
+    // Stop scanning
+    flutterBlue2.stopScan();
   }
 }

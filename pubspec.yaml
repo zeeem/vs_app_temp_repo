@@ -41,6 +41,11 @@ dependencies:
   #  url_launcher: ^5.7.2
   flutter_phone_direct_caller: ^1.0.1
   soundpool: ^1.1.2
+  loading: ^1.0.2
+  flutter_easyloading: ^2.0.0
+
+  ext_storage: any
+  permission_handler: 4.4.0
 
 dev_dependencies:
   flutter_test:

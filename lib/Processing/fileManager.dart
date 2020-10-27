@@ -1,4 +1,6 @@
+import 'package:ext_storage/ext_storage.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'dart:io';
 import 'dart:async';
 import 'package:toast/toast.dart';
@@ -13,6 +15,12 @@ class FileManager {
 
   // === helper getters ===
   Future<String> get _docPath async {
+//    PermissionHandler().requestPermissions([PermissionGroup.storage]);
+//
+//    final String download_dir =
+//        await ExtStorage.getExternalStoragePublicDirectory(
+//            ExtStorage.DIRECTORY_DOWNLOADS);
+
     final directory =
         await getExternalStorageDirectory(); //getApplicationDocumentsDirectory();
 

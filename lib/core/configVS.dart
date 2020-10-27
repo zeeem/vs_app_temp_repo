@@ -28,3 +28,7 @@ class VS_Values {
   static String final_static_SPO2 = '';
   static String final_static_temp = '';
 }
+
+class profileData {
+  static String DEVICE_ID = "66:55:44:33:22:11";
+}
