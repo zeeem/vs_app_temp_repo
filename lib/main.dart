@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vital_signs_ui_template/pages/configuration_page1.dart';
 import 'package:vital_signs_ui_template/pages/formsfill_page.dart';
 import 'package:vital_signs_ui_template/pages/intro_page.dart';
 import 'package:vital_signs_ui_template/pages/condition_page.dart';
@@ -19,7 +20,7 @@ class MyApp extends StatelessWidget {
         visualDensity: VisualDensity.adaptivePlatformDensity,
         fontFamily: "OpenSans",
       ),
-      home: FormsfillPage(),
+      home: IntroPage(),
     );
   }
 }
