@@ -1,21 +1,13 @@
-import 'dart:io';
-
-//import 'package:ext_storage/ext_storage.dart';
+import 'configuration_page9.dart';
 import 'package:flutter/material.dart';
-//import 'package:path_provider/path_provider.dart';
-//import 'package:permission_handler/permission_handler.dart';
 import 'package:vital_signs_ui_template/core/consts.dart';
-import 'configuration_page3.dart';
-//import 'dart:io';
-//import 'package:path_provider/path_provider.dart';
-//import 'package:vital_signs_ui_template/pages/home_page.dart';
 
-class ConfigurationPage2 extends StatefulWidget {
+class ConfigurationPage8 extends StatefulWidget {
   @override
-  _ConfigurationPage2 createState() => _ConfigurationPage2();
+  _ConfigurationPage8 createState() => _ConfigurationPage8();
 }
 
-class _ConfigurationPage2 extends State<ConfigurationPage2> {
+class _ConfigurationPage8 extends State<ConfigurationPage8> {
   @override
   void initState() {
     // TODO: implement initState
@@ -32,7 +24,7 @@ class _ConfigurationPage2 extends State<ConfigurationPage2> {
   Widget build(BuildContext context) {
     return Scaffold(
         resizeToAvoidBottomPadding: false,
-        body: ListView(
+        body: Column(
           children: <Widget>[
             Container(
               child: Stack(
@@ -79,49 +71,21 @@ class _ConfigurationPage2 extends State<ConfigurationPage2> {
                   Container(
                     padding: EdgeInsets.fromLTRB(50, 320, 50, 0.0),
                     child: Text(
-                      'The first thing I would like to ask you is the information about your doctor that is taking care of your health.',
+                      'Thank you, now turn on the device and attach it to your wrist. When ready let me know I will pair the device with your phone',
                       style: TextStyle(
-                          fontSize: 25.0, fontWeight: FontWeight.bold),
+                          fontSize: 20.0, fontWeight: FontWeight.bold),
                       textAlign: TextAlign.center,
                     ),
                   )
                 ],
               ),
             ),
-            Container(
-                padding: EdgeInsets.only(top: 45.0, left: 20.0, right: 20.0),
-                child: Column(
-                  children: <Widget>[
-                    TextField(
-                      decoration: InputDecoration(
-                          labelText: 'Full Name',
-                          labelStyle: TextStyle(
-                              fontFamily: 'OpenSans',
-                              fontWeight: FontWeight.bold,
-                              color: Colors.grey),
-                          focusedBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.lightBlue))),
-                    ),
-                    SizedBox(height: 30.0),
-                    TextField(
-                      decoration: InputDecoration(
-                          labelText: 'The health care facility of your doctor',
-                          labelStyle: TextStyle(
-                              fontFamily: 'OpenSans',
-                              fontWeight: FontWeight.bold,
-                              color: Colors.grey),
-                          focusedBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.lightBlue))),
-                    ),
-                    SizedBox(height: 30.0),
-                  ],
-                )),
             SizedBox(height: 30),
             GestureDetector(
               onTap: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (_) => ConfigurationPage3(),
+                    builder: (_) => ConfigurationPage9(),
                   ),
                 );
               },
@@ -144,7 +108,7 @@ class _ConfigurationPage2 extends State<ConfigurationPage2> {
                 height: 60,
                 child: Center(
                   child: Text(
-                    "Next",
+                    "IM READY",
                     style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,

@@ -1,39 +1,25 @@
-import 'dart:io';
-
-//import 'package:ext_storage/ext_storage.dart';
 import 'package:flutter/material.dart';
-//import 'package:path_provider/path_provider.dart';
-//import 'package:permission_handler/permission_handler.dart';
 import 'package:vital_signs_ui_template/core/consts.dart';
-import 'package:vital_signs_ui_template/pages/configuration_page11.dart';
+import 'configuration_page1.dart';
+import 'package:vital_signs_ui_template/pages/intro_page.dart';
 
-//import 'dart:io';
-//import 'package:path_provider/path_provider.dart';
+import '../formsfill_page2.dart';
 //import 'package:vital_signs_ui_template/pages/home_page.dart';
+import 'package:flutter/gestures.dart';
 
-class ConfigurationPage10 extends StatefulWidget {
+class ConditionPage extends StatefulWidget {
   @override
-  _ConfigurationPage10 createState() => _ConfigurationPage10();
+  _ConditionPageState createState() => _ConditionPageState();
 }
 
-class _ConfigurationPage10 extends State<ConfigurationPage10> {
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-  }
+bool _value = true;
 
-//  getDirLocation() async {
-//
-//    File file = await File('$path/counter.txt');
-//    file.writeAsString('this is test');
-//  }
-
+class _ConditionPageState extends State<ConditionPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         resizeToAvoidBottomPadding: false,
-        body: ListView(
+        body: Column(
           children: <Widget>[
             Container(
               child: Stack(
@@ -69,32 +55,69 @@ class _ConfigurationPage10 extends State<ConfigurationPage10> {
                     ),
                   ),
                   Container(
-                    padding: EdgeInsets.fromLTRB(50, 150, 50, 0.0),
-                    child: Align(
-                      child: Image.asset(
-                        "assets/images/vs_avatar_01.png",
-                        scale: 0.75,
-                      ),
-                    ),
-                  ),
-                  Container(
-                    padding: EdgeInsets.fromLTRB(50, 320, 50, 0.0),
+                    padding: EdgeInsets.fromLTRB(70, 130, 0, 0.0),
                     child: Text(
-                      'One last step and we are done. In case you are unable to talk on the phone, can you please give the app access to your GPS in case of emergency. Just click accept on the next message.',
+                      'Terms&Conditions',
                       style: TextStyle(
-                          fontSize: 25.0, fontWeight: FontWeight.bold),
+                          fontSize: 30.0, fontWeight: FontWeight.bold),
                       textAlign: TextAlign.center,
                     ),
-                  ),
+                  )
                 ],
               ),
             ),
             SizedBox(height: 30),
+            Container(
+                width: 300,
+                height: 400,
+                padding: EdgeInsets.only(
+                    top: 20.0, bottom: 20.0, left: 20.0, right: 20.0),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(10),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.4),
+                      spreadRadius: 1,
+                      blurRadius: 10,
+                      offset: Offset(1, 2), // changes position of shadow
+                    ),
+                  ],
+                ),
+                child: Flexible(
+                  child: Text(
+                    'This will be our condition and terms: sasadf  sadf as gfdsg g  a we asdgasdf dsfds sdfg dsf gasfsa asdf asf asdas asd sa fsad fasd fsadf asf asd fdsga dsf g sdfg sas asdf asdf asdf asdf asd fsdaf sad fdsg dfsg sdfg dsfg dsfg sdf gdsfg sdfg asd fas fasd fasd fasd fsda dfsg sdfg dsfg zx as sadsa as f sad sfsad asd',
+                    style: TextStyle(
+                      fontWeight: FontWeight.normal,
+                      fontSize: 16,
+                      color: AppColors.textColor,
+                    ),
+                    textAlign: TextAlign.left,
+                    overflow: TextOverflow.clip,
+                  ),
+                )),
+            SizedBox(height: 30),
+            Container(
+              padding: EdgeInsets.only(
+                  top: 0.0, bottom: 20.0, left: 20.0, right: 0.0),
+              child: CheckboxListTile(
+                title: Text('I agree to the Terms and Conditions'),
+                controlAffinity: ListTileControlAffinity.leading,
+                value: _value,
+                onChanged: (bool newValue) {
+                  setState(() {
+                    _value = newValue;
+                  });
+                },
+                activeColor: AppColors.deccolor1,
+                checkColor: Colors.white,
+              ),
+            ),
             GestureDetector(
               onTap: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (_) => ConfigurationPage11(),
+                    builder: (_) => ConfigurationPage1(),
                   ),
                 );
               },

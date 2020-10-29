@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:vital_signs_ui_template/pages/configuration_page1.dart';
 import 'package:vital_signs_ui_template/pages/formsfill_page.dart';
 import 'package:vital_signs_ui_template/pages/intro_page.dart';
-import 'package:vital_signs_ui_template/pages/condition_page.dart';
+import 'pages/registration/configuration_page1.dart';
+import 'pages/registration/condition_page.dart';
+import 'pages/connectDevice.dart';
 
 void main() {
   runApp(MyApp());
@@ -20,7 +21,7 @@ class MyApp extends StatelessWidget {
         visualDensity: VisualDensity.adaptivePlatformDensity,
         fontFamily: "OpenSans",
       ),
-      home: IntroPage(),
+      home: ConditionPage(), //ConditionPage()
     );
   }
 }

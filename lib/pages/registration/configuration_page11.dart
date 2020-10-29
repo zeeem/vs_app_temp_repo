@@ -1,17 +1,7 @@
-import 'dart:io';
-
-//import 'package:ext_storage/ext_storage.dart';
+import 'configuration_page8.dart';
 import 'package:flutter/material.dart';
-//import 'package:path_provider/path_provider.dart';
-//import 'package:permission_handler/permission_handler.dart';
 import 'package:vital_signs_ui_template/core/consts.dart';
-
-import 'package:vital_signs_ui_template/pages/configuration_page8.dart';
-import 'package:vital_signs_ui_template/pages/vital_signs_viz.dart';
-
-//import 'dart:io';
-//import 'package:path_provider/path_provider.dart';
-//import 'package:vital_signs_ui_template/pages/home_page.dart';
+import 'package:vital_signs_ui_template/pages/connectDevice.dart';
 
 class ConfigurationPage11 extends StatefulWidget {
   @override
@@ -35,7 +25,7 @@ class _ConfigurationPage11 extends State<ConfigurationPage11> {
   Widget build(BuildContext context) {
     return Scaffold(
         resizeToAvoidBottomPadding: false,
-        body: ListView(
+        body: Column(
           children: <Widget>[
             Container(
               child: Stack(
@@ -96,7 +86,7 @@ class _ConfigurationPage11 extends State<ConfigurationPage11> {
               onTap: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (_) => VitalSignsViz(),
+                    builder: (_) => ConnectDevice(),
                   ),
                 );
               },

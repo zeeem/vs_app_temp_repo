@@ -1,22 +1,13 @@
-import 'dart:io';
-
-//import 'package:ext_storage/ext_storage.dart';
+import 'configuration_page3.dart';
 import 'package:flutter/material.dart';
-//import 'package:path_provider/path_provider.dart';
-//import 'package:permission_handler/permission_handler.dart';
 import 'package:vital_signs_ui_template/core/consts.dart';
-import 'package:vital_signs_ui_template/pages/configuration_page4.dart';
 
-//import 'dart:io';
-//import 'package:path_provider/path_provider.dart';
-//import 'package:vital_signs_ui_template/pages/home_page.dart';
-
-class ConfigurationPage3 extends StatefulWidget {
+class ConfigurationPage2 extends StatefulWidget {
   @override
-  _ConfigurationPage3 createState() => _ConfigurationPage3();
+  _ConfigurationPage2 createState() => _ConfigurationPage2();
 }
 
-class _ConfigurationPage3 extends State<ConfigurationPage3> {
+class _ConfigurationPage2 extends State<ConfigurationPage2> {
   @override
   void initState() {
     // TODO: implement initState
@@ -33,7 +24,7 @@ class _ConfigurationPage3 extends State<ConfigurationPage3> {
   Widget build(BuildContext context) {
     return Scaffold(
         resizeToAvoidBottomPadding: false,
-        body: ListView(
+        body: Column(
           children: <Widget>[
             Container(
               child: Stack(
@@ -80,9 +71,9 @@ class _ConfigurationPage3 extends State<ConfigurationPage3> {
                   Container(
                     padding: EdgeInsets.fromLTRB(50, 320, 50, 0.0),
                     child: Text(
-                      'To correctly identify you and make this more human, can you please fill your name and phone number here.',
+                      'The first thing I would like to ask you is the information about your doctor that is taking care of your health.',
                       style: TextStyle(
-                          fontSize: 25.0, fontWeight: FontWeight.bold),
+                          fontSize: 20.0, fontWeight: FontWeight.bold),
                       textAlign: TextAlign.center,
                     ),
                   )
@@ -106,7 +97,7 @@ class _ConfigurationPage3 extends State<ConfigurationPage3> {
                     SizedBox(height: 30.0),
                     TextField(
                       decoration: InputDecoration(
-                          labelText: 'Phone Number',
+                          labelText: 'The health care facility of your doctor',
                           labelStyle: TextStyle(
                               fontFamily: 'OpenSans',
                               fontWeight: FontWeight.bold,
@@ -122,7 +113,7 @@ class _ConfigurationPage3 extends State<ConfigurationPage3> {
               onTap: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (_) => ConfigurationPage4(),
+                    builder: (_) => ConfigurationPage3(),
                   ),
                 );
               },

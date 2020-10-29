@@ -1,12 +1,6 @@
-//import 'package:ext_storage/ext_storage.dart';
+import 'configuration_page2.dart';
 import 'package:flutter/material.dart';
-//import 'package:path_provider/path_provider.dart';
-//import 'package:permission_handler/permission_handler.dart';
 import 'package:vital_signs_ui_template/core/consts.dart';
-import 'package:vital_signs_ui_template/pages/configuration_page2.dart';
-//import 'dart:io';
-//import 'package:path_provider/path_provider.dart';
-//import 'package:vital_signs_ui_template/pages/home_page.dart';
 
 class ConfigurationPage1 extends StatefulWidget {
   @override

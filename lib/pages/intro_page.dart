@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vital_signs_ui_template/core/consts.dart';
-import 'package:vital_signs_ui_template/pages/condition_page.dart';
+import 'registration/condition_page.dart';
 import 'package:vital_signs_ui_template/pages/connectDevice.dart';
 
 class IntroPage extends StatefulWidget {

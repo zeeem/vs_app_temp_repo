@@ -1,22 +1,17 @@
-import 'dart:io';
-
-//import 'package:ext_storage/ext_storage.dart';
+import 'configuration_page4.dart';
 import 'package:flutter/material.dart';
-//import 'package:path_provider/path_provider.dart';
-//import 'package:permission_handler/permission_handler.dart';
 import 'package:vital_signs_ui_template/core/consts.dart';
-import 'package:vital_signs_ui_template/pages/configuration_page6.dart';
 
 //import 'dart:io';
 //import 'package:path_provider/path_provider.dart';
 //import 'package:vital_signs_ui_template/pages/home_page.dart';
 
-class ConfigurationPage5 extends StatefulWidget {
+class ConfigurationPage3 extends StatefulWidget {
   @override
-  _ConfigurationPage5 createState() => _ConfigurationPage5();
+  _ConfigurationPage3 createState() => _ConfigurationPage3();
 }
 
-class _ConfigurationPage5 extends State<ConfigurationPage5> {
+class _ConfigurationPage3 extends State<ConfigurationPage3> {
   @override
   void initState() {
     // TODO: implement initState
@@ -33,7 +28,7 @@ class _ConfigurationPage5 extends State<ConfigurationPage5> {
   Widget build(BuildContext context) {
     return Scaffold(
         resizeToAvoidBottomPadding: false,
-        body: ListView(
+        body: Column(
           children: <Widget>[
             Container(
               child: Stack(
@@ -80,9 +75,9 @@ class _ConfigurationPage5 extends State<ConfigurationPage5> {
                   Container(
                     padding: EdgeInsets.fromLTRB(50, 320, 50, 0.0),
                     child: Text(
-                      'If you don\'t want to enter a second name at this time, just click on NEXT.',
+                      'To correctly identify you and make this more human, can you please fill your name and phone number here.',
                       style: TextStyle(
-                          fontSize: 25.0, fontWeight: FontWeight.bold),
+                          fontSize: 20.0, fontWeight: FontWeight.bold),
                       textAlign: TextAlign.center,
                     ),
                   )
@@ -95,7 +90,7 @@ class _ConfigurationPage5 extends State<ConfigurationPage5> {
                   children: <Widget>[
                     TextField(
                       decoration: InputDecoration(
-                          labelText: 'Name of emergency contact #2',
+                          labelText: 'Full Name',
                           labelStyle: TextStyle(
                               fontFamily: 'OpenSans',
                               fontWeight: FontWeight.bold,
@@ -106,7 +101,7 @@ class _ConfigurationPage5 extends State<ConfigurationPage5> {
                     SizedBox(height: 30.0),
                     TextField(
                       decoration: InputDecoration(
-                          labelText: 'Phone number',
+                          labelText: 'Phone Number',
                           labelStyle: TextStyle(
                               fontFamily: 'OpenSans',
                               fontWeight: FontWeight.bold,
@@ -122,7 +117,7 @@ class _ConfigurationPage5 extends State<ConfigurationPage5> {
               onTap: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (_) => ConfigurationPage6(),
+                    builder: (_) => ConfigurationPage4(),
                   ),
                 );
               },

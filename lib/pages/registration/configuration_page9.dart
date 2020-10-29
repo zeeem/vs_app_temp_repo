@@ -1,22 +1,13 @@
-import 'dart:io';
-
-//import 'package:ext_storage/ext_storage.dart';
+import 'configuration_page10.dart';
 import 'package:flutter/material.dart';
-//import 'package:path_provider/path_provider.dart';
-//import 'package:permission_handler/permission_handler.dart';
 import 'package:vital_signs_ui_template/core/consts.dart';
-import 'package:vital_signs_ui_template/pages/configuration_page5.dart';
 
-//import 'dart:io';
-//import 'package:path_provider/path_provider.dart';
-//import 'package:vital_signs_ui_template/pages/home_page.dart';
-
-class ConfigurationPage4 extends StatefulWidget {
+class ConfigurationPage9 extends StatefulWidget {
   @override
-  _ConfigurationPage4 createState() => _ConfigurationPage4();
+  _ConfigurationPage9 createState() => _ConfigurationPage9();
 }
 
-class _ConfigurationPage4 extends State<ConfigurationPage4> {
+class _ConfigurationPage9 extends State<ConfigurationPage9> {
   @override
   void initState() {
     // TODO: implement initState
@@ -33,7 +24,7 @@ class _ConfigurationPage4 extends State<ConfigurationPage4> {
   Widget build(BuildContext context) {
     return Scaffold(
         resizeToAvoidBottomPadding: false,
-        body: ListView(
+        body: Column(
           children: <Widget>[
             Container(
               child: Stack(
@@ -80,49 +71,31 @@ class _ConfigurationPage4 extends State<ConfigurationPage4> {
                   Container(
                     padding: EdgeInsets.fromLTRB(50, 320, 50, 0.0),
                     child: Text(
-                      'In the case of an emergency, we will add up to three persons that the app can quickly call in case you need help.',
+                      'Excellent! I have successfully connected your device to your phone.',
                       style: TextStyle(
                           fontSize: 25.0, fontWeight: FontWeight.bold),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                  SizedBox(height: 30),
+                  Container(
+                    padding: EdgeInsets.fromLTRB(50, 480, 50, 0.0),
+                    child: Text(
+                      'The app can now monitor your vital signs',
+                      style: TextStyle(
+                          fontSize: 20.0, fontWeight: FontWeight.bold),
                       textAlign: TextAlign.center,
                     ),
                   )
                 ],
               ),
             ),
-            Container(
-                padding: EdgeInsets.only(top: 45.0, left: 20.0, right: 20.0),
-                child: Column(
-                  children: <Widget>[
-                    TextField(
-                      decoration: InputDecoration(
-                          labelText: 'Name of emergency contact #1',
-                          labelStyle: TextStyle(
-                              fontFamily: 'OpenSans',
-                              fontWeight: FontWeight.bold,
-                              color: Colors.grey),
-                          focusedBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.lightBlue))),
-                    ),
-                    SizedBox(height: 30.0),
-                    TextField(
-                      decoration: InputDecoration(
-                          labelText: 'Phone number',
-                          labelStyle: TextStyle(
-                              fontFamily: 'OpenSans',
-                              fontWeight: FontWeight.bold,
-                              color: Colors.grey),
-                          focusedBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.lightBlue))),
-                    ),
-                    SizedBox(height: 30.0),
-                  ],
-                )),
             SizedBox(height: 30),
             GestureDetector(
               onTap: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (_) => ConfigurationPage5(),
+                    builder: (_) => ConfigurationPage10(),
                   ),
                 );
               },

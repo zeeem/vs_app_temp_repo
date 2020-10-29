@@ -1,20 +1,30 @@
+import 'dart:io';
+
+//import 'package:ext_storage/ext_storage.dart';
 import 'package:flutter/material.dart';
+//import 'package:path_provider/path_provider.dart';
+//import 'package:permission_handler/permission_handler.dart';
 import 'package:vital_signs_ui_template/core/consts.dart';
-import 'package:vital_signs_ui_template/pages/configuration_page1.dart';
 import 'package:vital_signs_ui_template/pages/intro_page.dart';
 
-import 'formsfill_page2.dart';
-//import 'package:vital_signs_ui_template/pages/home_page.dart';
-import 'package:flutter/gestures.dart';
-
-class ConditionPage extends StatefulWidget {
+class FormsfillPage extends StatefulWidget {
   @override
-  _ConditionPageState createState() => _ConditionPageState();
+  _FormsfillPageState createState() => _FormsfillPageState();
 }
 
-bool _value = true;
+class _FormsfillPageState extends State<FormsfillPage> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
 
-class _ConditionPageState extends State<ConditionPage> {
+//  getDirLocation() async {
+//
+//    File file = await File('$path/counter.txt');
+//    file.writeAsString('this is test');
+//  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -55,9 +65,9 @@ class _ConditionPageState extends State<ConditionPage> {
                     ),
                   ),
                   Container(
-                    padding: EdgeInsets.fromLTRB(70, 130, 0, 0.0),
+                    padding: EdgeInsets.fromLTRB(50, 120, 50, 0.0),
                     child: Text(
-                      'Terms&Conditions',
+                      'Please enter your details',
                       style: TextStyle(
                           fontSize: 30.0, fontWeight: FontWeight.bold),
                       textAlign: TextAlign.center,
@@ -66,59 +76,51 @@ class _ConditionPageState extends State<ConditionPage> {
                 ],
               ),
             ),
-            SizedBox(height: 30),
             Container(
-                width: 300,
-                height: 400,
-                padding: EdgeInsets.only(
-                    top: 20.0, bottom: 20.0, left: 20.0, right: 20.0),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(10),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.4),
-                      spreadRadius: 1,
-                      blurRadius: 10,
-                      offset: Offset(1, 2), // changes position of shadow
+                padding: EdgeInsets.only(top: 10.0, left: 20.0, right: 20.0),
+                child: Column(
+                  children: <Widget>[
+                    TextField(
+                      decoration: InputDecoration(
+                          labelText: 'FIRST NAME',
+                          labelStyle: TextStyle(
+                              fontFamily: 'OpenSans',
+                              fontWeight: FontWeight.bold,
+                              color: Colors.grey),
+                          focusedBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.lightBlue))),
+                    ),
+                    SizedBox(height: 30.0),
+                    TextField(
+                      decoration: InputDecoration(
+                          labelText: 'LAST NAME',
+                          labelStyle: TextStyle(
+                              fontFamily: 'OpenSans',
+                              fontWeight: FontWeight.bold,
+                              color: Colors.grey),
+                          focusedBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.lightBlue))),
+                    ),
+                    SizedBox(height: 30.0),
+                    TextField(
+                      decoration: InputDecoration(
+                          labelText: 'EMAIL',
+                          labelStyle: TextStyle(
+                              fontFamily: 'OpenSans',
+                              fontWeight: FontWeight.bold,
+                              color: Colors.grey),
+                          focusedBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.lightBlue))),
                     ),
                   ],
-                ),
-                child: Flexible(
-                  child: Text(
-                    'This will be our condition and terms: sasadf  sadf as gfdsg g  a we asdgasdf dsfds sdfg dsf gasfsa asdf asf asdas asd sa fsad fasd fsadf asf asd fdsga dsf g sdfg sas asdf asdf asdf asdf asd fsdaf sad fdsg dfsg sdfg dsfg dsfg sdf gdsfg sdfg asd fas fasd fasd fasd fsda dfsg sdfg dsfg zx as sadsa as f sad sfsad asd',
-                    style: TextStyle(
-                      fontWeight: FontWeight.normal,
-                      fontSize: 16,
-                      color: AppColors.textColor,
-                    ),
-                    textAlign: TextAlign.left,
-                    overflow: TextOverflow.clip,
-                  ),
                 )),
-            SizedBox(height: 30),
-            Container(
-              padding: EdgeInsets.only(
-                  top: 0.0, bottom: 20.0, left: 20.0, right: 0.0),
-              child: CheckboxListTile(
-                title: Text('I agree to the Terms and Conditions'),
-                controlAffinity: ListTileControlAffinity.leading,
-                value: _value,
-                onChanged: (bool newValue) {
-                  setState(() {
-                    _value = newValue;
-                  });
-                },
-                activeColor: AppColors.deccolor1,
-                checkColor: Colors.white,
-              ),
-            ),
+            SizedBox(height: 90),
             GestureDetector(
               onTap: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (_) => ConfigurationPage1(),
-                  ),
+//                    builder: (_) => FormsfillPage2(),
+                      ),
                 );
               },
               child: Container(

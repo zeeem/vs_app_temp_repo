@@ -1,22 +1,13 @@
-import 'dart:io';
-
-//import 'package:ext_storage/ext_storage.dart';
+import 'configuration_page11.dart';
 import 'package:flutter/material.dart';
-//import 'package:path_provider/path_provider.dart';
-//import 'package:permission_handler/permission_handler.dart';
 import 'package:vital_signs_ui_template/core/consts.dart';
-import 'package:vital_signs_ui_template/pages/configuration_page7.dart';
 
-//import 'dart:io';
-//import 'package:path_provider/path_provider.dart';
-//import 'package:vital_signs_ui_template/pages/home_page.dart';
-
-class ConfigurationPage6 extends StatefulWidget {
+class ConfigurationPage10 extends StatefulWidget {
   @override
-  _ConfigurationPage6 createState() => _ConfigurationPage6();
+  _ConfigurationPage10 createState() => _ConfigurationPage10();
 }
 
-class _ConfigurationPage6 extends State<ConfigurationPage6> {
+class _ConfigurationPage10 extends State<ConfigurationPage10> {
   @override
   void initState() {
     // TODO: implement initState
@@ -33,7 +24,7 @@ class _ConfigurationPage6 extends State<ConfigurationPage6> {
   Widget build(BuildContext context) {
     return Scaffold(
         resizeToAvoidBottomPadding: false,
-        body: ListView(
+        body: Column(
           children: <Widget>[
             Container(
               child: Stack(
@@ -80,49 +71,21 @@ class _ConfigurationPage6 extends State<ConfigurationPage6> {
                   Container(
                     padding: EdgeInsets.fromLTRB(50, 320, 50, 0.0),
                     child: Text(
-                      'Here is your third and last contact in case of emergency.',
+                      'One last step and we are done. In case you are unable to talk on the phone, can you please give the app access to your GPS in case of emergency. Just click accept on the next message.',
                       style: TextStyle(
                           fontSize: 25.0, fontWeight: FontWeight.bold),
                       textAlign: TextAlign.center,
                     ),
-                  )
+                  ),
                 ],
               ),
             ),
-            Container(
-                padding: EdgeInsets.only(top: 45.0, left: 20.0, right: 20.0),
-                child: Column(
-                  children: <Widget>[
-                    TextField(
-                      decoration: InputDecoration(
-                          labelText: 'Name of emergency contact #3',
-                          labelStyle: TextStyle(
-                              fontFamily: 'OpenSans',
-                              fontWeight: FontWeight.bold,
-                              color: Colors.grey),
-                          focusedBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.lightBlue))),
-                    ),
-                    SizedBox(height: 30.0),
-                    TextField(
-                      decoration: InputDecoration(
-                          labelText: 'Phone number',
-                          labelStyle: TextStyle(
-                              fontFamily: 'OpenSans',
-                              fontWeight: FontWeight.bold,
-                              color: Colors.grey),
-                          focusedBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.lightBlue))),
-                    ),
-                    SizedBox(height: 30.0),
-                  ],
-                )),
             SizedBox(height: 30),
             GestureDetector(
               onTap: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (_) => ConfigurationPage7(),
+                    builder: (_) => ConfigurationPage11(),
                   ),
                 );
               },

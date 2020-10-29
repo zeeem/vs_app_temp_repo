@@ -1,23 +1,13 @@
-import 'dart:io';
-
-//import 'package:ext_storage/ext_storage.dart';
+import 'configuration_page8.dart';
 import 'package:flutter/material.dart';
-//import 'package:path_provider/path_provider.dart';
-//import 'package:permission_handler/permission_handler.dart';
 import 'package:vital_signs_ui_template/core/consts.dart';
 
-import 'package:vital_signs_ui_template/pages/configuration_page9.dart';
-
-//import 'dart:io';
-//import 'package:path_provider/path_provider.dart';
-//import 'package:vital_signs_ui_template/pages/home_page.dart';
-
-class ConfigurationPage8 extends StatefulWidget {
+class ConfigurationPage7 extends StatefulWidget {
   @override
-  _ConfigurationPage8 createState() => _ConfigurationPage8();
+  _ConfigurationPage7 createState() => _ConfigurationPage7();
 }
 
-class _ConfigurationPage8 extends State<ConfigurationPage8> {
+class _ConfigurationPage7 extends State<ConfigurationPage7> {
   @override
   void initState() {
     // TODO: implement initState
@@ -34,7 +24,7 @@ class _ConfigurationPage8 extends State<ConfigurationPage8> {
   Widget build(BuildContext context) {
     return Scaffold(
         resizeToAvoidBottomPadding: false,
-        body: ListView(
+        body: Column(
           children: <Widget>[
             Container(
               child: Stack(
@@ -81,21 +71,37 @@ class _ConfigurationPage8 extends State<ConfigurationPage8> {
                   Container(
                     padding: EdgeInsets.fromLTRB(50, 320, 50, 0.0),
                     child: Text(
-                      'Thank you, now turn on the device and attack it to your wrisp. When ready let me know I will pair the device with your phone',
+                      'Now, on the back of the device, there is a unique identifier code containing 5 Letters, Please enter this code here.',
                       style: TextStyle(
-                          fontSize: 25.0, fontWeight: FontWeight.bold),
+                          fontSize: 20.0, fontWeight: FontWeight.bold),
                       textAlign: TextAlign.center,
                     ),
                   )
                 ],
               ),
             ),
+            Container(
+                padding: EdgeInsets.only(top: 45.0, left: 20.0, right: 20.0),
+                child: Column(
+                  children: <Widget>[
+                    TextField(
+                      decoration: InputDecoration(
+                          labelText: 'Device code',
+                          labelStyle: TextStyle(
+                              fontFamily: 'OpenSans',
+                              fontWeight: FontWeight.bold,
+                              color: Colors.grey),
+                          focusedBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.lightBlue))),
+                    ),
+                  ],
+                )),
             SizedBox(height: 30),
             GestureDetector(
               onTap: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (_) => ConfigurationPage9(),
+                    builder: (_) => ConfigurationPage8(),
                   ),
                 );
               },
@@ -118,7 +124,7 @@ class _ConfigurationPage8 extends State<ConfigurationPage8> {
                 height: 60,
                 child: Center(
                   child: Text(
-                    "IM READY",
+                    "Next",
                     style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,

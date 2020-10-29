@@ -1,22 +1,24 @@
+import 'configuration_page5.dart';
 import 'package:flutter/material.dart';
 import 'package:vital_signs_ui_template/core/consts.dart';
-import 'package:vital_signs_ui_template/pages/intro_page.dart';
-import 'registration/condition_page.dart';
-//import 'package:vital_signs_ui_template/pages/home_page.dart';
 
-class FormsfillPage3 extends StatefulWidget {
+class ConfigurationPage4 extends StatefulWidget {
   @override
-  _FormsfillPageState3 createState() => _FormsfillPageState3();
+  _ConfigurationPage4 createState() => _ConfigurationPage4();
 }
 
-class _FormsfillPageState3 extends State<FormsfillPage3> {
-  DateTime pickedDate;
-
+class _ConfigurationPage4 extends State<ConfigurationPage4> {
   @override
   void initState() {
+    // TODO: implement initState
     super.initState();
-    pickedDate = DateTime.now();
   }
+
+//  getDirLocation() async {
+//
+//    File file = await File('$path/counter.txt');
+//    file.writeAsString('this is test');
+//  }
 
   @override
   Widget build(BuildContext context) {
@@ -58,11 +60,20 @@ class _FormsfillPageState3 extends State<FormsfillPage3> {
                     ),
                   ),
                   Container(
-                    padding: EdgeInsets.fromLTRB(50, 125, 50, 0.0),
+                    padding: EdgeInsets.fromLTRB(50, 150, 50, 0.0),
+                    child: Align(
+                      child: Image.asset(
+                        "assets/images/vs_avatar_01.png",
+                        scale: 0.75,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    padding: EdgeInsets.fromLTRB(50, 320, 50, 0.0),
                     child: Text(
-                      'Please enter your Hospital details',
+                      'In the case of an emergency, we will add up to three persons that the app can quickly call in case you need help.',
                       style: TextStyle(
-                          fontSize: 30.0, fontWeight: FontWeight.bold),
+                          fontSize: 20.0, fontWeight: FontWeight.bold),
                       textAlign: TextAlign.center,
                     ),
                   )
@@ -70,12 +81,12 @@ class _FormsfillPageState3 extends State<FormsfillPage3> {
               ),
             ),
             Container(
-                padding: EdgeInsets.only(top: 10.0, left: 20.0, right: 20.0),
+                padding: EdgeInsets.only(top: 45.0, left: 20.0, right: 20.0),
                 child: Column(
                   children: <Widget>[
                     TextField(
                       decoration: InputDecoration(
-                          labelText: 'DOCTOR NAME',
+                          labelText: 'Name of emergency contact #1',
                           labelStyle: TextStyle(
                               fontFamily: 'OpenSans',
                               fontWeight: FontWeight.bold,
@@ -86,7 +97,7 @@ class _FormsfillPageState3 extends State<FormsfillPage3> {
                     SizedBox(height: 30.0),
                     TextField(
                       decoration: InputDecoration(
-                          labelText: 'BRACELET ID',
+                          labelText: 'Phone number',
                           labelStyle: TextStyle(
                               fontFamily: 'OpenSans',
                               fontWeight: FontWeight.bold,
@@ -95,36 +106,15 @@ class _FormsfillPageState3 extends State<FormsfillPage3> {
                               borderSide: BorderSide(color: Colors.lightBlue))),
                     ),
                     SizedBox(height: 30.0),
-                    TextField(
-                      decoration: InputDecoration(
-                          labelText: 'HOSPITAL NAME',
-                          labelStyle: TextStyle(
-                              fontFamily: 'OpenSans',
-                              fontWeight: FontWeight.bold,
-                              color: Colors.grey),
-                          focusedBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.lightBlue))),
-                    ),
-                    SizedBox(height: 30.0),
-                    TextField(
-                      decoration: InputDecoration(
-                          labelText: 'HOSPITAL POSTAL CODE',
-                          labelStyle: TextStyle(
-                              fontFamily: 'OpenSans',
-                              fontWeight: FontWeight.bold,
-                              color: Colors.grey),
-                          focusedBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.lightBlue))),
-                    ),
                   ],
                 )),
-            SizedBox(height: 40),
+            SizedBox(height: 30),
             GestureDetector(
               onTap: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
-//                    builder: (_) => ConditionPage(), //TermsConditionsPage(),
-                      ),
+                    builder: (_) => ConfigurationPage5(),
+                  ),
                 );
               },
               child: Container(

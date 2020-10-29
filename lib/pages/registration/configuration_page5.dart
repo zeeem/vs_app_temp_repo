@@ -1,24 +1,17 @@
-import 'dart:io';
-
-//import 'package:ext_storage/ext_storage.dart';
+import 'configuration_page6.dart';
 import 'package:flutter/material.dart';
-//import 'package:path_provider/path_provider.dart';
-//import 'package:permission_handler/permission_handler.dart';
 import 'package:vital_signs_ui_template/core/consts.dart';
 
-import 'package:vital_signs_ui_template/pages/configuration_page8.dart';
-
-import 'formsfill_page2.dart';
 //import 'dart:io';
 //import 'package:path_provider/path_provider.dart';
 //import 'package:vital_signs_ui_template/pages/home_page.dart';
 
-class ConfigurationPage7 extends StatefulWidget {
+class ConfigurationPage5 extends StatefulWidget {
   @override
-  _ConfigurationPage7 createState() => _ConfigurationPage7();
+  _ConfigurationPage5 createState() => _ConfigurationPage5();
 }
 
-class _ConfigurationPage7 extends State<ConfigurationPage7> {
+class _ConfigurationPage5 extends State<ConfigurationPage5> {
   @override
   void initState() {
     // TODO: implement initState
@@ -35,7 +28,7 @@ class _ConfigurationPage7 extends State<ConfigurationPage7> {
   Widget build(BuildContext context) {
     return Scaffold(
         resizeToAvoidBottomPadding: false,
-        body: ListView(
+        body: Column(
           children: <Widget>[
             Container(
               child: Stack(
@@ -82,9 +75,9 @@ class _ConfigurationPage7 extends State<ConfigurationPage7> {
                   Container(
                     padding: EdgeInsets.fromLTRB(50, 320, 50, 0.0),
                     child: Text(
-                      'Now, on the back of the device, there is a unique identifier code containing 5 Letters, Please enter this code here.',
+                      'If you don\'t want to enter a second name at this time, just click on NEXT.',
                       style: TextStyle(
-                          fontSize: 25.0, fontWeight: FontWeight.bold),
+                          fontSize: 20.0, fontWeight: FontWeight.bold),
                       textAlign: TextAlign.center,
                     ),
                   )
@@ -97,7 +90,7 @@ class _ConfigurationPage7 extends State<ConfigurationPage7> {
                   children: <Widget>[
                     TextField(
                       decoration: InputDecoration(
-                          labelText: 'Device code',
+                          labelText: 'Name of emergency contact #2',
                           labelStyle: TextStyle(
                               fontFamily: 'OpenSans',
                               fontWeight: FontWeight.bold,
@@ -105,6 +98,18 @@ class _ConfigurationPage7 extends State<ConfigurationPage7> {
                           focusedBorder: UnderlineInputBorder(
                               borderSide: BorderSide(color: Colors.lightBlue))),
                     ),
+                    SizedBox(height: 30.0),
+                    TextField(
+                      decoration: InputDecoration(
+                          labelText: 'Phone number',
+                          labelStyle: TextStyle(
+                              fontFamily: 'OpenSans',
+                              fontWeight: FontWeight.bold,
+                              color: Colors.grey),
+                          focusedBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.lightBlue))),
+                    ),
+                    SizedBox(height: 30.0),
                   ],
                 )),
             SizedBox(height: 30),
@@ -112,7 +117,7 @@ class _ConfigurationPage7 extends State<ConfigurationPage7> {
               onTap: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (_) => ConfigurationPage8(),
+                    builder: (_) => ConfigurationPage6(),
                   ),
                 );
               },

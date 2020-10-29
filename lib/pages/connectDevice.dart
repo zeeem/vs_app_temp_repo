@@ -191,14 +191,19 @@ class _StartBTScanAndAutoConnectState extends State<StartBTScanAndAutoConnect> {
           print('name -- ${r.device.name} found! id: ${r.device.id}');
 
           if (r.device.id.toString() == DEVICE_ID) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) {
-//              print('state ----- ${r.device.state}');
-                r.device.connect();
-                return VisualizeVSnew(device: r.device);
-              }),
-            );
+            Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+              r.device.connect();
+              return VisualizeVSnew(device: r.device);
+            }));
+
+//            Navigator.push(
+//              context,
+//              MaterialPageRoute(builder: (context) {
+////              print('state ----- ${r.device.state}');
+//                r.device.connect();
+//                return VisualizeVSnew(device: r.device);
+//              }),
+//            );
           }
         }
       });
