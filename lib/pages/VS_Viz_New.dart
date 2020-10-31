@@ -24,7 +24,7 @@ import 'package:rflutter_alert/rflutter_alert.dart';
 //import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:soundpool/soundpool.dart';
-import 'package:vital_signs_ui_template/pages/VSLoadingWidget.dart';
+import 'package:vital_signs_ui_template/elements/VSLoadingWidget.dart';
 
 Array IR_raw_500 = Array.empty();
 Array RED_raw_500 = Array.empty();

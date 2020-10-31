@@ -43,6 +43,7 @@ dependencies:
   soundpool: ^1.1.2
   loading: ^1.0.2
   flutter_easyloading: ^2.0.0
+  fluttertoast: ^7.1.1
 
   ext_storage: any
   permission_handler: 4.4.0
@@ -68,6 +69,7 @@ flutter:
     - assets/images/
     - assets/icons/
     - assets/sounds/
+    - assets/texts/
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
