@@ -23,3 +23,8 @@ class AppColors {
   static final Color buttonColor = mainColor.withOpacity(.8);
   static final Color textColor = Color.fromRGBO(130, 130, 130, 1);
 }
+
+class EmergencyContact {
+  String Name;
+  String PhoneNumber;
+}
