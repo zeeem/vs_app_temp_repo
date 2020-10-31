@@ -36,3 +36,8 @@ class AppColors {
   static final Color redButton = Color.fromRGBO(236, 33, 39, 1);
   static final Color textColor = Color.fromRGBO(51, 51, 51, 1);
 }
+
+class EmergencyContact {
+  String Name;
+  String PhoneNumber;
+}
