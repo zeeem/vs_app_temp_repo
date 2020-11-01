@@ -3,12 +3,9 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:vital_signs_ui_template/core/consts.dart';
 import 'package:vital_signs_ui_template/elements/ButtonWidget.dart';
 import 'package:vital_signs_ui_template/elements/CustomAppBar.dart';
-import '../testPage.dart';
+import '../Backup_old/testPage.dart';
 import 'configuration_page1.dart';
-import 'package:vital_signs_ui_template/pages/intro_page.dart';
 import 'package:flutter/services.dart' show rootBundle;
-
-import '../formsfill_page2.dart';
 //import 'package:vital_signs_ui_template/pages/home_page.dart';
 import 'package:flutter/gestures.dart';
 
@@ -46,84 +43,56 @@ class _ConditionPageState extends State<ConditionPage> {
       body: Column(
         children: <Widget>[
           Container(
-            child: Stack(
+            child: Column(
               children: <Widget>[
-//                Container(
-//                  height: 130,
-//                  decoration: BoxDecoration(
-//                    color: AppColors.deccolor3,
-//                    borderRadius: BorderRadius.only(
-//                      bottomLeft: Radius.circular(30),
-//                      bottomRight: Radius.circular(30),
-//                    ),
-//                  ),
-//                ),
-//                Container(
-//                  height: 100,
-//                  decoration: BoxDecoration(
-//                    color: AppColors.deccolor2,
-//                    borderRadius: BorderRadius.only(
-//                      bottomLeft: Radius.circular(50),
-//                      bottomRight: Radius.circular(50),
-//                    ),
-//                  ),
-//                ),
-//                Container(
-//                  height: 70,
-//                  decoration: BoxDecoration(
-//                    color: AppColors.deccolor1,
-//                    borderRadius: BorderRadius.only(
-//                      bottomLeft: Radius.circular(250),
-//                      bottomRight: Radius.circular(250),
-//                    ),
-//                  ),
-//                ),
                 Container(
-//                  padding: EdgeInsets.fromLTRB(70, 130, 0, 0.0),
+//                  padding: EdgeInsets.fromLTRB(0, 0, 0, 0.0),
                   child: Text(
                     'Terms & Conditions',
                     style:
-                        TextStyle(fontSize: 30.0, fontWeight: FontWeight.bold),
+                        TextStyle(fontSize: 25.0, fontWeight: FontWeight.bold),
                     textAlign: TextAlign.center,
                   ),
                 )
               ],
             ),
           ),
-          SizedBox(height: 30),
-          Container(
-              width: 300,
-              height: 400,
-              padding: EdgeInsets.only(
-                  top: 20.0, bottom: 20.0, left: 20.0, right: 20.0),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(10),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.4),
-                    spreadRadius: 1,
-                    blurRadius: 10,
-                    offset: Offset(1, 2), // changes position of shadow
-                  ),
-                ],
-              ),
-              child: SingleChildScrollView(
-                child: Text(
-                  '$termsAndCondition',
-                  style: TextStyle(
-                    fontWeight: FontWeight.normal,
-                    fontSize: 16,
-                    color: AppColors.textColor,
-                  ),
-                  textAlign: TextAlign.left,
-                  overflow: TextOverflow.clip,
+          SizedBox(height: 20),
+          Expanded(
+            child: Container(
+                width: 300,
+//              height: 400,
+                padding: EdgeInsets.only(
+                    top: 20.0, bottom: 20.0, left: 20.0, right: 20.0),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(10),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.4),
+                      spreadRadius: 1,
+                      blurRadius: 10,
+                      offset: Offset(1, 2), // changes position of shadow
+                    ),
+                  ],
                 ),
-              )),
+                child: SingleChildScrollView(
+                  child: Text(
+                    '$termsAndCondition',
+                    style: TextStyle(
+                      fontWeight: FontWeight.normal,
+                      fontSize: 16,
+                      color: AppColors.textColor,
+                    ),
+                    textAlign: TextAlign.left,
+                    overflow: TextOverflow.clip,
+                  ),
+                )),
+          ),
           SizedBox(height: 30),
           Container(
-            padding:
-                EdgeInsets.only(top: 0.0, bottom: 20.0, left: 20.0, right: 0.0),
+            padding: EdgeInsets.only(
+                top: 0.0, bottom: 10.0, left: 10.0, right: 10.0),
             child: CheckboxListTile(
               title: Text('I agree to the Terms and Conditions*'),
               controlAffinity: ListTileControlAffinity.leading,

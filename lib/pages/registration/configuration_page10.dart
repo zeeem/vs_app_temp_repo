@@ -17,12 +17,6 @@ class _ConfigurationPage10 extends State<ConfigurationPage10> {
     super.initState();
   }
 
-//  getDirLocation() async {
-//
-//    File file = await File('$path/counter.txt');
-//    file.writeAsString('this is test');
-//  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,7 +34,7 @@ class _ConfigurationPage10 extends State<ConfigurationPage10> {
                   child: Align(
                     child: Image.asset(
                       "assets/images/vs_avatar_01.png",
-                      scale: 0.75,
+                      scale: 0.90,
                     ),
                   ),
                 ),

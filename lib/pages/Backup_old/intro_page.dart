@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vital_signs_ui_template/core/consts.dart';
-import 'registration/condition_page.dart';
+//import 'registration/condition_page.dart';
 import 'package:vital_signs_ui_template/pages/connectDevice.dart';
 
 class IntroPage extends StatefulWidget {
@@ -64,8 +64,8 @@ class _IntroPageState extends State<IntroPage> {
               onTap: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (_) => ConditionPage(),
-                  ),
+//                    builder: (_) => ConditionPage(),
+                      ),
                 );
               },
               child: Container(

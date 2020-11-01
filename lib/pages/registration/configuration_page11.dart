@@ -41,7 +41,7 @@ class _ConfigurationPage11 extends State<ConfigurationPage11> {
                   child: Align(
                     child: Image.asset(
                       "assets/images/vs_avatar_01.png",
-                      scale: 0.75,
+                      scale: 0.90,
                     ),
                   ),
                 ),

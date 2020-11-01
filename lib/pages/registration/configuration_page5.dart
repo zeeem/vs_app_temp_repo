@@ -26,6 +26,7 @@ class _ConfigurationPage5 extends State<ConfigurationPage5> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomPadding: false,
+      resizeToAvoidBottomInset: true,
       appBar: CustomAppBar(
         height: 130, //no use of this fixed height
       ),
@@ -40,7 +41,7 @@ class _ConfigurationPage5 extends State<ConfigurationPage5> {
                     child: Align(
                       child: Image.asset(
                         "assets/images/vs_avatar_01.png",
-                        scale: 0.75,
+                        scale: 0.90,
                       ),
                     ),
                   ),
@@ -57,7 +58,7 @@ class _ConfigurationPage5 extends State<ConfigurationPage5> {
               ),
             ),
             Container(
-                padding: EdgeInsets.only(top: 45.0, left: 20.0, right: 20.0),
+                padding: EdgeInsets.only(top: 20.0, left: 20.0, right: 20.0),
                 child: Column(
                   children: <Widget>[
                     TextField(

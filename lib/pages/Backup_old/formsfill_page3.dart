@@ -1,34 +1,22 @@
-import 'dart:io';
-
-//import 'package:ext_storage/ext_storage.dart';
 import 'package:flutter/material.dart';
-//import 'package:path_provider/path_provider.dart';
-//import 'package:permission_handler/permission_handler.dart';
 import 'package:vital_signs_ui_template/core/consts.dart';
-import 'package:vital_signs_ui_template/pages/intro_page.dart';
-
-import 'formsfill_page2.dart';
-//import 'dart:io';
-//import 'package:path_provider/path_provider.dart';
+//import 'package:vital_signs_ui_template/pages/intro_page.dart';
+//import 'registration/condition_page.dart';
 //import 'package:vital_signs_ui_template/pages/home_page.dart';
 
-class FormsfillPage extends StatefulWidget {
+class FormsfillPage3 extends StatefulWidget {
   @override
-  _FormsfillPageState createState() => _FormsfillPageState();
+  _FormsfillPageState3 createState() => _FormsfillPageState3();
 }
 
-class _FormsfillPageState extends State<FormsfillPage> {
+class _FormsfillPageState3 extends State<FormsfillPage3> {
+  DateTime pickedDate;
+
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
+    pickedDate = DateTime.now();
   }
-
-//  getDirLocation() async {
-//
-//    File file = await File('$path/counter.txt');
-//    file.writeAsString('this is test');
-//  }
 
   @override
   Widget build(BuildContext context) {
@@ -70,9 +58,9 @@ class _FormsfillPageState extends State<FormsfillPage> {
                     ),
                   ),
                   Container(
-                    padding: EdgeInsets.fromLTRB(50, 120, 50, 0.0),
+                    padding: EdgeInsets.fromLTRB(50, 125, 50, 0.0),
                     child: Text(
-                      'Please enter your details',
+                      'Please enter your Hospital details',
                       style: TextStyle(
                           fontSize: 30.0, fontWeight: FontWeight.bold),
                       textAlign: TextAlign.center,
@@ -82,12 +70,12 @@ class _FormsfillPageState extends State<FormsfillPage> {
               ),
             ),
             Container(
-                padding: EdgeInsets.only(top: 45.0, left: 20.0, right: 20.0),
+                padding: EdgeInsets.only(top: 10.0, left: 20.0, right: 20.0),
                 child: Column(
                   children: <Widget>[
                     TextField(
                       decoration: InputDecoration(
-                          labelText: 'FIRST NAME',
+                          labelText: 'DOCTOR NAME',
                           labelStyle: TextStyle(
                               fontFamily: 'OpenSans',
                               fontWeight: FontWeight.bold,
@@ -98,7 +86,7 @@ class _FormsfillPageState extends State<FormsfillPage> {
                     SizedBox(height: 30.0),
                     TextField(
                       decoration: InputDecoration(
-                          labelText: 'LAST NAME',
+                          labelText: 'BRACELET ID',
                           labelStyle: TextStyle(
                               fontFamily: 'OpenSans',
                               fontWeight: FontWeight.bold,
@@ -109,7 +97,7 @@ class _FormsfillPageState extends State<FormsfillPage> {
                     SizedBox(height: 30.0),
                     TextField(
                       decoration: InputDecoration(
-                          labelText: 'EMAIL',
+                          labelText: 'HOSPITAL NAME',
                           labelStyle: TextStyle(
                               fontFamily: 'OpenSans',
                               fontWeight: FontWeight.bold,
@@ -120,18 +108,7 @@ class _FormsfillPageState extends State<FormsfillPage> {
                     SizedBox(height: 30.0),
                     TextField(
                       decoration: InputDecoration(
-                          labelText: 'PASSWORD',
-                          labelStyle: TextStyle(
-                              fontFamily: 'OpenSans',
-                              fontWeight: FontWeight.bold,
-                              color: Colors.grey),
-                          focusedBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.lightBlue))),
-                    ),
-                    SizedBox(height: 30.0),
-                    TextField(
-                      decoration: InputDecoration(
-                          labelText: 'CONFIRM PASSWORD',
+                          labelText: 'HOSPITAL POSTAL CODE',
                           labelStyle: TextStyle(
                               fontFamily: 'OpenSans',
                               fontWeight: FontWeight.bold,
@@ -141,13 +118,13 @@ class _FormsfillPageState extends State<FormsfillPage> {
                     ),
                   ],
                 )),
-            SizedBox(height: 30),
+            SizedBox(height: 40),
             GestureDetector(
               onTap: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (_) => FormsfillPage2(),
-                  ),
+//                    builder: (_) => ConditionPage(), //TermsConditionsPage(),
+                      ),
                 );
               },
               child: Container(

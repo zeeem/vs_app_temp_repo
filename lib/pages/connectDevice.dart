@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:vital_signs_ui_template/core/configVS.dart';
 import 'package:vital_signs_ui_template/pages/VS_Viz_New.dart';
 import 'package:vital_signs_ui_template/pages/vital_signs_viz.dart';
 import 'package:vital_signs_ui_template/Processing/widgets.dart';
@@ -64,7 +65,7 @@ class StartBTScanAndAutoConnect extends StatefulWidget {
 
 class _StartBTScanAndAutoConnectState extends State<StartBTScanAndAutoConnect> {
 //  FlutterBlue flutterBlue2 = FlutterBlue.instance;
-  final String DEVICE_ID = "66:55:44:33:22:11";
+  final String DEVICE_ID = profileData.DEVICE_ID;
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -5,11 +5,13 @@ class ButtonWidget extends StatelessWidget {
   final String buttonTitle;
   final Function onTapFunction;
   final int secondaryButtonStyle;
+  final double buttonHeight;
   const ButtonWidget(
       {Key key,
       @required this.buttonTitle,
       @required this.onTapFunction,
-      this.secondaryButtonStyle})
+      this.secondaryButtonStyle,
+      this.buttonHeight = 60})
       : super(key: key);
 
   @override
@@ -29,14 +31,13 @@ class ButtonWidget extends StatelessWidget {
                   case 2:
                     return AppColors.redButton;
                     break;
+                  case 3:
+                    return AppColors.yellowButton;
                   default:
                     return AppColors.buttonColor;
                     break;
                 }
               }(),
-//              secondaryButtonStyle > 2
-//                  ? AppColors.buttonColor
-//                  : AppColors.secondaryButtonColor,
               borderRadius: BorderRadius.all(
                 Radius.circular(25),
               ),
@@ -50,7 +51,7 @@ class ButtonWidget extends StatelessWidget {
               ],
             ),
             width: MediaQuery.of(context).size.width,
-            height: 60,
+            height: buttonHeight,
             child: Center(
               child: Text(
                 "$buttonTitle",

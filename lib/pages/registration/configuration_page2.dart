@@ -27,6 +27,7 @@ class _ConfigurationPage2 extends State<ConfigurationPage2> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomPadding: false,
+      resizeToAvoidBottomInset: true,
       appBar: CustomAppBar(
         height: 130, //no use of this fixed height
       ),
@@ -41,7 +42,7 @@ class _ConfigurationPage2 extends State<ConfigurationPage2> {
                     child: Align(
                       child: Image.asset(
                         "assets/images/vs_avatar_01.png",
-                        scale: 0.75,
+                        scale: 0.90,
                       ),
                     ),
                   ),
@@ -50,7 +51,7 @@ class _ConfigurationPage2 extends State<ConfigurationPage2> {
                     child: Text(
                       'The first thing I would like to ask you is the information about your doctor that is taking care of your health.',
                       style: TextStyle(
-                          fontSize: 23.0, fontWeight: FontWeight.bold),
+                          fontSize: 21.0, fontWeight: FontWeight.bold),
                       textAlign: TextAlign.center,
                     ),
                   )
@@ -58,7 +59,7 @@ class _ConfigurationPage2 extends State<ConfigurationPage2> {
               ),
             ),
             Container(
-              padding: EdgeInsets.only(top: 45.0, left: 20.0, right: 20.0),
+              padding: EdgeInsets.only(top: 20.0, left: 20.0, right: 20.0),
               child: Column(
                 children: <Widget>[
                   TextField(
