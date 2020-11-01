@@ -4,8 +4,12 @@ import 'package:flutter/material.dart';
 class ButtonWidget extends StatelessWidget {
   final String buttonTitle;
   final Function onTapFunction;
-
-  const ButtonWidget({Key key, this.buttonTitle, this.onTapFunction})
+  final int secondaryButtonStyle;
+  const ButtonWidget(
+      {Key key,
+      @required this.buttonTitle,
+      @required this.onTapFunction,
+      this.secondaryButtonStyle})
       : super(key: key);
 
   @override
@@ -17,7 +21,22 @@ class ButtonWidget extends StatelessWidget {
           onTap: onTapFunction,
           child: Container(
             decoration: BoxDecoration(
-              color: AppColors.buttonColor,
+              color: () {
+                switch (secondaryButtonStyle) {
+                  case 1:
+                    return AppColors.secondaryButtonColor;
+                    break;
+                  case 2:
+                    return AppColors.redButton;
+                    break;
+                  default:
+                    return AppColors.buttonColor;
+                    break;
+                }
+              }(),
+//              secondaryButtonStyle > 2
+//                  ? AppColors.buttonColor
+//                  : AppColors.secondaryButtonColor,
               borderRadius: BorderRadius.all(
                 Radius.circular(25),
               ),

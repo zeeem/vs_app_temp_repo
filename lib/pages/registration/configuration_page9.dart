@@ -1,3 +1,6 @@
+import 'package:vital_signs_ui_template/elements/ButtonWidget.dart';
+import 'package:vital_signs_ui_template/elements/CustomAppBar.dart';
+
 import 'configuration_page10.dart';
 import 'package:flutter/material.dart';
 import 'package:vital_signs_ui_template/core/consts.dart';
@@ -23,44 +26,18 @@ class _ConfigurationPage9 extends State<ConfigurationPage9> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        resizeToAvoidBottomPadding: false,
-        body: Column(
+      resizeToAvoidBottomPadding: false,
+      appBar: CustomAppBar(
+        height: 130, //no use of this fixed height
+      ),
+      body: SingleChildScrollView(
+        child: Column(
           children: <Widget>[
             Container(
-              child: Stack(
+              child: Column(
                 children: <Widget>[
                   Container(
-                    height: 130,
-                    decoration: BoxDecoration(
-                      color: AppColors.deccolor3,
-                      borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(30),
-                        bottomRight: Radius.circular(30),
-                      ),
-                    ),
-                  ),
-                  Container(
-                    height: 100,
-                    decoration: BoxDecoration(
-                      color: AppColors.deccolor2,
-                      borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(50),
-                        bottomRight: Radius.circular(50),
-                      ),
-                    ),
-                  ),
-                  Container(
-                    height: 70,
-                    decoration: BoxDecoration(
-                      color: AppColors.deccolor1,
-                      borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(250),
-                        bottomRight: Radius.circular(250),
-                      ),
-                    ),
-                  ),
-                  Container(
-                    padding: EdgeInsets.fromLTRB(50, 150, 50, 0.0),
+                    padding: EdgeInsets.fromLTRB(50, 0, 50, 0.0),
                     child: Align(
                       child: Image.asset(
                         "assets/images/vs_avatar_01.png",
@@ -69,7 +46,7 @@ class _ConfigurationPage9 extends State<ConfigurationPage9> {
                     ),
                   ),
                   Container(
-                    padding: EdgeInsets.fromLTRB(50, 320, 50, 0.0),
+                    padding: EdgeInsets.fromLTRB(50, 10, 50, 0.0),
                     child: Text(
                       'Excellent! I have successfully connected your device to your phone.',
                       style: TextStyle(
@@ -79,7 +56,7 @@ class _ConfigurationPage9 extends State<ConfigurationPage9> {
                   ),
                   SizedBox(height: 30),
                   Container(
-                    padding: EdgeInsets.fromLTRB(50, 480, 50, 0.0),
+                    padding: EdgeInsets.fromLTRB(50, 10, 50, 0.0),
                     child: Text(
                       'The app can now monitor your vital signs',
                       style: TextStyle(
@@ -91,44 +68,18 @@ class _ConfigurationPage9 extends State<ConfigurationPage9> {
               ),
             ),
             SizedBox(height: 30),
-            GestureDetector(
-              onTap: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (_) => ConfigurationPage10(),
-                  ),
-                );
-              },
-              child: Container(
-                decoration: BoxDecoration(
-                  color: AppColors.buttonColor,
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(50),
-                  ),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black26,
-                      offset: Offset(1, 1),
-                      spreadRadius: 1,
-                      blurRadius: 3,
-                    )
-                  ],
-                ),
-                width: MediaQuery.of(context).size.width * .45,
-                height: 60,
-                child: Center(
-                  child: Text(
-                    "Next",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20,
-                    ),
-                  ),
-                ),
-              ),
-            )
           ],
-        ));
+        ),
+      ),
+      bottomNavigationBar: ButtonWidget(
+          buttonTitle: 'Next',
+          onTapFunction: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (_) => ConfigurationPage10(),
+              ),
+            );
+          }),
+    );
   }
 }

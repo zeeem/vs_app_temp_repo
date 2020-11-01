@@ -33,6 +33,7 @@ class AppColors {
   static final Color deccolor3 = Color.fromRGBO(225, 225, 225, 1);
 
   static final Color buttonColor = mainColor.withOpacity(1);
+  static final Color secondaryButtonColor = deccolor2;
   static final Color redButton = Color.fromRGBO(236, 33, 39, 1);
   static final Color textColor = Color.fromRGBO(51, 51, 51, 1);
 }

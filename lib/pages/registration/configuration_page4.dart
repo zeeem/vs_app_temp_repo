@@ -1,3 +1,4 @@
+import 'package:vital_signs_ui_template/core/configVS.dart';
 import 'package:vital_signs_ui_template/elements/ButtonWidget.dart';
 import 'package:vital_signs_ui_template/elements/CustomAppBar.dart';
 
@@ -23,7 +24,6 @@ class _ConfigurationPage4 extends State<ConfigurationPage4> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    _askPermissions();
   }
 
   Future<void> _askPermissions() async {
@@ -63,6 +63,7 @@ class _ConfigurationPage4 extends State<ConfigurationPage4> {
   }
 
   Future<void> _pickContact() async {
+    _askPermissions();
     try {
       final Contact contact = await ContactsService.openDeviceContactPicker(
           iOSLocalizedLabels: iOSLocalizedLabels);
@@ -78,26 +79,15 @@ class _ConfigurationPage4 extends State<ConfigurationPage4> {
     }
   }
 
-//  getDirLocation() async {
-//
-//    File file = await File('$path/counter.txt');
-//    file.writeAsString('this is test');
-//  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-<<<<<<< HEAD
       resizeToAvoidBottomPadding: false,
       appBar: CustomAppBar(
         height: 130, //no use of this fixed height
       ),
       body: SingleChildScrollView(
         child: Column(
-=======
-        resizeToAvoidBottomPadding: false,
-        body: ListView(
->>>>>>> 52b2979e967690469ff994507f95a0cd7de5a8df
           children: <Widget>[
             Container(
               child: Column(
@@ -112,11 +102,11 @@ class _ConfigurationPage4 extends State<ConfigurationPage4> {
                     ),
                   ),
                   Container(
-                    padding: EdgeInsets.fromLTRB(50, 0, 50, 0.0),
+                    padding: EdgeInsets.fromLTRB(40, 0, 40, 0.0),
                     child: Text(
                       'In the case of an emergency, we will add up to three persons that the app can quickly call in case you need help.',
                       style: TextStyle(
-                          fontSize: 23.0, fontWeight: FontWeight.bold),
+                          fontSize: 21.0, fontWeight: FontWeight.bold),
                       textAlign: TextAlign.center,
                     ),
                   )
@@ -153,66 +143,39 @@ class _ConfigurationPage4 extends State<ConfigurationPage4> {
                     SizedBox(height: 30.0),
                   ],
                 )),
-<<<<<<< HEAD
-            SizedBox(height: 30),
-=======
-            SizedBox(height: 10),
-            RaisedButton(
-              child: const Text('Pick a contact'),
+//            SizedBox(height: 10),
+            FlatButton(
+              child: Text(
+                'Pick from Contact list',
+                style: TextStyle(
+                    color: AppColors.deccolor1,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    decoration: TextDecoration.underline),
+              ),
               onPressed: _pickContact,
             ),
 
             //_contact.displayName
-            GestureDetector(
-              onTap: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (_) => ConfigurationPage5(),
-                  ),
-                );
-              },
-              child: Container(
-                decoration: BoxDecoration(
-                  color: AppColors.buttonColor,
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(50),
-                  ),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black26,
-                      offset: Offset(1, 1),
-                      spreadRadius: 1,
-                      blurRadius: 3,
-                    )
-                  ],
-                ),
-                width: MediaQuery.of(context).size.width * .45,
-                height: 60,
-                child: Center(
-                  child: Text(
-                    "Next",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20,
-                    ),
-                  ),
-                ),
-              ),
-            )
->>>>>>> 52b2979e967690469ff994507f95a0cd7de5a8df
           ],
         ),
       ),
-      bottomNavigationBar: ButtonWidget(
-        buttonTitle: 'Next',
-        onTapFunction: () {
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (_) => ConfigurationPage5(),
-            ),
-          );
-        },
+      bottomNavigationBar: Container(
+        child: ButtonWidget(
+          buttonTitle: 'Next',
+          onTapFunction: () {
+            //saving PROFILE data in the static vars
+            profileData.EMERGENCY_CONTACT_1_NAME = Contact1NameController.text;
+            profileData.EMERGENCY_CONTACT_1_PHONE =
+                Contact1PhoneController.text;
+
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (_) => ConfigurationPage5(),
+              ),
+            );
+          },
+        ),
       ),
     );
   }
