@@ -57,6 +57,9 @@ class _ConfigurationPage7 extends State<ConfigurationPage7> {
     prefs.setString(contact3NameKey, profileData.EMERGENCY_CONTACT_3_NAME);
     final contact3PhoneKey = 'EMERGENCY_CONTACT_3_PHONE';
     prefs.setString(contact3PhoneKey, profileData.EMERGENCY_CONTACT_3_PHONE);
+
+    final deviceID = 'DEVICE_ID';
+    prefs.setString(deviceID, profileData.DEVICE_ID);
   }
 
   @override

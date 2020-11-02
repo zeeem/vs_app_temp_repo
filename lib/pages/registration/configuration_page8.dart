@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:flutter_blue/flutter_blue.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:loading/indicator/ball_pulse_indicator.dart';
+import 'package:loading/indicator/ball_spin_fade_loader_indicator.dart';
 import 'package:vital_signs_ui_template/elements/BluetoothOffAlert.dart';
 import 'package:vital_signs_ui_template/elements/ButtonWidget.dart';
 import 'package:vital_signs_ui_template/elements/CustomAppBar.dart';
@@ -12,10 +14,12 @@ import 'configuration_page9.dart';
 import 'package:flutter/material.dart';
 import 'package:vital_signs_ui_template/core/consts.dart';
 import 'package:vital_signs_ui_template/core/configVS.dart';
+import 'package:loading/loading.dart';
 
 bool needToTryAgain = false;
 String _connectionMessage;
 String _buttonTitle;
+bool _isLoading = false;
 
 class ConfigurationPage8 extends StatefulWidget {
   final String connectionMessage;
@@ -126,6 +130,15 @@ class _StartBTScanAndAutoConnectState extends State<StartBTScanAndAutoConnect> {
               ),
             ),
             SizedBox(height: 30),
+            Container(
+              child: _isLoading
+                  ? Loading(
+                      indicator: BallSpinFadeLoaderIndicator(),
+                      size: 100.0,
+                      color: AppColors.deccolor2,
+                    )
+                  : Container(),
+            ),
           ],
         ),
       ),
@@ -134,6 +147,7 @@ class _StartBTScanAndAutoConnectState extends State<StartBTScanAndAutoConnect> {
           onTapFunction: () async {
             //start scanning and connect to the DEVICE_ID
             //then go to the visualization page
+            enableLoading(true);
             await scanAndConnect();
 
 //            Navigator.of(context).push(
@@ -156,6 +170,12 @@ class _StartBTScanAndAutoConnectState extends State<StartBTScanAndAutoConnect> {
   checkIfTryAgain() {
     setState(() {
       needToTryAgain = profileData.needToTryAgain;
+    });
+  }
+
+  enableLoading(bool boolValue) {
+    setState(() {
+      _isLoading = boolValue;
     });
   }
 
@@ -198,7 +218,7 @@ class _StartBTScanAndAutoConnectState extends State<StartBTScanAndAutoConnect> {
         print('NO DEVICE FOUND');
         Fluttertoast.showToast(
             msg:
-                "Could not find the device, \nclick 'I AM READY' to search again.",
+                "Could not find the device, \nclick $_buttonTitle to search again.",
             toastLength: Toast.LENGTH_LONG,
             gravity: ToastGravity.BOTTOM,
             timeInSecForIosWeb: 1,
@@ -223,6 +243,7 @@ class _StartBTScanAndAutoConnectState extends State<StartBTScanAndAutoConnect> {
 //            textColor: Colors.white,
 //            fontSize: 14.0);
       }
+      enableLoading(false); //resetting bool
     });
   }
 }

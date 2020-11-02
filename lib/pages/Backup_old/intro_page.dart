@@ -70,8 +70,8 @@ class _IntroPageState extends State<IntroPage> {
                     MaterialPageRoute(
                       builder: (_) => ConfigurationPage8(
                         connectionMessage:
-                            'Welcome back, ${profileData.USER_FULL_NAME}',
-                        buttonTitle: 'GET STARTED',
+                            'Welcome back, ${profileData.USER_FULL_NAME}!',
+                        buttonTitle: 'SHOW VITAL SIGNS',
                       ),
                     ),
                   );

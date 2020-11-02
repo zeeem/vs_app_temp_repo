@@ -14,3 +14,7 @@ I was using the local_config part for storing the alert range. You can use json 
 
 I have tried to put comments. Although, codes might not look organized due to the regular experiments. 
 PS. I don't think you can test the alert system from this app, as it needs the device connected to go to that page.
+
+### Device ids
+flexible: 04:91:62:96:EA:F5
+normal: 66:55:44:33:22:11
