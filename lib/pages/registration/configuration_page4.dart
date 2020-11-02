@@ -9,7 +9,6 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/services.dart';
 
-const iOSLocalizedLabels = false;
 
 class ConfigurationPage4 extends StatefulWidget {
   @override
@@ -17,9 +16,9 @@ class ConfigurationPage4 extends StatefulWidget {
 }
 
 class _ConfigurationPage4 extends State<ConfigurationPage4> {
-  Contact _contact;
-  final Contact1NameController = TextEditingController();
-  final Contact1PhoneController = TextEditingController();
+  Contact _contact1;
+  final contact1NameController = TextEditingController();
+  final contact1PhoneController = TextEditingController();
   @override
   void initState() {
     // TODO: implement initState
@@ -68,10 +67,10 @@ class _ConfigurationPage4 extends State<ConfigurationPage4> {
       final Contact contact = await ContactsService.openDeviceContactPicker(
           iOSLocalizedLabels: iOSLocalizedLabels);
       setState(() {
-        _contact = contact;
-        if (_contact != null) {
-          Contact1NameController.text = _contact.displayName;
-          Contact1PhoneController.text = _contact.phones.first.value;
+        _contact1 = contact;
+        if (_contact1 != null) {
+          contact1NameController.text = _contact1.displayName;
+          contact1PhoneController.text = _contact1.phones.first.value;
         }
       });
     } catch (e) {
@@ -119,7 +118,7 @@ class _ConfigurationPage4 extends State<ConfigurationPage4> {
                 child: Column(
                   children: <Widget>[
                     TextField(
-                      controller: Contact1NameController,
+                      controller: contact1NameController,
                       decoration: InputDecoration(
                           labelText: 'Name of emergency contact #1',
                           labelStyle: TextStyle(
@@ -131,7 +130,7 @@ class _ConfigurationPage4 extends State<ConfigurationPage4> {
                     ),
                     SizedBox(height: 30.0),
                     TextField(
-                      controller: Contact1PhoneController,
+                      controller: contact1PhoneController,
                       decoration: InputDecoration(
                           labelText: 'Phone number',
                           labelStyle: TextStyle(
@@ -157,7 +156,7 @@ class _ConfigurationPage4 extends State<ConfigurationPage4> {
               onPressed: _pickContact,
             ),
 
-            //_contact.displayName
+            //_contact1.displayName
           ],
         ),
       ),
@@ -166,9 +165,9 @@ class _ConfigurationPage4 extends State<ConfigurationPage4> {
           buttonTitle: 'Next',
           onTapFunction: () {
             //saving PROFILE data in the static vars
-            profileData.EMERGENCY_CONTACT_1_NAME = Contact1NameController.text;
+            profileData.EMERGENCY_CONTACT_1_NAME = contact1NameController.text;
             profileData.EMERGENCY_CONTACT_1_PHONE =
-                Contact1PhoneController.text;
+                contact1PhoneController.text;
 
             Navigator.of(context).push(
               MaterialPageRoute(

@@ -1,13 +1,14 @@
 import 'package:vital_signs_ui_template/elements/ButtonWidget.dart';
 import 'package:vital_signs_ui_template/elements/CustomAppBar.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:vital_signs_ui_template/pages/registration/profile_page.dart';
 import 'configuration_page7.dart';
 import 'package:flutter/material.dart';
 import 'package:vital_signs_ui_template/core/consts.dart';
-
-//import 'dart:io';
-//import 'package:path_provider/path_provider.dart';
-//import 'package:vital_signs_ui_template/pages/home_page.dart';
+import 'package:vital_signs_ui_template/core/configVS.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:contacts_service/contacts_service.dart';
+import 'package:flutter/services.dart';
 
 class ConfigurationPage6 extends StatefulWidget {
   @override
@@ -15,10 +16,96 @@ class ConfigurationPage6 extends StatefulWidget {
 }
 
 class _ConfigurationPage6 extends State<ConfigurationPage6> {
+  Contact _contact3;
+  final contact3NameController = TextEditingController();
+  final contact3PhoneController = TextEditingController();
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+  }
+
+  //use _save to save in shared preference
+  _save() async {
+    final prefs = await SharedPreferences.getInstance();
+
+    final doctorNameKey = 'DOCTOR_FULL_NAME';
+    prefs.setString(doctorNameKey, profileData.DOCTOR_FULL_NAME);
+    final doctorFacilityKey = 'DOCTOR_HEALTHCARE_FACILITY';
+    prefs.setString(doctorFacilityKey, profileData.DOCTOR_HEALTHCARE_FACILITY);
+
+    final userNameKey = 'USER_FULL_NAME';
+    prefs.setString(userNameKey, profileData.USER_FULL_NAME);
+    final userPhoneKey = 'USER_PHONE';
+    prefs.setString(userPhoneKey, profileData.USER_PHONE);
+
+    final contact1NameKey = 'EMERGENCY_CONTACT_1_NAME';
+    prefs.setString(contact1NameKey, profileData.EMERGENCY_CONTACT_1_NAME);
+    final contact1PhoneKey = 'EMERGENCY_CONTACT_1_PHONE';
+    prefs.setString(contact1PhoneKey, profileData.EMERGENCY_CONTACT_1_PHONE);
+
+    final contact2NameKey = 'EMERGENCY_CONTACT_2_NAME';
+    prefs.setString(contact2NameKey, profileData.EMERGENCY_CONTACT_2_NAME);
+    final contact2PhoneKey = 'EMERGENCY_CONTACT_2_PHONE';
+    prefs.setString(contact2PhoneKey, profileData.EMERGENCY_CONTACT_2_PHONE);
+
+    final contact3NameKey = 'EMERGENCY_CONTACT_3_NAME';
+    prefs.setString(contact3NameKey, profileData.EMERGENCY_CONTACT_3_NAME);
+    final contact3PhoneKey = 'EMERGENCY_CONTACT_3_PHONE';
+    prefs.setString(contact3PhoneKey, profileData.EMERGENCY_CONTACT_3_PHONE);
+  }
+
+  Future<void> _askPermissions() async {
+    PermissionStatus permissionStatus = await _getContactPermission();
+    if (permissionStatus != PermissionStatus.granted) {
+      _handleInvalidPermissions(permissionStatus);
+    }
+  }
+
+  Future<PermissionStatus> _getContactPermission() async {
+    PermissionStatus permission = await PermissionHandler()
+        .checkPermissionStatus(PermissionGroup.contacts);
+    if (permission != PermissionStatus.granted &&
+        permission != PermissionStatus.disabled) {
+      Map<PermissionGroup, PermissionStatus> permissionStatus =
+          await PermissionHandler()
+              .requestPermissions([PermissionGroup.contacts]);
+      return permissionStatus[PermissionGroup.contacts] ??
+          PermissionStatus.unknown;
+    } else {
+      return permission;
+    }
+  }
+
+  void _handleInvalidPermissions(PermissionStatus permissionStatus) {
+    if (permissionStatus == PermissionStatus.denied) {
+      throw PlatformException(
+          code: "PERMISSION_DENIED",
+          message: "Access to location data denied",
+          details: null);
+    } else if (permissionStatus == PermissionStatus.disabled) {
+      throw PlatformException(
+          code: "PERMISSION_DISABLED",
+          message: "Location data is not available on device",
+          details: null);
+    }
+  }
+
+  Future<void> _pickContact() async {
+    _askPermissions();
+    try {
+      final Contact contact = await ContactsService.openDeviceContactPicker(
+          iOSLocalizedLabels: iOSLocalizedLabels);
+      setState(() {
+        _contact3 = contact;
+        if (_contact3 != null) {
+          contact3NameController.text = _contact3.displayName;
+          contact3PhoneController.text = _contact3.phones.first.value;
+        }
+      });
+    } catch (e) {
+      print(e.toString());
+    }
   }
 
 //  getDirLocation() async {
@@ -67,6 +154,7 @@ class _ConfigurationPage6 extends State<ConfigurationPage6> {
                 child: Column(
                   children: <Widget>[
                     TextField(
+                      controller: contact3NameController,
                       decoration: InputDecoration(
                           labelText: 'Name of emergency contact #3',
                           labelStyle: TextStyle(
@@ -78,6 +166,7 @@ class _ConfigurationPage6 extends State<ConfigurationPage6> {
                     ),
                     SizedBox(height: 30.0),
                     TextField(
+                      controller: contact3PhoneController,
                       decoration: InputDecoration(
                           labelText: 'Phone number',
                           labelStyle: TextStyle(
@@ -90,16 +179,31 @@ class _ConfigurationPage6 extends State<ConfigurationPage6> {
                     SizedBox(height: 30.0),
                   ],
                 )),
-            SizedBox(height: 30),
+            FlatButton(
+              child: Text(
+                'Pick from Contact list',
+                style: TextStyle(
+                    color: AppColors.deccolor1,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    decoration: TextDecoration.underline),
+              ),
+              onPressed: _pickContact,
+            ),
           ],
         ),
       ),
       bottomNavigationBar: ButtonWidget(
           buttonTitle: 'Next',
           onTapFunction: () {
+            //saving PROFILE data in the static vars
+            profileData.EMERGENCY_CONTACT_3_NAME = contact3NameController.text;
+            profileData.EMERGENCY_CONTACT_3_PHONE =
+                contact3PhoneController.text;
+            _save();
             Navigator.of(context).push(
               MaterialPageRoute(
-                builder: (_) => ConfigurationPage7(),
+                builder: (_) => ProfilePage(),
               ),
             );
           }),

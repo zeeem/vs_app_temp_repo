@@ -23,6 +23,7 @@ import 'package:flutter/material.dart';
 //  static final Color buttonColor = mainColor.withOpacity(.8);
 //  static final Color textColor = Color.fromRGBO(130, 130, 130, 1);
 //}
+const iOSLocalizedLabels = false;
 
 //David's color swatch
 class AppColors {
@@ -38,7 +39,3 @@ class AppColors {
   static final Color yellowButton = Color.fromRGBO(232, 131, 58, 1);
   static final Color textColor = Color.fromRGBO(51, 51, 51, 1);
 }
-//class EmergencyContact {
-//  String Name;
-//  String PhoneNumber;
-//}

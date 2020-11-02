@@ -1,3 +1,4 @@
+import 'package:vital_signs_ui_template/core/configVS.dart';
 import 'package:vital_signs_ui_template/elements/ButtonWidget.dart';
 import 'package:vital_signs_ui_template/elements/CustomAppBar.dart';
 
@@ -11,6 +12,8 @@ class ConfigurationPage3 extends StatefulWidget {
 }
 
 class _ConfigurationPage3 extends State<ConfigurationPage3> {
+  final userNameController = TextEditingController();
+  final userPhoneController = TextEditingController();
   @override
   void initState() {
     // TODO: implement initState
@@ -57,6 +60,7 @@ class _ConfigurationPage3 extends State<ConfigurationPage3> {
               child: Column(
                 children: <Widget>[
                   TextField(
+                    controller: userNameController,
                     decoration: InputDecoration(
                         labelText: 'Full Name',
                         labelStyle: TextStyle(
@@ -68,6 +72,7 @@ class _ConfigurationPage3 extends State<ConfigurationPage3> {
                   ),
                   SizedBox(height: 30.0),
                   TextField(
+                    controller: userPhoneController,
                     decoration: InputDecoration(
                         labelText: 'Phone Number',
                         labelStyle: TextStyle(
@@ -87,6 +92,9 @@ class _ConfigurationPage3 extends State<ConfigurationPage3> {
       bottomNavigationBar: ButtonWidget(
         buttonTitle: 'Next',
         onTapFunction: () {
+          //saving PROFILE data in the static vars
+          profileData.USER_FULL_NAME = userNameController.text;
+          profileData.USER_PHONE = userPhoneController.text;
           Navigator.of(context).push(
             MaterialPageRoute(
               builder: (_) => ConfigurationPage4(),
