@@ -9,7 +9,7 @@
 
     <application
         android:name="io.flutter.app.FlutterApplication"
-        android:label="vital_signs_ui_template"
+        android:label="Vital Signs Demo v2"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

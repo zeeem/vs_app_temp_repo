@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:soundpool/soundpool.dart';
+import 'package:vital_signs_ui_template/Processing/AlertSystem/AlertManagerPointData.dart';
 import 'package:vital_signs_ui_template/core/configVS.dart';
 import 'package:vital_signs_ui_template/elements/ButtonWidget.dart';
 import 'package:vital_signs_ui_template/elements/CustomAppBar.dart';
@@ -93,7 +94,15 @@ class AlertHomePage extends StatelessWidget {
                         : 'I\'M OK! CHECK AGAIN IN 1H',
                     secondaryButtonStyle: 3,
                     buttonHeight: 50,
-                    onTapFunction: () {},
+                    onTapFunction: () {
+                      if (backButtonType <= 1) {
+                        Navigator.pop(context);
+                      } else {
+                        //delaying alarm for 1 hr
+                        alertManager.delayAlarm();
+                        Navigator.pop(context);
+                      }
+                    },
                   ),
                 ],
               ),

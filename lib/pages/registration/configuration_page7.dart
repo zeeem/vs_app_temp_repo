@@ -1,12 +1,13 @@
 import 'dart:async';
 
-import 'package:flutter_blue/flutter_blue.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:rflutter_alert/rflutter_alert.dart';
-import 'package:vital_signs_ui_template/elements/BluetoothOffAlert.dart';
+//import 'package:flutter_blue/flutter_blue.dart';
+//import 'package:fluttertoast/fluttertoast.dart';
+//import 'package:rflutter_alert/rflutter_alert.dart';
+//import 'package:vital_signs_ui_template/elements/BluetoothOffAlert.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vital_signs_ui_template/elements/ButtonWidget.dart';
 import 'package:vital_signs_ui_template/elements/CustomAppBar.dart';
-import 'package:vital_signs_ui_template/pages/VS_Viz_New.dart';
+//import 'package:vital_signs_ui_template/pages/VS_Viz_New.dart';
 
 import 'configuration_page8.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +15,6 @@ import 'package:vital_signs_ui_template/core/consts.dart';
 import 'package:vital_signs_ui_template/core/configVS.dart';
 
 bool needToTryAgain = false;
-int _count_temporary = 0;
 
 class ConfigurationPage7 extends StatefulWidget {
   @override
@@ -22,39 +22,42 @@ class ConfigurationPage7 extends StatefulWidget {
 }
 
 class _ConfigurationPage7 extends State<ConfigurationPage7> {
+  final deviceIdController = TextEditingController();
+
   @override
   void initState() {
     super.initState();
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomPadding: false,
-      body: StreamBuilder<BluetoothState>(
-        stream: FlutterBlue.instance.state,
-        initialData: BluetoothState.unknown,
-        builder: (c, snapshot) {
-          final state = snapshot.data;
-          if (state == BluetoothState.on) {
-            return StartBTScanAndAutoConnect();
-          }
-          return BluetoothOffAlertScreen(state: state);
-        },
-      ),
-    );
+  //use _save to save in shared preference
+  _saveInSharedPreference() async {
+    final prefs = await SharedPreferences.getInstance();
+
+    final doctorNameKey = 'DOCTOR_FULL_NAME';
+    prefs.setString(doctorNameKey, profileData.DOCTOR_FULL_NAME);
+    final doctorFacilityKey = 'DOCTOR_HEALTHCARE_FACILITY';
+    prefs.setString(doctorFacilityKey, profileData.DOCTOR_HEALTHCARE_FACILITY);
+
+    final userNameKey = 'USER_FULL_NAME';
+    prefs.setString(userNameKey, profileData.USER_FULL_NAME);
+    final userPhoneKey = 'USER_PHONE';
+    prefs.setString(userPhoneKey, profileData.USER_PHONE);
+
+    final contact1NameKey = 'EMERGENCY_CONTACT_1_NAME';
+    prefs.setString(contact1NameKey, profileData.EMERGENCY_CONTACT_1_NAME);
+    final contact1PhoneKey = 'EMERGENCY_CONTACT_1_PHONE';
+    prefs.setString(contact1PhoneKey, profileData.EMERGENCY_CONTACT_1_PHONE);
+
+    final contact2NameKey = 'EMERGENCY_CONTACT_2_NAME';
+    prefs.setString(contact2NameKey, profileData.EMERGENCY_CONTACT_2_NAME);
+    final contact2PhoneKey = 'EMERGENCY_CONTACT_2_PHONE';
+    prefs.setString(contact2PhoneKey, profileData.EMERGENCY_CONTACT_2_PHONE);
+
+    final contact3NameKey = 'EMERGENCY_CONTACT_3_NAME';
+    prefs.setString(contact3NameKey, profileData.EMERGENCY_CONTACT_3_NAME);
+    final contact3PhoneKey = 'EMERGENCY_CONTACT_3_PHONE';
+    prefs.setString(contact3PhoneKey, profileData.EMERGENCY_CONTACT_3_PHONE);
   }
-}
-
-class StartBTScanAndAutoConnect extends StatefulWidget {
-  @override
-  _StartBTScanAndAutoConnectState createState() =>
-      _StartBTScanAndAutoConnectState();
-}
-
-class _StartBTScanAndAutoConnectState extends State<StartBTScanAndAutoConnect> {
-//  FlutterBlue flutterBlue2 = FlutterBlue.instance;
-  final String DEVICE_ID = profileData.DEVICE_ID;
 
   @override
   Widget build(BuildContext context) {
@@ -107,6 +110,7 @@ class _StartBTScanAndAutoConnectState extends State<StartBTScanAndAutoConnect> {
                             color: Colors.grey),
                         focusedBorder: UnderlineInputBorder(
                             borderSide: BorderSide(color: Colors.lightBlue))),
+                    controller: deviceIdController,
                   ),
                 ],
               ),
@@ -117,111 +121,25 @@ class _StartBTScanAndAutoConnectState extends State<StartBTScanAndAutoConnect> {
       ),
       bottomNavigationBar: ButtonWidget(
           buttonTitle: !needToTryAgain ? 'Next' : 'Try Again',
-          onTapFunction: () async {
-            //start scanning and connect to the DEVICE_ID
-            //then go to the visualization page
-            await scanAndConnect();
+          onTapFunction: () {
+            //saving PROFILE data in the static vars
+            if (deviceIdController.text.isNotEmpty) {
+              profileData.DEVICE_ID = deviceIdController.text;
+              print('device id is not empty');
+            } else {
+              print('device id is empty, using default value');
+            }
 
-//            Navigator.of(context).push(
-//              MaterialPageRoute(
-//                builder: (_) => ConfigurationPage8(),
-//              ),
-//            );
+//           save all profile info in shared pref
+            _saveInSharedPreference();
+
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (_) => ConfigurationPage8(),
+              ),
+            );
           }),
     );
-  }
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-//    scanAndConnect();
-    checkIfTryAgain();
-  }
-
-  checkIfTryAgain() {
-    setState(() {
-      needToTryAgain = profileData.needToTryAgain;
-    });
-  }
-
-  scanAndConnect() async {
-    List<String> found_device_ids = [];
-    // Start scanning
-    FlutterBlue.instance..startScan(timeout: Duration(seconds: 4));
-
-    BluetoothDevice temp_device;
-    // Listen to scan results
-    FlutterBlue.instance
-      ..scanResults.listen((results) {
-        print('scan results below');
-
-        for (ScanResult r in results) {
-          print('name -- ${r.device.name} found! id: ${r.device.id}');
-
-          found_device_ids.add(r.device.id.toString());
-          print('devices found ---- ${found_device_ids.length}');
-
-          if (r.device.id.toString() == DEVICE_ID) {
-//            Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-//              r.device.connect();
-//              return VisualizeVSnew(device: r.device);
-//            }));
-            temp_device = r.device;
-
-            break;
-          }
-        }
-      });
-
-//    _count_temporary += 1;
-
-    // Stop scanning
-    FlutterBlue.instance..stopScan();
-
-    new Timer(const Duration(seconds: 4), () {
-      if (!found_device_ids.contains(DEVICE_ID)) {
-        print('NO DEVICE FOUND');
-        Fluttertoast.showToast(
-            msg: "Could not find the device, click Next to search again.",
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1,
-            backgroundColor: Colors.black,
-            textColor: Colors.white,
-            fontSize: 14.0);
-      } else {
-        Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-          temp_device.connect();
-          return VisualizeVSnew(device: temp_device);
-        }));
-      }
-    });
-
-//    if (_count_temporary >= 1) {
-//      print('counting iter ---- $_count_temporary');
-//      print('devices found ---- $found_device_ids');
-//
-////      return Alert(
-////        context: context,
-////        title:
-////            'Could not find the device, Please make sure the Device ID is correct and click Next again.',
-////        buttons: [
-////          DialogButton(
-////            child: Text(
-////              'OKAY',
-////              style:
-////                  TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
-////              textAlign: TextAlign.center,
-////            ),
-////            onPressed: () {
-////              Navigator.pop(context);
-////            },
-////            color: AppColors.deccolor1,
-////          ),
-////        ],
-////      ).show();
-//    }
   }
 }
 

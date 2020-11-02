@@ -15,12 +15,6 @@ class FileManager {
 
   // === helper getters ===
   Future<String> get _docPath async {
-//    PermissionHandler().requestPermissions([PermissionGroup.storage]);
-//
-//    final String download_dir =
-//        await ExtStorage.getExternalStoragePublicDirectory(
-//            ExtStorage.DIRECTORY_DOWNLOADS);
-
     final directory =
         await getExternalStorageDirectory(); //getApplicationDocumentsDirectory();
 
@@ -57,16 +51,60 @@ class FileManager {
     }
 
     this.file = File('$path/$fileName');
+    await this.flush();
     print("The file is stored at $path/$fileName");
-
-//    Toast.show("The raw data csv will be stored at $path/$fileName", context,
-//        duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
-
     return this.file;
   }
 
-  // Method to write to the file
+  /// Clear the content of the file
+  Future<File> flush() async {
+    if (this.file == null) {
+      await this.createFile();
+    }
+    return this.file.writeAsString("", mode: FileMode.write);
+  }
+
+  /// Test method for writing the position information
+  Future<File> writePosition(double longitude, double latitude) async {
+    if (this.file == null) {
+      await this.createFile();
+    }
+    var now = DateTime.now();
+    return this
+        .file
+        .writeAsString('$longitude, $latitude, $now\n', mode: FileMode.append);
+  }
+
+  /// append the given string to the end of the file
+  Future<File> writeLine(String str) async {
+    if (this.file == null) {
+      await this.createFile();
+    }
+    return this.file.writeAsString("$str\n", mode: FileMode.append);
+  }
+
+  /// Method to write to the file
   Future<File> write(
+      int Tem, int ACX, int ACZ, int BAT, int RED, int IR) async {
+    if (this.file == null) {
+      await this.createFile();
+    }
+    // write the file
+    return this.file.writeAsString('$Tem, $ACX, $ACZ, $BAT, $RED, $IR\n',
+        mode: FileMode.append);
+  }
+
+  /// Read all content of the given file
+  Future<String> readAll() async {
+    if (this.file == null) {
+      print("Creating file");
+      await this.createFile();
+    }
+    return this.file.readAsString();
+  }
+
+  // Method to write to the file
+  Future<File> write_old(
       int Tem, int ACX, int ACZ, int BAT, int RED, int IR, String TIME) async {
     // write the file
     return this.file.writeAsString('$Tem, $ACX, $ACZ, $BAT, $RED, $IR, $TIME\n',

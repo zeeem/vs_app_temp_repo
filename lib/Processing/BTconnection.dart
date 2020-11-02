@@ -1036,7 +1036,7 @@ _storeRawData(List rawDatalist) {
 
   String timeNow = new DateTime.now().toString();
 
-  fileManager.write(Tem, ACX, ACZ, BAT, RED, IR, timeNow);
+  fileManager.write_old(Tem, ACX, ACZ, BAT, RED, IR, timeNow);
   print('data added');
 }
 

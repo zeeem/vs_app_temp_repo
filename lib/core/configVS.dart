@@ -30,10 +30,10 @@ class VS_Values {
 }
 
 class profileData {
-  static String DEVICE_ID = "66:55:44:33:22:11";
+  static String DEVICE_ID = "04:91:62:96:EA:F5"; //"66:55:44:33:22:11";
   static bool needToTryAgain = false;
 
-  static bool PROFILE_CREATED;
+  static bool PROFILE_CREATED = false;
 
   static String DOCTOR_FULL_NAME;
   static String DOCTOR_HEALTHCARE_FACILITY;

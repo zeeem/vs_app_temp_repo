@@ -6,6 +6,7 @@ import 'package:loading/indicator/ball_pulse_indicator.dart';
 import 'package:loading/indicator/ball_scale_multiple_indicator.dart';
 import 'package:loading/indicator/line_scale_indicator.dart';
 import 'package:loading/loading.dart';
+import 'package:vital_signs_ui_template/Processing/AlertSystem/AlertManagerPointData.dart';
 
 import 'dart:collection';
 import 'dart:math';
@@ -89,11 +90,11 @@ class _VisualizeVSnewState extends State<VisualizeVSnew> {
       style: optionStyle,
     ),
     Text(
-      'Index 1: Business',
+      'Index 1: Journal',
       style: optionStyle,
     ),
     Text(
-      'Index 2: School',
+      'Index 2: Profile',
       style: optionStyle,
     ),
   ];
@@ -214,9 +215,6 @@ class _VisualizeVSnewState extends State<VisualizeVSnew> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-//      appBar: AppBar(
-//        title: Text('Optical Dust Sensor'),
-//      ),
       body: Container(
           child: !isReady
               ? VSLoadWidgetStlss()
@@ -720,7 +718,7 @@ _storeRawData(List rawDatalist) {
 
   String timeNow = new DateTime.now().toString();
 
-  fileManager.write(Tem, ACX, ACZ, BAT, RED, IR, timeNow);
+  fileManager.write_old(Tem, ACX, ACZ, BAT, RED, IR, timeNow);
   print('data added');
 }
 
@@ -778,38 +776,47 @@ _checkAndIssueWarning(double hr, double rr, double spo2, double temp,
     /*optional param*/ [BuildContext context]) async {
   //double hr, double rr, double spo2, double temp - are the processed data after each processing and display
 
-  temp = temp +
-      localConfigVS
-          .warning_trigger_value_adder; //it will add 10 with final value just to simulate the temp warning
+//  temp = temp +
+//      localConfigVS
+//          .warning_trigger_value_adder; //it will add 10 with final value just to simulate the temp warning
+//
+//  //assuming we get 1 temp data after each 10 sec
+//  if (temp_for_300sec.length <= 30) {
+//    temp_for_300sec.add(temp);
+//  } else {
+//    temp_for_300sec = [];
+//  }
+//
+//  //checking temp warning
+//  if (temp < localConfigVS.temp_threshold_range[0] ||
+//      temp >= localConfigVS.temp_threshold_range[1]) {
+//    localConfigVS.temp_warning = true;
+//  } else {
+//    localConfigVS.temp_warning = false;
+//  }
 
-  //assuming we get 1 temp data after each 10 sec
-  if (temp_for_300sec.length <= 30) {
-    temp_for_300sec.add(temp);
-  } else {
-    temp_for_300sec = [];
-  }
+// listening to the alertmanager for the pushed data
+  bool inDanger = alertManager.listen(hr, rr, spo2, temp);
 
-  //checking temp warning
-  if (temp < localConfigVS.temp_threshold_range[0] ||
-      temp >= localConfigVS.temp_threshold_range[1]) {
-    localConfigVS.temp_warning = true;
-  } else {
-    localConfigVS.temp_warning = false;
-  }
-
-  //issue the warning alert box if any of the warning bool is true for the recent values
-  if (localConfigVS.hr_warning ||
-      localConfigVS.rr_warning ||
-      localConfigVS.spo2_warning ||
-      localConfigVS.temp_warning) {
-    //----------------------------------------------------------
-    //should look for multiple value to issue the warning alert
-    //----------------------------------------------------------
+  if (inDanger) {
     localConfigVS.isWarningIssued =
-        true; //to issue the warning alert box and sound
+        true; //to issue the warning alert page and sound
+    print('issued warning for -- ${alertManager.raisedAlarms}');
   }
 
-  print('Boolean changed ---- ${localConfigVS.temp_warning}');
+//  //issue the warning alert box if any of the warning bool is true for the recent values
+//  if (localConfigVS.hr_warning ||
+//      localConfigVS.rr_warning ||
+//      localConfigVS.spo2_warning ||
+//      localConfigVS.temp_warning) {
+//    //----------------------------------------------------------
+//    //should look for multiple value to issue the warning alert
+//    //----------------------------------------------------------
+//    localConfigVS.isWarningIssued =
+//        true; //to issue the warning alert box and sound
+//  }
+
+//  print('Boolean changed ---- ${localConfigVS.temp_warning}');
 
   //for simulating alert
   if (localConfigVS.isTestingModeOn) {
@@ -829,56 +836,65 @@ _issueWarningAlertBox(BuildContext context) {
 
   localConfigVS.isWarningIssued = false; //resetting warning trigger
 
-  return Alert(
-      context: context,
-      title: 'You vital signs are low, Do you need emergency assistance?',
-      buttons: [
-        DialogButton(
-          child: Text(
-            'YES, I NEED HELP',
-            style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
-            textAlign: TextAlign.center,
-          ),
-          onPressed: () {
-            Navigator.pop(context);
-            return Alert(context: context, title: 'TOUCH TO CALL', buttons: [
-              DialogButton(
-                child: Text(
-                  'CALL NUMBER 1',
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold, color: Colors.white),
-                  textAlign: TextAlign.center,
-                ),
-                onPressed: () {
-//                                        launch("tel://780708000");
-                  _callNumber('780111000');
-                },
-              ),
-              DialogButton(
-                child: Text(
-                  'CALL 911',
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold, color: Colors.white),
-                ),
-                onPressed: () {
-                  _callNumber("911");
-                },
-                color: Colors.red,
-              ),
-            ]).show();
-          },
-          color: Colors.red,
-        ),
-        DialogButton(
-          child: Text(
-            'NO',
-            style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
-          ),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-      ]).show();
+//  return Alert(
+//      context: context,
+//      title: 'You vital signs are low, Do you need emergency assistance?',
+//      buttons: [
+//        DialogButton(
+//          child: Text(
+//            'YES, I NEED HELP',
+//            style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+//            textAlign: TextAlign.center,
+//          ),
+//          onPressed: () {
+//            Navigator.pop(context);
+//            return Alert(context: context, title: 'TOUCH TO CALL', buttons: [
+//              DialogButton(
+//                child: Text(
+//                  'CALL NUMBER 1',
+//                  style: TextStyle(
+//                      fontWeight: FontWeight.bold, color: Colors.white),
+//                  textAlign: TextAlign.center,
+//                ),
+//                onPressed: () {
+////                                        launch("tel://780708000");
+//                  _callNumber('780111000');
+//                },
+//              ),
+//              DialogButton(
+//                child: Text(
+//                  'CALL 911',
+//                  style: TextStyle(
+//                      fontWeight: FontWeight.bold, color: Colors.white),
+//                ),
+//                onPressed: () {
+//                  _callNumber("911");
+//                },
+//                color: Colors.red,
+//              ),
+//            ]).show();
+//          },
+//          color: Colors.red,
+//        ),
+//        DialogButton(
+//          child: Text(
+//            'NO',
+//            style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+//          ),
+//          onPressed: () {
+//            Navigator.pop(context);
+//          },
+//        ),
+//      ]).show();
+
+  Navigator.of(context).push(
+    MaterialPageRoute(
+      builder: (_) => AlertHomePage(
+        alert_text:
+            'Here are your contact numbers. Don\'t wait and click on a button to get assistance!',
+      ),
+    ),
+  );
 }
 
 //

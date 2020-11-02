@@ -25,36 +25,6 @@ class _ConfigurationPage6 extends State<ConfigurationPage6> {
     super.initState();
   }
 
-  //use _save to save in shared preference
-  _save() async {
-    final prefs = await SharedPreferences.getInstance();
-
-    final doctorNameKey = 'DOCTOR_FULL_NAME';
-    prefs.setString(doctorNameKey, profileData.DOCTOR_FULL_NAME);
-    final doctorFacilityKey = 'DOCTOR_HEALTHCARE_FACILITY';
-    prefs.setString(doctorFacilityKey, profileData.DOCTOR_HEALTHCARE_FACILITY);
-
-    final userNameKey = 'USER_FULL_NAME';
-    prefs.setString(userNameKey, profileData.USER_FULL_NAME);
-    final userPhoneKey = 'USER_PHONE';
-    prefs.setString(userPhoneKey, profileData.USER_PHONE);
-
-    final contact1NameKey = 'EMERGENCY_CONTACT_1_NAME';
-    prefs.setString(contact1NameKey, profileData.EMERGENCY_CONTACT_1_NAME);
-    final contact1PhoneKey = 'EMERGENCY_CONTACT_1_PHONE';
-    prefs.setString(contact1PhoneKey, profileData.EMERGENCY_CONTACT_1_PHONE);
-
-    final contact2NameKey = 'EMERGENCY_CONTACT_2_NAME';
-    prefs.setString(contact2NameKey, profileData.EMERGENCY_CONTACT_2_NAME);
-    final contact2PhoneKey = 'EMERGENCY_CONTACT_2_PHONE';
-    prefs.setString(contact2PhoneKey, profileData.EMERGENCY_CONTACT_2_PHONE);
-
-    final contact3NameKey = 'EMERGENCY_CONTACT_3_NAME';
-    prefs.setString(contact3NameKey, profileData.EMERGENCY_CONTACT_3_NAME);
-    final contact3PhoneKey = 'EMERGENCY_CONTACT_3_PHONE';
-    prefs.setString(contact3PhoneKey, profileData.EMERGENCY_CONTACT_3_PHONE);
-  }
-
   Future<void> _askPermissions() async {
     PermissionStatus permissionStatus = await _getContactPermission();
     if (permissionStatus != PermissionStatus.granted) {
@@ -200,10 +170,9 @@ class _ConfigurationPage6 extends State<ConfigurationPage6> {
             profileData.EMERGENCY_CONTACT_3_NAME = contact3NameController.text;
             profileData.EMERGENCY_CONTACT_3_PHONE =
                 contact3PhoneController.text;
-            _save();
             Navigator.of(context).push(
               MaterialPageRoute(
-                builder: (_) => ProfilePage(),
+                builder: (_) => ConfigurationPage7(),
               ),
             );
           }),

@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:vital_signs_ui_template/core/configVS.dart';
 import 'package:vital_signs_ui_template/core/consts.dart';
 //import 'registration/condition_page.dart';
 import 'package:vital_signs_ui_template/pages/connectDevice.dart';
+import 'package:vital_signs_ui_template/pages/registration/condition_page.dart';
+import 'package:vital_signs_ui_template/pages/registration/configuration_page8.dart';
 
 class IntroPage extends StatefulWidget {
   @override
@@ -62,11 +65,23 @@ class _IntroPageState extends State<IntroPage> {
             SizedBox(height: 25),
             GestureDetector(
               onTap: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-//                    builder: (_) => ConditionPage(),
+                if (profileData.PROFILE_CREATED) {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (_) => ConfigurationPage8(
+                        connectionMessage:
+                            'Welcome back, ${profileData.USER_FULL_NAME}',
+                        buttonTitle: 'GET STARTED',
                       ),
-                );
+                    ),
+                  );
+                } else {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (_) => ConditionPage(),
+                    ),
+                  );
+                }
               },
               child: Container(
                 decoration: BoxDecoration(

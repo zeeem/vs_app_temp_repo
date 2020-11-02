@@ -1,21 +1,15 @@
+import 'package:flutter_blue/flutter_blue.dart';
 import 'package:vital_signs_ui_template/elements/ButtonWidget.dart';
 import 'package:vital_signs_ui_template/elements/CustomAppBar.dart';
+import 'package:vital_signs_ui_template/pages/VS_Viz_New.dart';
 
 import 'configuration_page10.dart';
 import 'package:flutter/material.dart';
 import 'package:vital_signs_ui_template/core/consts.dart';
 
-class ConfigurationPage9 extends StatefulWidget {
-  @override
-  _ConfigurationPage9 createState() => _ConfigurationPage9();
-}
-
-class _ConfigurationPage9 extends State<ConfigurationPage9> {
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-  }
+class ConfigurationPage9 extends StatelessWidget {
+  final BluetoothDevice device;
+  const ConfigurationPage9({Key key, this.device}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -69,11 +63,10 @@ class _ConfigurationPage9 extends State<ConfigurationPage9> {
       bottomNavigationBar: ButtonWidget(
           buttonTitle: 'Next',
           onTapFunction: () {
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (_) => ConfigurationPage10(),
-              ),
-            );
+            Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+              return VisualizeVSnew(device: device);
+//              return ConfigurationPage9(device: device);
+            }));
           }),
     );
   }

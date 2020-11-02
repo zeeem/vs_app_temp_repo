@@ -550,21 +550,19 @@ class MapScreenState extends State<ProfilePage>
   }
 
   _read() async {
-    final prefs = await SharedPreferences.getInstance();
-    userNameController.text = prefs.getString('USER_FULL_NAME');
-    userPhoneController.text = prefs.getString('USER_PHONE');
-    deviceIDController.text = prefs.getString('DEVICE_ID');
+    userNameController.text = profileData.USER_FULL_NAME;
+    userPhoneController.text = profileData.USER_PHONE;
+    deviceIDController.text = profileData.DEVICE_ID;
 
-    doctorNameController.text = prefs.getString('DOCTOR_FULL_NAME');
-    doctorFacilityController.text =
-        prefs.getString('DOCTOR_HEALTHCARE_FACILITY');
+    doctorNameController.text = profileData.DOCTOR_FULL_NAME;
+    doctorFacilityController.text = profileData.DOCTOR_HEALTHCARE_FACILITY;
 
-    contact1NameController.text = prefs.getString('EMERGENCY_CONTACT_1_NAME');
-    contact2NameController.text = prefs.getString('EMERGENCY_CONTACT_2_NAME');
-    contact3NameController.text = prefs.getString('EMERGENCY_CONTACT_3_NAME');
+    contact1NameController.text = profileData.EMERGENCY_CONTACT_1_NAME;
+    contact2NameController.text = profileData.EMERGENCY_CONTACT_2_NAME;
+    contact3NameController.text = profileData.EMERGENCY_CONTACT_3_NAME;
 
-    contact1PhoneController.text = prefs.getString('EMERGENCY_CONTACT_1_PHONE');
-    contact2PhoneController.text = prefs.getString('EMERGENCY_CONTACT_2_PHONE');
-    contact3PhoneController.text = prefs.getString('EMERGENCY_CONTACT_3_PHONE');
+    contact1PhoneController.text = profileData.EMERGENCY_CONTACT_1_PHONE;
+    contact2PhoneController.text = profileData.EMERGENCY_CONTACT_2_PHONE;
+    contact3PhoneController.text = profileData.EMERGENCY_CONTACT_3_PHONE;
   }
 }
