@@ -130,6 +130,90 @@ class MapScreenState extends State<ProfilePage>
                                 mainAxisSize: MainAxisSize.min,
                                 children: <Widget>[
                                   new Text(
+                                    'Doctor Information',
+                                    style: TextStyle(
+                                        fontSize: 18.0,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ],
+                              ),
+                              new Column(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                mainAxisSize: MainAxisSize.min,
+                                children: <Widget>[
+                                  _status ? _getEditIcon() : new Container(),
+                                ],
+                              )
+                            ],
+                          )),
+                      Padding(
+                          padding: EdgeInsets.only(
+                              left: 25.0, right: 25.0, top: 25.0),
+                          child: new Row(
+                            mainAxisSize: MainAxisSize.max,
+                            children: <Widget>[
+                              new Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min,
+                                children: <Widget>[
+                                  new Text(
+                                    'Doctor Name',
+                                    style: TextStyle(
+                                        fontSize: 16.0,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          )),
+                      Padding(
+                          padding: EdgeInsets.only(
+                              left: 25.0, right: 25.0, top: 2.0),
+                          child: new Row(
+                            mainAxisSize: MainAxisSize.max,
+                            children: <Widget>[
+                              new Flexible(
+                                child: new TextField(
+                                  controller: doctorNameController,
+                                  decoration: const InputDecoration(
+                                    hintText: 'Please enter doctor name',
+                                  ),
+                                  enabled: !_status,
+                                  autofocus: !_status,
+                                ),
+                              ),
+                            ],
+                          )),
+                      Padding(
+                          padding: EdgeInsets.only(
+                              left: 25.0, right: 25.0, top: 2.0),
+                          child: new Row(
+                            mainAxisSize: MainAxisSize.max,
+                            children: <Widget>[
+                              new Flexible(
+                                child: new TextField(
+                                  controller: doctorFacilityController,
+                                  decoration: const InputDecoration(
+                                    hintText: 'Please enter doctor facility',
+                                  ),
+                                  enabled: !_status,
+                                  autofocus: !_status,
+                                ),
+                              ),
+                            ],
+                          )),
+                      Padding(
+                          padding: EdgeInsets.only(
+                              left: 25.0, right: 25.0, top: 25.0),
+                          child: new Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            mainAxisSize: MainAxisSize.max,
+                            children: <Widget>[
+                              new Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min,
+                                children: <Widget>[
+                                  new Text(
                                     'Parsonal Information',
                                     style: TextStyle(
                                         fontSize: 18.0,
@@ -470,6 +554,10 @@ class MapScreenState extends State<ProfilePage>
     userNameController.text = prefs.getString('USER_FULL_NAME');
     userPhoneController.text = prefs.getString('USER_PHONE');
     deviceIDController.text = prefs.getString('DEVICE_ID');
+
+    doctorNameController.text = prefs.getString('DOCTOR_FULL_NAME');
+    doctorFacilityController.text =
+        prefs.getString('DOCTOR_HEALTHCARE_FACILITY');
 
     contact1NameController.text = prefs.getString('EMERGENCY_CONTACT_1_NAME');
     contact2NameController.text = prefs.getString('EMERGENCY_CONTACT_2_NAME');
