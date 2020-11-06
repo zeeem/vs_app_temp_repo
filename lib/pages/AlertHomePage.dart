@@ -27,6 +27,7 @@ class AlertHomePage extends StatelessWidget {
       resizeToAvoidBottomInset: true,
       appBar: CustomAppBar(
         height: 130, //no use of this fixed height
+//        turnOffBackButton: true,
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -88,28 +89,27 @@ class AlertHomePage extends StatelessWidget {
                       _callNumber(profileData.EMERGENCY_CONTACT_3_PHONE);
                     },
                   ),
-                  ButtonWidget(
-                    buttonTitle: backButtonType <= 1
-                        ? 'BACK'
-                        : 'I\'M OK! CHECK AGAIN IN 1H',
-                    secondaryButtonStyle: 3,
-                    buttonHeight: 50,
-                    onTapFunction: () {
-                      if (backButtonType <= 1) {
-                        Navigator.pop(context);
-                      } else {
-                        //delaying alarm for 1 hr
-                        alertManager.delayAlarm();
-                        Navigator.pop(context);
-                      }
-                    },
-                  ),
                 ],
               ),
             ),
 //            SizedBox(height: 30),
           ],
         ),
+      ),
+      bottomNavigationBar: ButtonWidget(
+        buttonTitle:
+            backButtonType <= 1 ? 'BACK' : 'I\'M OK! CHECK AGAIN IN 1H',
+        secondaryButtonStyle: 3,
+        buttonHeight: 50,
+        onTapFunction: () {
+          if (backButtonType <= 1) {
+            Navigator.pop(context);
+          } else {
+            //delaying alarm for 1 hr
+            alertManager.delayAlarm();
+            Navigator.pop(context);
+          }
+        },
       ),
     );
   }

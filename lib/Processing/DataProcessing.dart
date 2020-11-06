@@ -1,5 +1,6 @@
 import 'package:scidart/numdart.dart';
 import 'package:scidart/scidart.dart';
+import 'package:stats/stats.dart';
 
 String temp2show = '';
 //void dataProcess(String v) {
@@ -112,7 +113,7 @@ List findlowtroughs(Array a, {double mindistance}) {
 }
 
 List calculate_HR_RR_SPO2_TEMP(
-    Array raw_IR_500, Array raw_RED_500, var last_temperature) {
+    Array raw_IR_500, Array raw_RED_500, var last_500_temperature) {
   List processed_500_hr_rr_spo2_temp = [];
 
   // filtering signals
@@ -252,7 +253,7 @@ List calculate_HR_RR_SPO2_TEMP(
 
   //--------------------------------calculate temperature-----------------------------------------
 
-  double final_temp_ = calculateTemperature(last_temperature);
+  double final_temp_ = calculateTemperature(last_500_temperature);
 
   processed_500_hr_rr_spo2_temp.add(final_hr_);
   processed_500_hr_rr_spo2_temp.add(final_rr_);
@@ -264,6 +265,7 @@ List calculate_HR_RR_SPO2_TEMP(
 
 // not red, it will be IR for heart rate
 double calculate_HR(Array Filtered_signal) {
+  double F_hr;
 //    final stopwatch = Stopwatch()..start();
   var sgFiltered = Filtered_signal;
 
@@ -282,25 +284,46 @@ double calculate_HR(Array Filtered_signal) {
   }
   print('-----HRArray----');
   print(HRArray);
-  var HRArray_mean = mean(HRArray);
-  print('mean HR $HRArray_mean');
+
+  //using only last 3 HR value to get the median or else output the one that we have
+  try {
+    var intermediate_hr_for_median = HRArray.reversed
+        .toList()
+        .getRange(0, 3)
+        .toList(); //its a list now, not Array
+    double HRLast3dataMedian =
+        Stats.fromData(intermediate_hr_for_median).median;
+    F_hr = HRLast3dataMedian;
+  } catch (e) {
+    double HRArray_mean = mean(HRArray);
+    print('mean HR $HRArray_mean');
+    F_hr = HRArray_mean;
+  }
+
 //    temp_HR_array.add(HRArray_mean);
 //  warning_HR_val = HRArray_mean;
 //  final_HR_to_show = HRArray_mean.toStringAsFixed(0);
-  return HRArray_mean;
+  return F_hr;
 }
 
-double calculateTemperature(var sensordata) {
-  var T1 = (sensordata * 3.3) / 1024;
-  var T2 = T1 - 0.5;
-  var final_T = T2 / 0.01;
+//averaging temperature value after each 10 sec
+double calculateTemperature(Array sensordata) {
+  Array calculated_temp = Array.empty();
+  for (int i = 0; i < sensordata.length; i++) {
+    var T1 = (sensordata[i] * 3.3) / 1024;
+    var T2 = T1 - 0.5;
+    var intermediate_temp = T2 / 0.01;
+    calculated_temp.add(intermediate_temp);
+  }
+  var final_T = mean(calculated_temp);
+
 //  temp2show = final_T.toStringAsFixed(2);
   return final_T;
 }
 
-String new_calculateTemperature(var sensordata) {
-  var T1 = (sensordata * 3.3) / 1024;
-  var T2 = T1 - 0.5;
-  var final_T = T2 / 0.01;
-  return final_T.toStringAsFixed(2);
-}
+//String new_calculateTemperature(var sensordata) {
+//  var T1 = (sensordata * 3.3) / 1024;
+//  var T2 = T1 - 0.5;
+//  var final_T = T2 / 0.01;
+//  return final_T.toStringAsFixed(2);
+//}

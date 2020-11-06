@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vital_signs_ui_template/core/configVS.dart';
 import 'package:vital_signs_ui_template/pages/Backup_old/intro_page.dart';
 import 'package:vital_signs_ui_template/pages/Backup_old/testPage.dart';
+import 'package:vital_signs_ui_template/pages/SplashScreen.dart';
 import 'package:vital_signs_ui_template/pages/registration/configuration_page9.dart';
 import 'Processing/AlertSystem/AlertManagerPointData.dart';
 import 'pages/registration/configuration_page1.dart';
@@ -109,7 +110,7 @@ class _MyAppState extends State<MyApp> {
         fontFamily: "OpenSans",
       ),
       home: () {
-        return IntroPage();
+        return SplashScreen();
       }(), //ConditionPage()
     );
   }

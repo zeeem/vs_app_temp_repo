@@ -17,6 +17,7 @@ import 'package:flutter_blue/flutter_blue.dart';
 import 'package:vital_signs_ui_template/Processing/widgets.dart';
 import 'package:vital_signs_ui_template/core/consts.dart';
 import 'package:vital_signs_ui_template/elements/ButtonWidget.dart';
+import 'package:vital_signs_ui_template/elements/CustomAppBar.dart';
 import 'package:vital_signs_ui_template/elements/info_card.dart';
 import 'package:vital_signs_ui_template/Processing/DataProcessing.dart';
 import 'package:scidart/numdart.dart';
@@ -33,6 +34,7 @@ import 'registration/configuration_page7.dart';
 
 Array IR_raw_500 = Array.empty();
 Array RED_raw_500 = Array.empty();
+Array TEMP_raw_500 = Array.empty();
 
 Array IR_raw_overlaped = Array.empty();
 Array RED_raw_overlaped = Array.empty();
@@ -50,16 +52,18 @@ double _final_hr = 0;
 double _final_rr = 0;
 double _final_spo2 = 0;
 double _final_temp = 0;
+double intermediate_spo2 =
+    99.00; //intermediate default value during calculation
 
 //for comparison
 double _comp_hr_300 = 0;
 double _comp_rr_300 = 0;
 double _comp_spo2_300 = 0;
 
-String final_HR_to_show = '84';
-String final_RR_to_show = '15';
+String final_HR_to_show = '70';
+String final_RR_to_show = '16';
 String final_SPO2_to_show = '99';
-String final_temp_to_show = '37.5';
+String final_temp_to_show = '37';
 
 var today = new DateTime.now();
 final FileManager fileManager = FileManager('McGill_ble_rawData_$today.csv',
@@ -243,136 +247,108 @@ class _VisualizeVSnewState extends State<VisualizeVSnew> {
 
                         return Scaffold(
                             resizeToAvoidBottomPadding: false,
+                            appBar: CustomAppBar(
+                              turnOffBackButton: true,
+                              height: 130, //no use of this fixed height
+                            ),
                             body: SingleChildScrollView(
-                              child: Column(
-                                children: <Widget>[
-                                  Container(
-                                    child: Stack(
-                                      children: <Widget>[
-                                        Container(
-                                          height: 130,
-                                          decoration: BoxDecoration(
-                                            color: AppColors.deccolor3,
-                                            borderRadius: BorderRadius.only(
-                                              bottomLeft: Radius.circular(30),
-                                              bottomRight: Radius.circular(30),
-                                            ),
-                                          ),
-                                        ),
-                                        Container(
-                                          height: 100,
-                                          decoration: BoxDecoration(
-                                            color: AppColors.deccolor2,
-                                            borderRadius: BorderRadius.only(
-                                              bottomLeft: Radius.circular(50),
-                                              bottomRight: Radius.circular(50),
-                                            ),
-                                          ),
-                                        ),
-                                        Container(
-                                          height: 70,
-                                          decoration: BoxDecoration(
-                                            color: AppColors.deccolor1,
-                                            borderRadius: BorderRadius.only(
-                                              bottomLeft: Radius.circular(250),
-                                              bottomRight: Radius.circular(250),
-                                            ),
-                                          ),
-                                        ),
+                              child: SafeArea(
+                                child: Column(
+                                  children: <Widget>[
+                                    Row(
+                                      children: [
                                         Container(
                                           padding: EdgeInsets.fromLTRB(
-                                              20, 100, 50, 0.0),
-                                          child: Column(
-                                            children: <Widget>[
-                                              Text(
-                                                'Welcome, Daniel',
-                                                style: TextStyle(
-                                                    fontSize: 25.0,
-                                                    fontWeight: FontWeight.bold,
-                                                    color: Colors.black
-                                                        .withOpacity(.7)),
-                                                textAlign: TextAlign.left,
-                                              ),
-                                            ],
+                                              20, 0, 0, 0.0),
+                                          child: Text(
+                                            'Welcome, ${profileData.USER_FULL_NAME}!',
+                                            style: TextStyle(
+                                                fontSize: 25.0,
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.black
+                                                    .withOpacity(.7)),
+                                            textAlign: TextAlign.left,
                                           ),
                                         ),
                                         Container(
-                                          padding: EdgeInsets.fromLTRB(
-                                              0, 50, 10, 0.0),
-                                          alignment: Alignment.topRight,
-                                          child: Loading(
-                                              indicator: LineScaleIndicator(),
-                                              size: 30.0,
-                                              color: Colors.lightGreen),
+                                          child: Container(
+                                            padding: EdgeInsets.fromLTRB(
+                                                5, 0, 15, 0.0),
+//                                            alignment: Alignment.topRight,
+                                            child: Loading(
+                                                indicator: LineScaleIndicator(),
+                                                size: 25.0,
+                                                color: AppColors.deccolor2),
+                                          ),
                                         ),
                                       ],
                                     ),
-                                  ),
-                                  Container(
-                                    padding: EdgeInsets.only(
-                                        top: 20.0, left: 20.0, right: 20.0),
-                                    child: Column(
-                                      children: <Widget>[
-                                        Center(
-                                          child: Container(
-                                            padding: EdgeInsets.only(
-                                                left: 0,
-                                                top: 20,
-                                                right: 0,
-                                                bottom: 20),
-                                            width: double.infinity,
-                                            decoration: BoxDecoration(
+                                    Container(
+                                      padding: EdgeInsets.only(
+                                          top: 20.0, left: 20.0, right: 20.0),
+                                      child: Column(
+                                        children: <Widget>[
+                                          Center(
+                                            child: Container(
+                                              padding: EdgeInsets.only(
+                                                  left: 0,
+                                                  top: 20,
+                                                  right: 0,
+                                                  bottom: 20),
+                                              width: double.infinity,
+                                              decoration: BoxDecoration(
 //                      color: AppColors.mainColor.withOpacity(0.03),
-                                              borderRadius: BorderRadius.only(
-                                                bottomLeft: Radius.circular(50),
-                                                bottomRight:
-                                                    Radius.circular(50),
+                                                borderRadius: BorderRadius.only(
+                                                  bottomLeft:
+                                                      Radius.circular(50),
+                                                  bottomRight:
+                                                      Radius.circular(50),
+                                                ),
                                               ),
-                                            ),
-                                            child: Center(
                                               child: Center(
-                                                child: Wrap(
-                                                  runSpacing: 20,
-                                                  spacing: 20,
-                                                  children: <Widget>[
-                                                    InfoCard(
-                                                      title: "Heart Rate",
-                                                      iconPath:
-                                                          'assets/icons/hr_icon.png',
-                                                      valueUnit: 'bpm',
-                                                      valueToShow:
-                                                          '$final_HR_to_show',
-                                                      press: () {},
-                                                    ),
-                                                    InfoCard(
-                                                      title: "Temperature",
-                                                      iconPath:
-                                                          'assets/icons/temp_icon.png',
-                                                      valueUnit: '°C',
-                                                      valueToShow:
-                                                          '$final_temp_to_show',
-                                                      press: () {},
-                                                    ),
-                                                  ],
+                                                child: Center(
+                                                  child: Wrap(
+                                                    runSpacing: 20,
+                                                    spacing: 20,
+                                                    children: <Widget>[
+                                                      InfoCard(
+                                                        title: "Heart Rate",
+                                                        iconPath:
+                                                            'assets/icons/hr_icon.png',
+                                                        valueUnit: 'bpm',
+                                                        valueToShow:
+                                                            '$final_HR_to_show',
+                                                        press: () {},
+                                                      ),
+                                                      InfoCard(
+                                                        title: "Temperature",
+                                                        iconPath:
+                                                            'assets/icons/temp_icon.png',
+                                                        valueUnit: '°C',
+                                                        valueToShow:
+                                                            '$final_temp_to_show',
+                                                        press: () {},
+                                                      ),
+                                                    ],
+                                                  ),
                                                 ),
                                               ),
                                             ),
                                           ),
-                                        ),
-                                        SizedBox(height: 10),
-                                        Center(
-                                          child: Container(
-                                            padding: EdgeInsets.only(
-                                                left: 0,
-                                                top: 20,
-                                                right: 0,
-                                                bottom: 20),
-                                            width: double.infinity,
-                                            decoration: BoxDecoration(
-                                              color: AppColors.deccolor3
-                                                  .withOpacity(.1),
-                                              borderRadius:
-                                                  BorderRadius.circular(25),
+                                          SizedBox(height: 10),
+                                          Center(
+                                            child: Container(
+                                              padding: EdgeInsets.only(
+                                                  left: 0,
+                                                  top: 20,
+                                                  right: 0,
+                                                  bottom: 20),
+                                              width: double.infinity,
+                                              decoration: BoxDecoration(
+                                                color: AppColors.deccolor3
+                                                    .withOpacity(.1),
+                                                borderRadius:
+                                                    BorderRadius.circular(25),
 //                                            boxShadow: [
 //                                              BoxShadow(
 //                                                color: Colors.grey.withOpacity(0.05),
@@ -381,76 +357,78 @@ class _VisualizeVSnewState extends State<VisualizeVSnew> {
 //                                                offset: Offset(1, 2), // changes position of shadow
 //                                              ),
 //                                            ],
-                                            ),
-                                            child: Row(
-                                              children: <Widget>[
-                                                Container(
-                                                  alignment: Alignment.center,
+                                              ),
+                                              child: Row(
+                                                children: <Widget>[
+                                                  Container(
+                                                    alignment: Alignment.center,
 //                          height: 40,
-                                                  width: 60,
-                                                  child: Image.asset(
-                                                      'assets/icons/spo2_icon.png'),
-                                                ),
-                                                SizedBox(width: 10),
-                                                Padding(
-                                                  padding:
-                                                      const EdgeInsets.all(0.0),
-                                                  child: Column(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    children: <Widget>[
-                                                      Text(
-                                                        'Oxygen Saturation',
-                                                        style: TextStyle(
-                                                            color: AppColors
-                                                                .textColor,
-                                                            fontSize: 17),
-                                                      ),
-//                              SizedBox(height: 4),
-                                                      Row(
-                                                        children: <Widget>[
-                                                          Text(
-                                                            '$final_SPO2_to_show',
-                                                            textAlign:
-                                                                TextAlign.start,
-                                                            style: TextStyle(
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold,
-                                                              fontSize: 35,
-                                                            ),
-                                                          ),
-                                                          SizedBox(width: 3),
-                                                          Text(
-                                                            '%',
-                                                            style: TextStyle(
-                                                                fontSize: 20),
-//                                    textAlign: TextAlign.end,
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ],
+                                                    width: 60,
+                                                    child: Image.asset(
+                                                        'assets/icons/spo2_icon.png'),
                                                   ),
-                                                ),
-                                              ],
+                                                  SizedBox(width: 10),
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            0.0),
+                                                    child: Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: <Widget>[
+                                                        Text(
+                                                          'Oxygen Saturation',
+                                                          style: TextStyle(
+                                                              color: AppColors
+                                                                  .textColor,
+                                                              fontSize: 17),
+                                                        ),
+//                              SizedBox(height: 4),
+                                                        Row(
+                                                          children: <Widget>[
+                                                            Text(
+                                                              '$final_SPO2_to_show',
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .start,
+                                                              style: TextStyle(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                                fontSize: 35,
+                                                              ),
+                                                            ),
+                                                            SizedBox(width: 3),
+                                                            Text(
+                                                              '%',
+                                                              style: TextStyle(
+                                                                  fontSize: 20),
+//                                    textAlign: TextAlign.end,
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                        SizedBox(height: 10),
-                                        Center(
-                                          child: Container(
-                                            padding: EdgeInsets.only(
-                                                left: 0,
-                                                top: 20,
-                                                right: 0,
-                                                bottom: 20),
-                                            width: double.infinity,
-                                            decoration: BoxDecoration(
-                                              color: AppColors.deccolor3
-                                                  .withOpacity(.1),
-                                              borderRadius:
-                                                  BorderRadius.circular(25),
+                                          SizedBox(height: 10),
+                                          Center(
+                                            child: Container(
+                                              padding: EdgeInsets.only(
+                                                  left: 0,
+                                                  top: 20,
+                                                  right: 0,
+                                                  bottom: 20),
+                                              width: double.infinity,
+                                              decoration: BoxDecoration(
+                                                color: AppColors.deccolor3
+                                                    .withOpacity(.1),
+                                                borderRadius:
+                                                    BorderRadius.circular(25),
 //                      boxShadow: [
 //                        BoxShadow(
 //                          color: Colors.grey.withOpacity(0.05),
@@ -459,66 +437,69 @@ class _VisualizeVSnewState extends State<VisualizeVSnew> {
 //                          offset: Offset(1, 2), // changes position of shadow
 //                        ),
 //                      ],
-                                            ),
-                                            child: Row(
-                                              children: <Widget>[
-                                                Container(
-                                                  alignment: Alignment.center,
+                                              ),
+                                              child: Row(
+                                                children: <Widget>[
+                                                  Container(
+                                                    alignment: Alignment.center,
 //                          height: 40,
-                                                  width: 60,
-                                                  child: Image.asset(
-                                                      'assets/icons/rr_icon.png'),
-                                                ),
-                                                SizedBox(width: 10),
-                                                Padding(
-                                                  padding:
-                                                      const EdgeInsets.all(0.0),
-                                                  child: Column(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    children: <Widget>[
-                                                      Text(
-                                                        'Respiration Rate',
-                                                        style: TextStyle(
-                                                            color: AppColors
-                                                                .textColor,
-                                                            fontSize: 17),
-                                                      ),
-//                              SizedBox(height: 4),
-                                                      Row(
-                                                        children: <Widget>[
-                                                          Text(
-                                                            '$final_RR_to_show',
-                                                            textAlign:
-                                                                TextAlign.start,
-                                                            style: TextStyle(
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold,
-                                                              fontSize: 35,
-                                                            ),
-                                                          ),
-                                                          SizedBox(width: 3),
-                                                          Text(
-                                                            'rpm',
-                                                            style: TextStyle(
-                                                                fontSize: 20),
-//                                    textAlign: TextAlign.end,
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ],
+                                                    width: 60,
+                                                    child: Image.asset(
+                                                        'assets/icons/rr_icon.png'),
                                                   ),
-                                                ),
-                                              ],
+                                                  SizedBox(width: 10),
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            0.0),
+                                                    child: Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: <Widget>[
+                                                        Text(
+                                                          'Respiration Rate',
+                                                          style: TextStyle(
+                                                              color: AppColors
+                                                                  .textColor,
+                                                              fontSize: 17),
+                                                        ),
+//                              SizedBox(height: 4),
+                                                        Row(
+                                                          children: <Widget>[
+                                                            Text(
+                                                              '$final_RR_to_show',
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .start,
+                                                              style: TextStyle(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                                fontSize: 35,
+                                                              ),
+                                                            ),
+                                                            SizedBox(width: 3),
+                                                            Text(
+                                                              'rpm',
+                                                              style: TextStyle(
+                                                                  fontSize: 20),
+//                                    textAlign: TextAlign.end,
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                      ],
+                                        ],
+                                      ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
                             ),
                             bottomNavigationBar: ButtonWidget(
@@ -570,6 +551,7 @@ _parseProcessedData(var rawData, [BuildContext context]) {
 
     RED_raw_500.add(_raw_RED); //for filtering and calculation
     IR_raw_500.add(_raw_IR); //for filtering and calculation
+    TEMP_raw_500.add(_raw_temp); //for averaging and calculation
 
     if (RED_raw_overlaped.isEmpty) {
       //storing the previous data in the overlapped array
@@ -617,16 +599,16 @@ _parseProcessedData(var rawData, [BuildContext context]) {
     //if only device is in use (isDeviceInUse is true)
     if (RED_raw_overlaped.isNotEmpty) {
       result = calculate_HR_RR_SPO2_TEMP(
-          IR_raw_overlaped, RED_raw_overlaped, _raw_temp);
+          IR_raw_overlaped, RED_raw_overlaped, TEMP_raw_500);
 
       if (isCompareOn) {
         //for comparison only
         result_normal300_iter =
-            calculate_HR_RR_SPO2_TEMP(IR_raw_500, RED_raw_500, _raw_temp);
+            calculate_HR_RR_SPO2_TEMP(IR_raw_500, RED_raw_500, TEMP_raw_500);
       }
     } else {
       //in case the overlap array is empty
-      result = calculate_HR_RR_SPO2_TEMP(IR_raw_500, RED_raw_500, _raw_temp);
+      result = calculate_HR_RR_SPO2_TEMP(IR_raw_500, RED_raw_500, TEMP_raw_500);
     }
 
     print('now calculating for ${RED_raw_overlaped.length} data');
@@ -636,10 +618,17 @@ _parseProcessedData(var rawData, [BuildContext context]) {
     print('OUTPUT -- SPO2 -- ${result[2]}');
     print('OUTPUT -- Temp -- ${result[3]}');
 
-    _final_hr = result[0];
-    _final_rr = result[1];
-    _final_spo2 = result[2];
-    _final_temp = result[3];
+    _final_hr = result[0]; // getting hr
+    _final_rr = result[1]; //getting rr
+    //getting spo2 only if its in [40,100] range
+    if (result[2] > 40 && result[2] < 101) {
+      _final_spo2 = result[2];
+      intermediate_spo2 =
+          result[2]; // resetting value if intermediate sp02 for next iter
+    } else {
+      _final_spo2 = intermediate_spo2;
+    }
+    _final_temp = result[3]; //getting temp
 
     //for storing comparison data only - not needed other than to compare old computation method result only
     if (isCompareOn) {

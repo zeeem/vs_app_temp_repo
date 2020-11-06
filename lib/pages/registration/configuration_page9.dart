@@ -1,11 +1,14 @@
 import 'package:flutter_blue/flutter_blue.dart';
 import 'package:vital_signs_ui_template/elements/ButtonWidget.dart';
 import 'package:vital_signs_ui_template/elements/CustomAppBar.dart';
+import 'package:vital_signs_ui_template/pages/Backup_old/testPage.dart';
 import 'package:vital_signs_ui_template/pages/VS_Viz_New.dart';
 
 import 'configuration_page10.dart';
 import 'package:flutter/material.dart';
 import 'package:vital_signs_ui_template/core/consts.dart';
+
+bool _isTestModeOn = false;
 
 class ConfigurationPage9 extends StatelessWidget {
   final BluetoothDevice device;
@@ -63,10 +66,18 @@ class ConfigurationPage9 extends StatelessWidget {
       bottomNavigationBar: ButtonWidget(
           buttonTitle: 'Next',
           onTapFunction: () {
-            Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-              return VisualizeVSnew(device: device);
+            if (_isTestModeOn) {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (_) => DummyVSViz(),
+                ),
+              );
+            } else {
+              Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+                return VisualizeVSnew(device: device);
 //              return ConfigurationPage9(device: device);
-            }));
+              }));
+            }
           }),
     );
   }
