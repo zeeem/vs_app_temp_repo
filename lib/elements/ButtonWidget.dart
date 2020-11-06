@@ -18,7 +18,7 @@ class ButtonWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return LayoutBuilder(builder: (context, constraints) {
       return Padding(
-        padding: const EdgeInsets.all(5.0),
+        padding: const EdgeInsets.fromLTRB(10, 10, 10, 20),
         child: GestureDetector(
           onTap: onTapFunction,
           child: Container(
