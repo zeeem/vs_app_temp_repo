@@ -39,6 +39,7 @@ class _ConditionPageState extends State<ConditionPage> {
       resizeToAvoidBottomPadding: false,
       appBar: CustomAppBar(
         height: 130, //no use of this fixed height
+        turnOffBackButton: true,
       ),
       body: Column(
         children: <Widget>[

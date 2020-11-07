@@ -707,8 +707,14 @@ _storeRawData(List rawDatalist) {
 
   String timeNow = new DateTime.now().toString();
 
-  fileManager.write_old(Tem, ACX, ACZ, BAT, RED, IR, timeNow);
-  print('data added');
+  try{
+    fileManager.write_old(Tem, ACX, ACZ, BAT, RED, IR, timeNow);
+    print('data added');
+  }
+  catch(e){
+    print('file write is not supported on ios');
+
+  }
 }
 
 //to store the comparison data - not needed anymore
