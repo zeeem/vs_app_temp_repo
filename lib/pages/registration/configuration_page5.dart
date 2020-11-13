@@ -9,7 +9,6 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/services.dart';
 
-
 class ConfigurationPage5 extends StatefulWidget {
   @override
   _ConfigurationPage5 createState() => _ConfigurationPage5();

@@ -50,4 +50,8 @@ class profileData {
 
   static String EMERGENCY_CONTACT_3_NAME;
   static String EMERGENCY_CONTACT_3_PHONE;
+
+  //app info
+  static String buildNumber;
+  static String appVersion;
 }

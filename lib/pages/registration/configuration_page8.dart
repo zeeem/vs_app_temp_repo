@@ -130,28 +130,6 @@ class _StartBTScanAndAutoConnectState extends State<StartBTScanAndAutoConnect> {
             Container(
               child: Column(
                 children: <Widget>[
-//                  Stack(
-//                    children: [
-//                      Container(
-//                        padding: EdgeInsets.fromLTRB(0, 0, 10, 0.0),
-//                        alignment: Alignment.topRight,
-//                        child: IconButton(
-//                          icon: Icon(
-//                            Icons.settings,
-//                            color: AppColors.textColor,
-//                            size: 40,
-//                          ),
-//                          onPressed: () {
-//                            Navigator.push(
-//                              context,
-//                              MaterialPageRoute(
-//                                  builder: (context) => ProfilePage()),
-//                            );
-//                          },
-//                        ),
-//                      ),
-//                    ],
-//                  ),
                   Container(
                     padding: EdgeInsets.fromLTRB(50, 0, 50, 0.0),
                     child: Align(
@@ -206,7 +184,9 @@ class _StartBTScanAndAutoConnectState extends State<StartBTScanAndAutoConnect> {
 //              );
 //            }
               })
-          : null,
+          : SizedBox(
+              width: 0,
+            ),
     );
   }
 

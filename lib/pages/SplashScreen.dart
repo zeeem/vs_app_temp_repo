@@ -97,6 +97,18 @@ class _SplashScreenState extends State<SplashScreen> {
               ),
               textAlign: TextAlign.center,
             ),
+            // Text(
+            //   profileData.appVersion.length > 1
+            //       ? "version ${profileData.appVersion}"
+            //       : "",
+            //   style: TextStyle(
+            //     fontSize: 15,
+            //     color: Colors.black,
+            //     // height: 1.5,
+            //     // fontWeight: FontWeight.bold,
+            //   ),
+            //   textAlign: TextAlign.center,
+            // ),
             SizedBox(height: 25),
           ],
         ),

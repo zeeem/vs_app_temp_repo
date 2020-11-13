@@ -12,6 +12,7 @@ import 'pages/registration/configuration_page1.dart';
 import 'pages/registration/condition_page.dart';
 import 'pages/connectDevice.dart';
 import 'pages/registration/configuration_page8.dart';
+import 'package:package_info/package_info.dart';
 
 void main() {
   runApp(MyApp());
@@ -29,6 +30,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     _readSharedPreference(); //reading from shared pref
+    getAppInfo(); // getting app info (version, build number)
     initAlertManager(); //init the alert manager
     super.initState();
 
@@ -116,43 +118,14 @@ class _MyAppState extends State<MyApp> {
   }
 }
 
-//_readSharedPreference() async {
-//  final prefs = await SharedPreferences.getInstance().whenComplete(() {
-//    print('profile loaded');
-//    profileStatus = profileData.PROFILE_CREATED;
-//  });
-//
-////  print('user name -- ${prefs.containsKey('USER_FULL_NAME')}');
-////  print('dev id -- ${prefs.containsKey('DEVICE_ID')}');
-//
-//  if (prefs.containsKey('USER_FULL_NAME') && prefs.containsKey('DEVICE_ID')) {
-//    profileData.PROFILE_CREATED = true;
-//  } else {
-//    profileData.PROFILE_CREATED = false;
-//  }
-//
-//  if (profileData.PROFILE_CREATED) {
-//    profileData.USER_FULL_NAME = prefs.getString('USER_FULL_NAME');
-//    profileData.USER_PHONE = prefs.getString('USER_PHONE');
-//    profileData.DEVICE_ID = prefs.getString('DEVICE_ID');
-//
-//    profileData.DOCTOR_FULL_NAME = prefs.getString('DOCTOR_FULL_NAME');
-//
-//    profileData.DOCTOR_HEALTHCARE_FACILITY =
-//        prefs.getString('DOCTOR_HEALTHCARE_FACILITY');
-//
-//    profileData.EMERGENCY_CONTACT_1_NAME =
-//        prefs.getString('EMERGENCY_CONTACT_1_NAME');
-//    profileData.EMERGENCY_CONTACT_2_NAME =
-//        prefs.getString('EMERGENCY_CONTACT_2_NAME');
-//    profileData.EMERGENCY_CONTACT_3_NAME =
-//        prefs.getString('EMERGENCY_CONTACT_3_NAME');
-//
-//    profileData.EMERGENCY_CONTACT_1_PHONE =
-//        prefs.getString('EMERGENCY_CONTACT_1_PHONE');
-//    profileData.EMERGENCY_CONTACT_2_PHONE =
-//        prefs.getString('EMERGENCY_CONTACT_2_PHONE');
-//    profileData.EMERGENCY_CONTACT_3_PHONE =
-//        prefs.getString('EMERGENCY_CONTACT_3_PHONE');
-//  }
-//}
+getAppInfo() async {
+  PackageInfo packageInfo = await PackageInfo.fromPlatform();
+
+  String appName = packageInfo.appName;
+  String packageName = packageInfo.packageName;
+  String version = packageInfo.version;
+  String buildNumber = packageInfo.buildNumber;
+
+  profileData.appVersion = version;
+  profileData.buildNumber = version;
+}

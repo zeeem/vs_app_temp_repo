@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/painting.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vital_signs_ui_template/core/configVS.dart';
@@ -464,6 +465,17 @@ class MapScreenState extends State<ProfilePage>
                                   ),
                                 ],
                               )),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 30),
+                            child: Center(
+                              child: Text(
+                                'App version : ${profileData.appVersion}',
+                                style: TextStyle(
+                                    color: Colors.black45,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                          )
                         ],
                       ),
                     ),
@@ -488,7 +500,7 @@ class MapScreenState extends State<ProfilePage>
 
   Widget _getActionButtons() {
     return Padding(
-      padding: EdgeInsets.only(left: 25.0, right: 25.0, top: 45.0),
+      padding: EdgeInsets.only(left: 25.0, right: 25.0, top: 30.0),
       child: new Row(
         mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.start,
