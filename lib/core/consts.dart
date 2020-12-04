@@ -37,5 +37,9 @@ class AppColors {
   static final Color secondaryButtonColor = deccolor2;
   static final Color redButton = Color.fromRGBO(254, 63, 92, 1);
   static final Color yellowButton = Color.fromRGBO(232, 131, 58, 1);
+  static final Color greenButton = Colors.green;
   static final Color textColor = Color.fromRGBO(51, 51, 51, 1);
+
+  static final Color warningTileBackgroundColor =
+      Color.fromRGBO(255, 223, 223, 1);
 }

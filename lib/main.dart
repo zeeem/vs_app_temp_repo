@@ -1,11 +1,11 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vital_signs_ui_template/core/configVS.dart';
 import 'package:vital_signs_ui_template/pages/Backup_old/intro_page.dart';
 import 'package:vital_signs_ui_template/pages/Backup_old/testPage.dart';
 import 'package:vital_signs_ui_template/pages/SplashScreen.dart';
+import 'package:vital_signs_ui_template/pages/doctor_pages/docPatientListPage.dart';
 import 'package:vital_signs_ui_template/pages/registration/configuration_page9.dart';
 import 'Processing/AlertSystem/AlertManagerPointData.dart';
 import 'pages/registration/configuration_page1.dart';
@@ -33,25 +33,6 @@ class _MyAppState extends State<MyApp> {
     getAppInfo(); // getting app info (version, build number)
     initAlertManager(); //init the alert manager
     super.initState();
-
-//    new Timer(const Duration(seconds: 5), () {
-//      if (profileStatus) {
-//        Navigator.of(context).push(
-//          MaterialPageRoute(
-//            builder: (_) => ConfigurationPage8(
-//              connectionMessage: 'Welcome back, ${profileData.USER_FULL_NAME}',
-//              buttonTitle: 'GET STARTED',
-//            ),
-//          ),
-//        );
-//      } else {
-//        Navigator.of(context).push(
-//          MaterialPageRoute(
-//            builder: (_) => ConditionPage(),
-//          ),
-//        );
-//      }
-//    });
   }
 
   initAlertManager() async {
@@ -112,8 +93,8 @@ class _MyAppState extends State<MyApp> {
         fontFamily: "OpenSans",
       ),
       home: () {
-        return SplashScreen();
-      }(), //ConditionPage()
+        return SplashScreen(); //change to doctors page when needed
+      }(), //docPatientListPage()
     );
   }
 }

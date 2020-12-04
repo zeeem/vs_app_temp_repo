@@ -310,8 +310,8 @@ double calculate_HR(Array Filtered_signal) {
 double calculateTemperature(Array sensordata) {
   Array calculated_temp = Array.empty();
   for (int i = 0; i < sensordata.length; i++) {
-    var T1 = (sensordata[i] * 3.3) / 1024;
-    var T2 = T1 - 0.5;
+    var T1 = (sensordata[i] * 3.3) / 1023;
+    var T2 = T1 - 0.49;
     var intermediate_temp = T2 / 0.01;
     calculated_temp.add(intermediate_temp);
   }

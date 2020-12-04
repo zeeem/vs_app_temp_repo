@@ -6,19 +6,22 @@ class ButtonWidget extends StatelessWidget {
   final Function onTapFunction;
   final int secondaryButtonStyle;
   final double buttonHeight;
+  final double bottomButtonPadding;
   const ButtonWidget(
       {Key key,
       @required this.buttonTitle,
       @required this.onTapFunction,
       this.secondaryButtonStyle,
-      this.buttonHeight = 60})
+      this.buttonHeight = 60,
+      this.bottomButtonPadding = 10})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(builder: (context, constraints) {
       return Padding(
-        padding: const EdgeInsets.fromLTRB(10, 10, 10, 20),
+        padding: const EdgeInsets.fromLTRB(10, 10, 10,
+            10), //bottom = 20 (need to make it dynamic for alert page)
         child: GestureDetector(
           onTap: onTapFunction,
           child: Container(
@@ -33,6 +36,8 @@ class ButtonWidget extends StatelessWidget {
                     break;
                   case 3:
                     return AppColors.yellowButton;
+                  case 4:
+                    return AppColors.greenButton;
                   default:
                     return AppColors.buttonColor;
                     break;

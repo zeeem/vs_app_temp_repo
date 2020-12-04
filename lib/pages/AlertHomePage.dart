@@ -61,11 +61,11 @@ class AlertHomePage extends StatelessWidget {
               child: Column(
                 children: <Widget>[
                   ButtonWidget(
-                    buttonTitle: 'CALL 911',
+                    buttonTitle: 'CALL ${profileData.DOCTOR_FULL_NAME}',
                     buttonHeight: btn_height,
                     secondaryButtonStyle: 2,
                     onTapFunction: () {
-                      _callNumber('911');
+                      _callNumber('7804445140');
                     },
                   ),
                   ButtonWidget(
@@ -98,8 +98,8 @@ class AlertHomePage extends StatelessWidget {
       ),
       bottomNavigationBar: ButtonWidget(
         buttonTitle:
-            backButtonType <= 1 ? 'BACK' : 'I\'M OK! CHECK AGAIN IN 1H',
-        secondaryButtonStyle: 3,
+            backButtonType <= 1 ? 'CANCEL' : 'I\'M OK! CHECK AGAIN IN 1H',
+        secondaryButtonStyle: 4,
         buttonHeight: 50,
         onTapFunction: () {
           if (backButtonType <= 1) {

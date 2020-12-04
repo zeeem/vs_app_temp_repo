@@ -30,8 +30,8 @@ class VS_Values {
 }
 
 class profileData {
-  static String DEVICE_ID =
-      "F1547A55-0823-261A-B1C2-051234E9DAE9"; //"04:91:62:96:EA:F5"; //"66:55:44:33:22:11";
+  static String DEVICE_ID = "04:91:62:96:EA:DA";
+  // "F1547A55-0823-261A-B1C2-051234E9DAE9"; //"04:91:62:96:EA:F5"; //"66:55:44:33:22:11";
   static bool needToTryAgain = false;
 
   static bool PROFILE_CREATED = false;
