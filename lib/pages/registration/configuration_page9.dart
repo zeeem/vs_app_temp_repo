@@ -66,18 +66,10 @@ class ConfigurationPage9 extends StatelessWidget {
       bottomNavigationBar: ButtonWidget(
           buttonTitle: 'Next',
           onTapFunction: () {
-            if (_isTestModeOn) {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (_) => DummyVSViz(),
-                ),
-              );
-            } else {
-              Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-                return VisualizeVSnew(device: device);
+            Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+              return VisualizeVSnew(device: device);
 //              return ConfigurationPage9(device: device);
-              }));
-            }
+            }));
           }),
     );
   }

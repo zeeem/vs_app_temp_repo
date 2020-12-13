@@ -8,6 +8,7 @@ import 'package:vital_signs_ui_template/pages/SplashScreen.dart';
 import 'package:vital_signs_ui_template/pages/doctor_pages/docPatientListPage.dart';
 import 'package:vital_signs_ui_template/pages/registration/configuration_page9.dart';
 import 'Processing/AlertSystem/AlertManagerPointData.dart';
+import 'pages/Backup_old/DevTestPage.dart';
 import 'pages/registration/configuration_page1.dart';
 import 'pages/registration/condition_page.dart';
 import 'pages/connectDevice.dart';
@@ -95,6 +96,7 @@ class _MyAppState extends State<MyApp> {
       home: () {
         return SplashScreen(); //change to doctors page when needed
       }(), //docPatientListPage()
+      // devTestPage()
     );
   }
 }

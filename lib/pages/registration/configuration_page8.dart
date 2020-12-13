@@ -105,7 +105,8 @@ class _StartBTScanAndAutoConnectState extends State<StartBTScanAndAutoConnect> {
 //        Navigator.pushAndRemoveUntil(context, Viz, (e) => false); ////to pop the context
       });
 
-      if (_tryCount > 2) {
+      if (_tryCount > 1) {
+        //2 = try 2 times, 1= once
         timer.cancel(); //turn off timer
         enableLoading(false); //turn off loading
         _conErrorMsg =
