@@ -1,10 +1,12 @@
 import 'dart:async';
+import 'dart:collection';
 
 //import 'package:flutter_blue/flutter_blue.dart';
 //import 'package:fluttertoast/fluttertoast.dart';
 //import 'package:rflutter_alert/rflutter_alert.dart';
 //import 'package:vital_signs_ui_template/elements/BluetoothOffAlert.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:vital_signs_ui_template/Processing/NetworkGateway/networkManager.dart';
 import 'package:vital_signs_ui_template/elements/ButtonWidget.dart';
 import 'package:vital_signs_ui_template/elements/CustomAppBar.dart';
 //import 'package:vital_signs_ui_template/pages/VS_Viz_New.dart';
@@ -60,6 +62,32 @@ class _ConfigurationPage7 extends State<ConfigurationPage7> {
 
     final deviceID = 'DEVICE_ID';
     prefs.setString(deviceID, profileData.DEVICE_ID);
+
+    _saveInCloudDatabase();
+  }
+  
+  _saveInCloudDatabase() async{
+
+    Map<String, dynamic> map = {
+      "username": "temp_username2",
+      "email": "temp_email2@email.com",
+      "height": "5.9",
+      "weight": "68.4",
+      "user_type": "1", //0 = patient, 1=doctor
+      "phone": profileData.USER_PHONE.toString(),
+      "date_of_birth": "1993-12-23",
+      "gender": "0",
+      "notes": "${profileData.DOCTOR_FULL_NAME.toString()}",
+      "password": "123123",
+      "first_name": profileData.USER_FULL_NAME.split(' ')[0].toString(),
+      "last_name": profileData.USER_FULL_NAME.split(' ')[1].toString()
+    };
+
+    print('body====>> $map');
+
+    NetworkManager apiNetworkManager = NetworkManager(apiData.baseAPIurl, nursingHome: false);
+    var response = apiNetworkManager.request('POST', '/api/register/' , body: map);
+    print(response);
   }
 
   @override

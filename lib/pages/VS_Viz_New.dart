@@ -20,7 +20,8 @@ import 'package:vital_signs_ui_template/core/consts.dart';
 import 'package:vital_signs_ui_template/elements/ButtonWidget.dart';
 import 'package:vital_signs_ui_template/elements/CustomAppBar.dart';
 import 'package:vital_signs_ui_template/elements/info_card.dart';
-import 'package:vital_signs_ui_template/Processing/DataProcessing.dart';
+// import 'package:vital_signs_ui_template/Processing/DataProcessing_backup.dart';
+import 'package:vital_signs_ui_template/Processing/ProcessingAlgorithm/DataProcessing_new_v2.dart'; // use DataProcessing_backup.dart for previous stable version
 import 'package:scidart/numdart.dart';
 //import 'package:scidart/scidart.dart';
 import 'package:vital_signs_ui_template/Processing/fileManager.dart';
@@ -67,6 +68,7 @@ String final_SPO2_to_show = '99';
 String final_temp_to_show = '37';
 
 int count_val = 0;
+int write_count = 0;
 
 var today = new DateTime.now();
 final FileManager fileManager = FileManager('McGill_ble_rawData_$today.csv',
@@ -201,7 +203,8 @@ class _VisualizeVSnewState extends State<VisualizeVSnew> {
   }
 
   streamListen() {
-    stream.listen((value) {
+    // ignore: cancel_subscriptions
+    final subscription = stream.listen((value) {
       // var decodedRawData = utf8.decode(value);
       // print('decoded raw data--$decodedRawData');
 
@@ -224,7 +227,10 @@ class _VisualizeVSnewState extends State<VisualizeVSnew> {
       print('DATA STREAM PAUSED!');
     }, onError: (e) {
       print('Error exception: $e');
-    });
+    },
+    cancelOnError: false);
+
+    // subscription.pause();
 
     // return 'computed';
   }
@@ -493,314 +499,6 @@ class _VisualizeVSnewState extends State<VisualizeVSnew> {
             }));
   }
 
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       body: Container(
-//           child: !isReady
-//               ? VSLoadWidgetStlss()
-//               : Container(
-//                   child: StreamBuilder<List<int>>(
-//                     stream: stream,
-//                     builder: (BuildContext context,
-//                         AsyncSnapshot<List<int>> snapshot) {
-//                       if (snapshot.hasError)
-//                         return Text('Error: ${snapshot.error}');
-//
-//                       if (snapshot.connectionState == ConnectionState.active) {
-//                         localConfigVS.isDeviceConnected = true;
-//                         // var decodedRawData = utf8.decode(snapshot.data);
-//
-//                         print('snapshot is ----- ${snapshot.hasData}');
-//
-//                         //processing the raw data
-//                         _parseProcessedData(snapshot.data);
-//
-//                         //issue the Alert Box only when the "isWarningIssued" is true
-//                         if (localConfigVS.isWarningIssued) {
-//                           Future.delayed(Duration.zero,
-//                               () => _issueWarningAlertBox(context));
-//                         }
-//
-//                         return Scaffold(
-//                             resizeToAvoidBottomPadding: false,
-//                             appBar: CustomAppBar(
-//                               turnOffBackButton: true,
-//                               height: 130, //no use of this fixed height
-//                             ),
-//                             body: SingleChildScrollView(
-//                               child: SafeArea(
-//                                 child: Column(
-//                                   children: <Widget>[
-//                                     Row(
-//                                       children: [
-//                                         Container(
-//                                           padding: EdgeInsets.fromLTRB(
-//                                               20, 0, 0, 0.0),
-//                                           child: Text(
-//                                             'Welcome, ${profileData.USER_FULL_NAME}!',
-//                                             style: TextStyle(
-//                                                 fontSize: 25.0,
-//                                                 fontWeight: FontWeight.bold,
-//                                                 color: Colors.black
-//                                                     .withOpacity(.7)),
-//                                             textAlign: TextAlign.left,
-//                                           ),
-//                                         ),
-//                                         Container(
-//                                           child: Container(
-//                                             padding: EdgeInsets.fromLTRB(
-//                                                 5, 0, 15, 0.0),
-// //                                            alignment: Alignment.topRight,
-//                                             child: Loading(
-//                                                 indicator: LineScaleIndicator(),
-//                                                 size: 25.0,
-//                                                 color: AppColors.deccolor2),
-//                                           ),
-//                                         ),
-//                                       ],
-//                                     ),
-//                                     Container(
-//                                       padding: EdgeInsets.only(
-//                                           top: 20.0, left: 20.0, right: 20.0),
-//                                       child: Column(
-//                                         children: <Widget>[
-//                                           Center(
-//                                             child: Container(
-//                                               padding: EdgeInsets.only(
-//                                                   left: 0,
-//                                                   top: 20,
-//                                                   right: 0,
-//                                                   bottom: 20),
-//                                               width: double.infinity,
-//                                               decoration: BoxDecoration(
-// //                      color: AppColors.mainColor.withOpacity(0.03),
-//                                                 borderRadius: BorderRadius.only(
-//                                                   bottomLeft:
-//                                                       Radius.circular(50),
-//                                                   bottomRight:
-//                                                       Radius.circular(50),
-//                                                 ),
-//                                               ),
-//                                               child: Center(
-//                                                 child: Center(
-//                                                   child: Wrap(
-//                                                     runSpacing: 20,
-//                                                     spacing: 20,
-//                                                     children: <Widget>[
-//                                                       InfoCard(
-//                                                         title: "Heart Rate",
-//                                                         iconPath:
-//                                                             'assets/icons/hr_icon.png',
-//                                                         valueUnit: 'bpm',
-//                                                         valueToShow:
-//                                                             '$final_HR_to_show',
-//                                                         press: () {},
-//                                                       ),
-//                                                       InfoCard(
-//                                                         title: "Temperature",
-//                                                         iconPath:
-//                                                             'assets/icons/temp_icon.png',
-//                                                         valueUnit: '°C',
-//                                                         valueToShow:
-//                                                             '$final_temp_to_show',
-//                                                         press: () {},
-//                                                       ),
-//                                                     ],
-//                                                   ),
-//                                                 ),
-//                                               ),
-//                                             ),
-//                                           ),
-//                                           SizedBox(height: 10),
-//                                           Center(
-//                                             child: Container(
-//                                               padding: EdgeInsets.only(
-//                                                   left: 0,
-//                                                   top: 20,
-//                                                   right: 0,
-//                                                   bottom: 20),
-//                                               width: double.infinity,
-//                                               decoration: BoxDecoration(
-//                                                 color: AppColors.deccolor3
-//                                                     .withOpacity(.1),
-//                                                 borderRadius:
-//                                                     BorderRadius.circular(25),
-// //                                            boxShadow: [
-// //                                              BoxShadow(
-// //                                                color: Colors.grey.withOpacity(0.05),
-// //                                                spreadRadius: 1,
-// //                                                blurRadius: 1,
-// //                                                offset: Offset(1, 2), // changes position of shadow
-// //                                              ),
-// //                                            ],
-//                                               ),
-//                                               child: Row(
-//                                                 children: <Widget>[
-//                                                   Container(
-//                                                     alignment: Alignment.center,
-// //                          height: 40,
-//                                                     width: 60,
-//                                                     child: Image.asset(
-//                                                         'assets/icons/spo2_icon.png'),
-//                                                   ),
-//                                                   SizedBox(width: 10),
-//                                                   Padding(
-//                                                     padding:
-//                                                         const EdgeInsets.all(
-//                                                             0.0),
-//                                                     child: Column(
-//                                                       crossAxisAlignment:
-//                                                           CrossAxisAlignment
-//                                                               .start,
-//                                                       children: <Widget>[
-//                                                         Text(
-//                                                           'Oxygen Saturation',
-//                                                           style: TextStyle(
-//                                                               color: AppColors
-//                                                                   .textColor,
-//                                                               fontSize: 17),
-//                                                         ),
-// //                              SizedBox(height: 4),
-//                                                         Row(
-//                                                           children: <Widget>[
-//                                                             Text(
-//                                                               '$final_SPO2_to_show',
-//                                                               textAlign:
-//                                                                   TextAlign
-//                                                                       .start,
-//                                                               style: TextStyle(
-//                                                                 fontWeight:
-//                                                                     FontWeight
-//                                                                         .bold,
-//                                                                 fontSize: 35,
-//                                                               ),
-//                                                             ),
-//                                                             SizedBox(width: 3),
-//                                                             Text(
-//                                                               '%',
-//                                                               style: TextStyle(
-//                                                                   fontSize: 20),
-// //                                    textAlign: TextAlign.end,
-//                                                             ),
-//                                                           ],
-//                                                         ),
-//                                                       ],
-//                                                     ),
-//                                                   ),
-//                                                 ],
-//                                               ),
-//                                             ),
-//                                           ),
-//                                           SizedBox(height: 10),
-//                                           Center(
-//                                             child: Container(
-//                                               padding: EdgeInsets.only(
-//                                                   left: 0,
-//                                                   top: 20,
-//                                                   right: 0,
-//                                                   bottom: 20),
-//                                               width: double.infinity,
-//                                               decoration: BoxDecoration(
-//                                                 color: AppColors.deccolor3
-//                                                     .withOpacity(.1),
-//                                                 borderRadius:
-//                                                     BorderRadius.circular(25),
-// //                      boxShadow: [
-// //                        BoxShadow(
-// //                          color: Colors.grey.withOpacity(0.05),
-// //                          spreadRadius: 1,
-// //                          blurRadius: 1,
-// //                          offset: Offset(1, 2), // changes position of shadow
-// //                        ),
-// //                      ],
-//                                               ),
-//                                               child: Row(
-//                                                 children: <Widget>[
-//                                                   Container(
-//                                                     alignment: Alignment.center,
-// //                          height: 40,
-//                                                     width: 60,
-//                                                     child: Image.asset(
-//                                                         'assets/icons/rr_icon.png'),
-//                                                   ),
-//                                                   SizedBox(width: 10),
-//                                                   Padding(
-//                                                     padding:
-//                                                         const EdgeInsets.all(
-//                                                             0.0),
-//                                                     child: Column(
-//                                                       crossAxisAlignment:
-//                                                           CrossAxisAlignment
-//                                                               .start,
-//                                                       children: <Widget>[
-//                                                         Text(
-//                                                           'Respiration Rate',
-//                                                           style: TextStyle(
-//                                                               color: AppColors
-//                                                                   .textColor,
-//                                                               fontSize: 17),
-//                                                         ),
-// //                              SizedBox(height: 4),
-//                                                         Row(
-//                                                           children: <Widget>[
-//                                                             Text(
-//                                                               '$final_RR_to_show',
-//                                                               textAlign:
-//                                                                   TextAlign
-//                                                                       .start,
-//                                                               style: TextStyle(
-//                                                                 fontWeight:
-//                                                                     FontWeight
-//                                                                         .bold,
-//                                                                 fontSize: 35,
-//                                                               ),
-//                                                             ),
-//                                                             SizedBox(width: 3),
-//                                                             Text(
-//                                                               'rpm',
-//                                                               style: TextStyle(
-//                                                                   fontSize: 20),
-// //                                    textAlign: TextAlign.end,
-//                                                             ),
-//                                                           ],
-//                                                         ),
-//                                                       ],
-//                                                     ),
-//                                                   ),
-//                                                 ],
-//                                               ),
-//                                             ),
-//                                           ),
-//                                         ],
-//                                       ),
-//                                     ),
-//                                   ],
-//                                 ),
-//                               ),
-//                             ),
-//                             bottomNavigationBar: ButtonWidget(
-//                                 buttonTitle: 'I NEED HELP',
-//                                 secondaryButtonStyle: 2,
-//                                 onTapFunction: () {
-//                                   Navigator.of(context).push(
-//                                     MaterialPageRoute(
-//                                       builder: (_) => AlertHomePage(
-//                                         alert_text:
-//                                             'Here are your contact numbers. Don\'t wait and click on a button to get assistance!',
-//                                       ),
-//                                     ),
-//                                   );
-//                                 }));
-//                       } else {
-//                         return VSLoadWidgetStlss();
-//                       }
-//                     },
-//                   ),
-//                 )),
-//     );
-//   }
-
   _parseProcessedData(var rawData, [BuildContext context]) {
     final String decoded_value = utf8.decode(rawData);
 
@@ -871,8 +569,11 @@ class _VisualizeVSnewState extends State<VisualizeVSnew> {
 //  }
 
     count++;
+    print('count ----->>> $count');
+
     if (count == 301) {
       //if only device is in use (isDeviceInUse is true)
+      print('calculating results.....');
       if (RED_raw_overlaped.isNotEmpty) {
         result = calculate_HR_RR_SPO2_TEMP(
             IR_raw_overlaped, RED_raw_overlaped, TEMP_raw_500);
@@ -888,7 +589,10 @@ class _VisualizeVSnewState extends State<VisualizeVSnew> {
             calculate_HR_RR_SPO2_TEMP(IR_raw_500, RED_raw_500, TEMP_raw_500);
       }
 
-      print('now calculating for ${RED_raw_overlaped.length} data');
+      print('result ---->> HR: ${result[0]}, RR: ${result[1]}, SPO2: ${result[2]}, TEMP: ${result[3]}' );
+
+
+      // print('now calculating for ${RED_raw_overlaped.length} data');
 
       print('OUTPUT -- HR -- ${result[0]}');
       print('OUTPUT -- RR -- ${result[1]}');
@@ -966,12 +670,15 @@ class _VisualizeVSnewState extends State<VisualizeVSnew> {
 //    VS_Values.final_static_SPO2 = final_SPO2_to_show;
 //    VS_Values.final_static_temp = final_temp_to_show;
 
-      //check values and issue warning
-      _checkAndIssueWarning(_final_hr, _final_rr, _final_spo2, _final_temp);
+
 
       IR_raw_500 = Array.empty();
       RED_raw_500 = Array.empty();
       count = 1;
+
+      //check values and issue warning
+      _checkAndIssueWarning(_final_hr, _final_rr, _final_spo2, _final_temp);
+
 
 //    if (count == 1) {
 //      stopwatch = new Stopwatch()..start();
@@ -981,7 +688,12 @@ class _VisualizeVSnewState extends State<VisualizeVSnew> {
 
 //to store the raw data inside the device as csv
   _storeRawData(List rawDatalist) {
-    fileManager.createFile();
+
+    if(write_count <1){
+      fileManager.createFile();
+      write_count++;
+    }
+
     int Tem = int.tryParse(rawDatalist[0]);
     int ACX = int.parse(rawDatalist[1]);
     int ACZ = int.parse(rawDatalist[2]);

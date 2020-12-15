@@ -55,3 +55,7 @@ class profileData {
   static String buildNumber;
   static String appVersion;
 }
+
+class apiData{
+  static String baseAPIurl = "https://yizhouzhao.dev";
+}

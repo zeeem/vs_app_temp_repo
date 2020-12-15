@@ -2,8 +2,6 @@ import 'package:scidart/numdart.dart';
 import 'package:scidart/scidart.dart';
 import 'package:stats/stats.dart';
 
-import 'ProcessingAlgorithm/HR.dart';
-
 String temp2show = '';
 //void dataProcess(String v) {
 //  print("1234 ----$v");
@@ -250,7 +248,7 @@ List calculate_HR_RR_SPO2_TEMP(
 
   //--------------------------------calculate Heart Rate-----------------------------------------
 
-  double final_hr_ = calculate_HR(raw_IR_500);
+  double final_hr_ = calculate_HR(sgfiltered_IR);
 //  String final_hr_ = calculated_hr.toStringAsFixed(0);
 
   //--------------------------------calculate temperature-----------------------------------------
@@ -267,14 +265,25 @@ List calculate_HR_RR_SPO2_TEMP(
 
 // not red, it will be IR for heart rate
 double calculate_HR(Array Filtered_signal) {
+  double F_hr;
 //    final stopwatch = Stopwatch()..start();
   var sgFiltered = Filtered_signal;
 
-  var HRArray = Process_HR(Filtered_signal);
+  print('--------peaks-------');
+  var pk = findTopPeaks(sgFiltered, mindistance: 55);
+  print(pk[0]); // print the indexes of the peaks found in the signal
+  print(pk[1]); // print the values of the peaks found in the signal
+
+  //calculate HR
+  var diffArray = arrayDiff(pk[0]);
+  var HRArray = Array([]); //contains HR for each second.
+  print('-----diffArray----');
+  print(diffArray);
+  for (int i = 1; i < diffArray.length; i++) {
+    HRArray.add(100 * 60 / diffArray[i]);
+  }
   print('-----HRArray----');
   print(HRArray);
-
-  double F_hr;
 
   //using only last 3 HR value to get the median or else output the one that we have
   try {

@@ -90,7 +90,7 @@ class HttpClient{
     }
 
     // Send post request
-    var uriResponse = await _client.post('http://'+_ipToConnect+apiUri, headers: _headers, body: payload);
+    var uriResponse = await _client.post('https://'+_ipToConnect+apiUri, headers: _headers, body: payload);
     // Update header
     _updateHeaders(uriResponse.headers, apiUri);
 
