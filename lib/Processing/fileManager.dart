@@ -103,6 +103,17 @@ class FileManager {
     return this.file.readAsString();
   }
 
+  Future<File> write_v3(
+      int Tem, int ACX, int ACZ, int BAT, int RED, int IR, String TIME) async {
+    if (this.file == null) {
+      await this.createFile();
+    }
+    // write the file
+    return this.file.writeAsString('$Tem, $ACX, $ACZ, $BAT, $RED, $IR, $TIME\n',
+        mode: FileMode.append);
+  }
+
+
   // Method to write to the file
   Future<File> write_old(
       int Tem, int ACX, int ACZ, int BAT, int RED, int IR, String TIME) async {

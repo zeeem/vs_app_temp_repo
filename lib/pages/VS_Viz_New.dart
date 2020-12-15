@@ -514,7 +514,7 @@ class _VisualizeVSnewState extends State<VisualizeVSnew> {
       if (!isCompareOn) {
         //if not compare is false
         //storing raw data in csv file
-        // _storeRawData(val_list);
+        _storeRawData(val_list);
       }
 
       _raw_temp = double.tryParse(val_list.elementAt(0)) ?? 0; //temp
@@ -703,12 +703,17 @@ class _VisualizeVSnewState extends State<VisualizeVSnew> {
 
     String timeNow = new DateTime.now().toString();
 
-    try {
-      fileManager.write_old(Tem, ACX, ACZ, BAT, RED, IR, timeNow);
-      print('data added');
-    } catch (e) {
-      print('file write is not supported on ios');
-    }
+    fileManager.write_v3(Tem, ACX, ACZ, BAT, RED, IR, timeNow);
+
+    // fileManager.write_old(Tem, ACX, ACZ, BAT, RED, IR, timeNow);
+    print('data added');
+    //
+    // try {
+    //   fileManager.write_old(Tem, ACX, ACZ, BAT, RED, IR, timeNow);
+    //   print('data added');
+    // } catch (e) {
+    //   print('file write is not supported on ios');
+    // }
   }
 
 //to store the comparison data - not needed anymore
