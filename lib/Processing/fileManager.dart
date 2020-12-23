@@ -3,7 +3,6 @@ import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'dart:io';
 import 'dart:async';
-import 'package:toast/toast.dart';
 
 /// A file manager
 /// - each class instance can only handle one file.
@@ -112,7 +111,6 @@ class FileManager {
     return this.file.writeAsString('$Tem, $ACX, $ACZ, $BAT, $RED, $IR, $TIME\n',
         mode: FileMode.append);
   }
-
 
   // Method to write to the file
   Future<File> write_old(

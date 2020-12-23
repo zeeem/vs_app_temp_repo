@@ -41,6 +41,8 @@ Array TEMP_raw_500 = Array.empty();
 Array IR_raw_overlaped = Array.empty();
 Array RED_raw_overlaped = Array.empty();
 
+List stored_raw_vals = [];
+
 List warning_check_array =
     []; //to look into multiple reading for specific period and then issue warning
 List temp_for_300sec = []; //temp data for 300 sec to check for warning
@@ -202,6 +204,21 @@ class _VisualizeVSnewState extends State<VisualizeVSnew> {
     }
   }
 
+  showRawDataConsole(var rawData) {
+    final String decoded_value = utf8.decode(rawData);
+
+    List val_list = decoded_value.split('	');
+
+    print('_Val: ${val_list}');
+
+    stored_raw_vals.add(val_list);
+
+    if (stored_raw_vals.length == 2000) {
+      print('stored_raw_vals length --> ${stored_raw_vals.length}');
+      print('done test');
+    }
+  }
+
   streamListen() {
     // ignore: cancel_subscriptions
     final subscription = stream.listen((value) {
@@ -212,23 +229,23 @@ class _VisualizeVSnewState extends State<VisualizeVSnew> {
 
       //processing the raw data
       _parseProcessedData(value);
+      // showRawDataConsole(value);
 
       //calculating data frequency
-      count_val++;
-      if (count_val == 1) {
-        stopwatch = new Stopwatch()..start();
-      }
-      if (stopwatch.elapsed.inSeconds == 1) {
-        print('raw data per second --- $count_val');
-        count_val = 0;
-        stopwatch.reset();
-      }
+      // count_val++;
+      // if (count_val == 1) {
+      //   stopwatch = new Stopwatch()..start();
+      // }
+      // if (stopwatch.elapsed.inSeconds == 1) {
+      //   print('raw data per second --- $count_val');
+      //   count_val = 0;
+      //   stopwatch.reset();
+      // }
     }, onDone: () {
       print('DATA STREAM PAUSED!');
     }, onError: (e) {
       print('Error exception: $e');
-    },
-    cancelOnError: false);
+    }, cancelOnError: false);
 
     // subscription.pause();
 
@@ -510,6 +527,14 @@ class _VisualizeVSnewState extends State<VisualizeVSnew> {
     print('_Val: ${val_list}');
 
     double _raw_temp;
+
+    stored_raw_vals.add(val_list);
+
+    if (stored_raw_vals.length == 2000) {
+      print('stored_raw_vals length --> ${stored_raw_vals.length}');
+      print('done test');
+    }
+
     try {
       if (!isCompareOn) {
         //if not compare is false
@@ -589,8 +614,8 @@ class _VisualizeVSnewState extends State<VisualizeVSnew> {
             calculate_HR_RR_SPO2_TEMP(IR_raw_500, RED_raw_500, TEMP_raw_500);
       }
 
-      print('result ---->> HR: ${result[0]}, RR: ${result[1]}, SPO2: ${result[2]}, TEMP: ${result[3]}' );
-
+      print(
+          'result ---->> HR: ${result[0]}, RR: ${result[1]}, SPO2: ${result[2]}, TEMP: ${result[3]}');
 
       // print('now calculating for ${RED_raw_overlaped.length} data');
 
@@ -670,15 +695,12 @@ class _VisualizeVSnewState extends State<VisualizeVSnew> {
 //    VS_Values.final_static_SPO2 = final_SPO2_to_show;
 //    VS_Values.final_static_temp = final_temp_to_show;
 
-
-
       IR_raw_500 = Array.empty();
       RED_raw_500 = Array.empty();
       count = 1;
 
       //check values and issue warning
       _checkAndIssueWarning(_final_hr, _final_rr, _final_spo2, _final_temp);
-
 
 //    if (count == 1) {
 //      stopwatch = new Stopwatch()..start();
@@ -688,8 +710,7 @@ class _VisualizeVSnewState extends State<VisualizeVSnew> {
 
 //to store the raw data inside the device as csv
   _storeRawData(List rawDatalist) {
-
-    if(write_count <1){
+    if (write_count < 1) {
       fileManager.createFile();
       write_count++;
     }
@@ -706,7 +727,7 @@ class _VisualizeVSnewState extends State<VisualizeVSnew> {
     fileManager.write_v3(Tem, ACX, ACZ, BAT, RED, IR, timeNow);
 
     // fileManager.write_old(Tem, ACX, ACZ, BAT, RED, IR, timeNow);
-    print('data added');
+    // print('data added');
     //
     // try {
     //   fileManager.write_old(Tem, ACX, ACZ, BAT, RED, IR, timeNow);

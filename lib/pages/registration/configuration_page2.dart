@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:vital_signs_ui_template/Processing/NetworkGateway/networkManager.dart';
 import 'package:vital_signs_ui_template/core/configVS.dart';
 import 'package:vital_signs_ui_template/elements/ButtonWidget.dart';
 import 'package:vital_signs_ui_template/elements/CustomAppBar.dart';
@@ -17,6 +20,8 @@ class _ConfigurationPage2 extends State<ConfigurationPage2> {
   @override
   void initState() {
     // TODO: implement initState
+    getDoctorsInfo(); //getting all doctor's info
+
     super.initState();
   }
 
@@ -111,4 +116,47 @@ class _ConfigurationPage2 extends State<ConfigurationPage2> {
       ),
     );
   }
+
+  getDoctorsInfo() async{
+
+    NetworkManager apiNetworkManager = NetworkManager(apiData.baseAPIurl, nursingHome: false);
+    var response = await apiNetworkManager.request('GET', '/api/shortdoctors/');
+    var mappedResponse = jsonDecode(response.body);
+
+    setState(() {
+      
+    });
+    print('end2');
+  }
+}
+
+
+
+
+_saveInCloudDatabase() async {
+
+  Map<String, dynamic> map = {
+    "username": "temp_username3",
+    "email": "temp_email3@email.com",
+    "height": "5.9",
+    "weight": "68.4",
+    "user_type": "0", //0 = patient, 1=doctor
+    "phone": "7809098899",
+    "date_of_birth": "1993-11-23",
+    "gender": "0",
+    "notes": "not applicable",
+    "password": "123123",
+    "first_name": "fn_user3",
+    "last_name": "ln_user3"
+  };
+
+  print('body====>> $map');
+
+  NetworkManager apiNetworkManager = NetworkManager(apiData.baseAPIurl, nursingHome: false);
+  var response = await apiNetworkManager.request('POST', '/api/register/' , body: map);
+  print('responses body');
+  print(response.body);
+
+
+
 }

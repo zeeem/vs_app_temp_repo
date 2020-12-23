@@ -34,6 +34,8 @@ class profileData {
   // "F1547A55-0823-261A-B1C2-051234E9DAE9"; //"04:91:62:96:EA:F5"; //"66:55:44:33:22:11";
   static bool needToTryAgain = false;
 
+  static String userUUID = '';
+
   static bool PROFILE_CREATED = false;
 
   static String DOCTOR_FULL_NAME;
@@ -56,6 +58,6 @@ class profileData {
   static String appVersion;
 }
 
-class apiData{
-  static String baseAPIurl = "https://yizhouzhao.dev";
+class apiData {
+  static String baseAPIurl = "yizhouzhao.dev";
 }

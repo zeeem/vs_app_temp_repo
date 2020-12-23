@@ -7,30 +7,31 @@
 // Importing in-package components
 import 'httpClient.dart';
 import 'networkBuffer.dart';
+import 'websocketClient.dart';
 
 import 'package:http/http.dart' as http;
 import 'dart:io';
 import 'dart:async';
-import 'dart:convert';
-import 'dart:math';
 
-class HttpResponse extends http.Response {
+class HttpResponse extends http.Response{
   HttpResponse(String body, int statusCode) : super(body, statusCode);
+
 }
 
-class NetworkManager {
+
+class NetworkManager{
   /// attributes
   HttpClient _client;
   NetworkBuffer _buffer;
+  List<WebSocketClient> _webSocketClients;
 
   /// constructor
-  NetworkManager(String ipAddr,
-      {bool nursingHome: true, String apiLogout: '/api/logout/'}) {
+  NetworkManager(String ipAddr, {bool nursingHome: true, String apiLogout:'/api/logout/'}){
     // initialize httpClient
-    _client =
-        new HttpClient(ipAddr, nursingHome: nursingHome, apiLogout: apiLogout);
+    _client = new HttpClient(ipAddr, nursingHome: nursingHome, apiLogout:apiLogout);
     _buffer = new NetworkBuffer(capacity: 5);
   }
+
 
   /// ====== Methods ======
   /// Abstract the HttpClient.post() method
@@ -40,11 +41,11 @@ class NetworkManager {
   ///           Note that Map<String, dynamic> will be converted to JSON format.
   /// Return:
   ///   - Future<http.Response>
-  Future<http.Response> post(String apiUri, dynamic body) async {
-    print(
-        "This method is deprecated:\n\tPlease use NetworkManager.request() instead.");
+  Future<http.Response> post(String apiUri, dynamic body) async{
+    print("This method is deprecated:\n\tPlease use NetworkManager.request() instead.");
     return _client.post(apiUri, body);
   }
+
 
   /// Abstract the HttpClient.get() method
   /// Arguments:
@@ -52,8 +53,7 @@ class NetworkManager {
   /// Return:
   ///   - Future<http.Response>
   Future<http.Response> get(String apiUri) async {
-    print(
-        "This method is deprecated:\n\tPlease use NetworkManager.request() instead.");
+    print("This method is deprecated:\n\tPlease use NetworkManager.request() instead.");
     return _client.get(apiUri);
   }
 
@@ -62,12 +62,12 @@ class NetworkManager {
   ///   - void
   /// Return:
   ///   - Future<bool>: true if the server is available.
-  Future<bool> ping() async {
+  Future<bool> ping() async{
     return _client.ping();
   }
 
   /// Close the http.Client
-  void closeClient() {
+  void closeClient(){
     this._client.closeClient();
   }
 
@@ -82,38 +82,35 @@ class NetworkManager {
   /// Return:
   ///   - http.Response: if the request is successfully delivered
   ///   - null: if the request failed to deliver. In this case, POST payload will be cached.
-  Future<http.Response> request(String method, String apiUri,
-      {dynamic body}) async {
+  Future<http.Response> request(String method, String apiUri, {dynamic body}) async{
     method = method.toUpperCase();
     http.Response response;
 
     // Send request based on given method.
     // Unsuccessful request will be stored in buffer.
-    try {
-      switch (method) {
+    try{
+      switch (method){
         // GET method
-        case "GET":
-          {
-            response = await _client.get(apiUri);
-          }
-          break;
+        case "GET": {
+          response = await _client.get(apiUri);
+        }break;
 
         // POST method
-        case "POST":
-          {
-            response = await _client.post(apiUri, body);
-          }
-          break;
+        case "POST": {
+          response = await _client.post(apiUri, body);
+        }break;
+
+      // PUT method
+        case "PUT": {
+          response = await _client.put(apiUri, body);
+        }break;
 
         // Non-support method will throw FormatException.
-        default:
-          {
-            throw FormatException(
-                "Non-supported HTTP method: $method.\nOnly support: GET, POST");
-          }
-          break;
+        default:{
+          throw FormatException("Non-supported HTTP method: $method.\nOnly support: GET, POST");
+        }break;
       }
-    } on SocketException {
+    }on SocketException{
       // Store into the buffer
       _buffer.add(method, apiUri, body);
 
@@ -122,7 +119,7 @@ class NetworkManager {
     }
 
     // if server is available, send all request in the cache
-    if (!_buffer.empty && response.statusCode == 200 && method != 'GET') {
+    if(!_buffer.empty && response.statusCode == 200 && method != 'GET'){
       // get cache from the buffer
       List<dynamic> cache = await _buffer.cache;
 
@@ -130,13 +127,24 @@ class NetworkManager {
       _buffer.flush();
 
       // send request sequentially.
-      for (var req in cache) {
-        this.request(req['method'], req['endpoint'], body: req['body']);
+      for(var req in cache){
+        this.request(req['method'], req['endpoint'], body:req['body']);
       }
     }
 
     return response;
   }
+
+}
+
+Future<void> main() async{
+  NetworkManager manager = new NetworkManager("yizhouzhao.dev");
+  print("Initing");
+  var response = await manager.request("PUT", "/api/allapi/");
+  assert(response.statusCode == 200, "Incorrect status code, expect 200, get ${response.statusCode}");
+
+  print("Pass!");
 }
 
 NetworkManager networkManager;
+

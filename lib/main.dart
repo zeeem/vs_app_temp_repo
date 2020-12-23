@@ -4,11 +4,13 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vital_signs_ui_template/core/configVS.dart';
 import 'package:vital_signs_ui_template/pages/Backup_old/intro_page.dart';
 import 'package:vital_signs_ui_template/pages/Backup_old/testPage.dart';
+import 'package:vital_signs_ui_template/pages/LoginPage.dart';
 import 'package:vital_signs_ui_template/pages/SplashScreen.dart';
 import 'package:vital_signs_ui_template/pages/doctor_pages/docPatientListPage.dart';
 import 'package:vital_signs_ui_template/pages/registration/configuration_page9.dart';
 import 'Processing/AlertSystem/AlertManagerPointData.dart';
 import 'pages/Backup_old/DevTestPage.dart';
+import 'pages/doctor_pages/userSelectionPage.dart';
 import 'pages/registration/configuration_page1.dart';
 import 'pages/registration/condition_page.dart';
 import 'pages/connectDevice.dart';
@@ -95,8 +97,8 @@ class _MyAppState extends State<MyApp> {
       ),
       home: () {
         return SplashScreen(); //change to doctors page when needed
-      }(), //docPatientListPage()
-      // devTestPage()
+      }(), //docPatientListPage()LoginPage
+      // SplashScreen()UserSelectionPage
     );
   }
 }
