@@ -2,7 +2,7 @@ import 'package:vital_signs_ui_template/core/configVS.dart';
 import 'package:vital_signs_ui_template/elements/ButtonWidget.dart';
 import 'package:vital_signs_ui_template/elements/CustomAppBar.dart';
 
-import 'configuration_page6.dart';
+import 'configuration_page6_contact3.dart';
 import 'package:flutter/material.dart';
 import 'package:vital_signs_ui_template/core/consts.dart';
 import 'package:permission_handler/permission_handler.dart';

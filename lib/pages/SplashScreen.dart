@@ -8,6 +8,8 @@ import 'package:vital_signs_ui_template/pages/Backup_old/intro_page.dart';
 import 'package:vital_signs_ui_template/pages/registration/condition_page.dart';
 import 'package:vital_signs_ui_template/pages/registration/configuration_page8.dart';
 
+import 'LoginPage.dart';
+
 class SplashScreen extends StatefulWidget {
   @override
   _SplashScreenState createState() => _SplashScreenState();
@@ -37,7 +39,8 @@ class _SplashScreenState extends State<SplashScreen> {
         );
       } else {
         Navigator.of(context).pushReplacement(MaterialPageRoute(
-            builder: (BuildContext context) => ConditionPage()));
+            builder: (BuildContext context) =>
+                LoginPage())); //ConditionPage()LoginPage
       }
     });
 

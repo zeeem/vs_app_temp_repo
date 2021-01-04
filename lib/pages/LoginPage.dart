@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:toggle_switch/toggle_switch.dart';
 import 'package:vital_signs_ui_template/Processing/NetworkGateway/networkManager.dart';
 import 'package:vital_signs_ui_template/core/configVS.dart';
 import 'package:vital_signs_ui_template/elements/ButtonWidget.dart';
@@ -51,12 +52,22 @@ class _LoginPage extends State<LoginPage> {
                   Container(
                     padding: EdgeInsets.fromLTRB(50, 0, 50, 0.0),
                     child: Text(
-                      'Sign in with your username and password',
+                      'Sign in to your account',
                       style: TextStyle(
                           fontSize: 21.0, fontWeight: FontWeight.bold),
                       textAlign: TextAlign.center,
                     ),
-                  )
+                  ),
+                  // SizedBox(
+                  //   height: 10,
+                  // ),
+                  // ToggleSwitch(
+                  //   initialLabelIndex: 0,
+                  //   labels: ['Patient', 'Doctor'],
+                  //   onToggle: (index) {
+                  //     print('switched to: $index');
+                  //   },
+                  // ),
                 ],
               ),
             ),

@@ -211,12 +211,36 @@ class _VisualizeVSnewState extends State<VisualizeVSnew> {
 
     print('_Val: ${val_list}');
 
-    stored_raw_vals.add(val_list);
+    // int Tem = int.tryParse(val_list[0]);
+    // int ACX = int.parse(val_list[1]);
+    // int ACZ = int.parse(val_list[2]);
+    // int BAT = int.parse(val_list[3]);
+    // int RED = int.parse(val_list[5]);
+    // int IR = int.parse(val_list[6]);
+
+    List deviceData = [
+      val_list[0],
+      val_list[1],
+      val_list[2],
+      val_list[3],
+      val_list[5],
+      val_list[6]
+    ];
+
+    stored_raw_vals.add(deviceData);
 
     if (stored_raw_vals.length == 2000) {
       print('stored_raw_vals length --> ${stored_raw_vals.length}');
+      storeOnce(stored_raw_vals); //storing in file at once
       print('done test');
+      print('--------------------->>>>> ${stored_raw_vals.toString()}');
     }
+  }
+
+  storeOnce(List rawDatalist) {
+    // String timeNow = new DateTime.now().toString();
+
+    fileManager.writeString(rawDatalist.toString());
   }
 
   streamListen() {
@@ -725,16 +749,6 @@ class _VisualizeVSnewState extends State<VisualizeVSnew> {
     String timeNow = new DateTime.now().toString();
 
     fileManager.write_v3(Tem, ACX, ACZ, BAT, RED, IR, timeNow);
-
-    // fileManager.write_old(Tem, ACX, ACZ, BAT, RED, IR, timeNow);
-    // print('data added');
-    //
-    // try {
-    //   fileManager.write_old(Tem, ACX, ACZ, BAT, RED, IR, timeNow);
-    //   print('data added');
-    // } catch (e) {
-    //   print('file write is not supported on ios');
-    // }
   }
 
 //to store the comparison data - not needed anymore

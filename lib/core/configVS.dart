@@ -1,3 +1,5 @@
+import 'package:vital_signs_ui_template/elements/User.dart';
+
 class localConfigVS {
   //local warning boolean
   //to issue the warning alert box and sound
@@ -56,6 +58,10 @@ class profileData {
   //app info
   static String buildNumber;
   static String appVersion;
+}
+
+class doctorData {
+  static List<User> patientList = [];
 }
 
 class apiData {

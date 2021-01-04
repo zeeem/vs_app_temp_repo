@@ -1,7 +1,7 @@
 import 'package:vital_signs_ui_template/elements/ButtonWidget.dart';
 import 'package:vital_signs_ui_template/elements/CustomAppBar.dart';
 
-import 'configuration_page2.dart';
+import 'configuration_page2_doctor_info.dart';
 import 'package:flutter/material.dart';
 import 'package:vital_signs_ui_template/core/consts.dart';
 

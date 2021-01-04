@@ -112,6 +112,14 @@ class FileManager {
         mode: FileMode.append);
   }
 
+  Future<File> writeString(String stringData) async {
+    if (this.file == null) {
+      await this.createFile();
+    }
+    // write the file
+    return this.file.writeAsString('$stringData\n', mode: FileMode.append);
+  }
+
   // Method to write to the file
   Future<File> write_old(
       int Tem, int ACX, int ACZ, int BAT, int RED, int IR, String TIME) async {

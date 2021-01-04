@@ -5,7 +5,7 @@ import 'package:vital_signs_ui_template/core/configVS.dart';
 import 'package:vital_signs_ui_template/elements/ButtonWidget.dart';
 import 'package:vital_signs_ui_template/elements/CustomAppBar.dart';
 
-import 'configuration_page3.dart';
+import 'configuration_page3_user_info.dart';
 import 'package:flutter/material.dart';
 import 'package:vital_signs_ui_template/core/consts.dart';
 
@@ -20,7 +20,7 @@ class _ConfigurationPage2 extends State<ConfigurationPage2> {
   @override
   void initState() {
     // TODO: implement initState
-    getDoctorsInfo(); //getting all doctor's info
+    // getDoctorsInfo(); //getting all doctor's info
 
     super.initState();
   }
@@ -106,8 +106,9 @@ class _ConfigurationPage2 extends State<ConfigurationPage2> {
         onTapFunction: () {
           //saving PROFILE data in the static vars
           profileData.DOCTOR_FULL_NAME = doctorNameController.text;
-          profileData.DOCTOR_HEALTHCARE_FACILITY = doctorFacilityController.text;
-          Navigator.of(context).push(    
+          profileData.DOCTOR_HEALTHCARE_FACILITY =
+              doctorFacilityController.text;
+          Navigator.of(context).push(
             MaterialPageRoute(
               builder: (_) => ConfigurationPage3(),
             ),
@@ -117,24 +118,17 @@ class _ConfigurationPage2 extends State<ConfigurationPage2> {
     );
   }
 
-  getDoctorsInfo() async{
-
-    NetworkManager apiNetworkManager = NetworkManager(apiData.baseAPIurl, nursingHome: false);
-    var response = await apiNetworkManager.request('GET', '/api/shortdoctors/');
-    var mappedResponse = jsonDecode(response.body);
-
-    setState(() {
-      
-    });
-    print('end2');
-  }
+  // getDoctorsInfo() async{
+  //
+  //   NetworkManager apiNetworkManager = NetworkManager(apiData.baseAPIurl, nursingHome: false);
+  //   var response = await apiNetworkManager.request('GET', '/api/shortdoctors/');
+  //   var mappedResponse = jsonDecode(response.body);
+  //
+  //   print('end2');
+  // }
 }
 
-
-
-
 _saveInCloudDatabase() async {
-
   Map<String, dynamic> map = {
     "username": "temp_username3",
     "email": "temp_email3@email.com",
@@ -152,11 +146,10 @@ _saveInCloudDatabase() async {
 
   print('body====>> $map');
 
-  NetworkManager apiNetworkManager = NetworkManager(apiData.baseAPIurl, nursingHome: false);
-  var response = await apiNetworkManager.request('POST', '/api/register/' , body: map);
+  NetworkManager apiNetworkManager =
+      NetworkManager(apiData.baseAPIurl, nursingHome: false);
+  var response =
+      await apiNetworkManager.request('POST', '/api/register/', body: map);
   print('responses body');
   print(response.body);
-
-
-
 }
