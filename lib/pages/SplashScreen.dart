@@ -40,7 +40,7 @@ class _SplashScreenState extends State<SplashScreen> {
       } else {
         Navigator.of(context).pushReplacement(MaterialPageRoute(
             builder: (BuildContext context) =>
-                LoginPage())); //ConditionPage()LoginPage
+                ConditionPage())); //ConditionPage()LoginPage
       }
     });
 

@@ -179,7 +179,7 @@ class _VisualizeVSnewState extends State<VisualizeVSnew> {
     services.forEach((service) {
 //        print('device id----- ${widget.device.id}');
 //        print('device name----- ${widget.device.name}');
-//        print('service id----- ${service.uuid.toString()}');
+      print('service id----- ${service.uuid.toString()}');
       service.characteristics.forEach((characteristic) {
         if (characteristic.uuid.toString() == CHARACTERISTIC_UUID) {
           characteristic.setNotifyValue(!characteristic.isNotifying);
@@ -204,8 +204,13 @@ class _VisualizeVSnewState extends State<VisualizeVSnew> {
     }
   }
 
+  String intermediate_temp_raw_val = '';
+
   showRawDataConsole(var rawData) {
     final String decoded_value = utf8.decode(rawData);
+    if (decoded_value == intermediate_temp_raw_val) {
+      return;
+    }
 
     List val_list = decoded_value.split('	');
 
@@ -217,6 +222,7 @@ class _VisualizeVSnewState extends State<VisualizeVSnew> {
     // int BAT = int.parse(val_list[3]);
     // int RED = int.parse(val_list[5]);
     // int IR = int.parse(val_list[6]);
+    intermediate_temp_raw_val = decoded_value;
 
     List deviceData = [
       val_list[0],
@@ -227,7 +233,9 @@ class _VisualizeVSnewState extends State<VisualizeVSnew> {
       val_list[6]
     ];
 
-    stored_raw_vals.add(deviceData);
+    if (!stored_raw_vals.contains(deviceData)) {
+      stored_raw_vals.add(deviceData);
+    }
 
     if (stored_raw_vals.length == 2000) {
       print('stored_raw_vals length --> ${stored_raw_vals.length}');
@@ -240,7 +248,10 @@ class _VisualizeVSnewState extends State<VisualizeVSnew> {
   storeOnce(List rawDatalist) {
     // String timeNow = new DateTime.now().toString();
 
-    fileManager.writeString(rawDatalist.toString());
+    String rawData = rawDatalist.toString();
+    String cleanedRawData =
+        rawData.replaceAll('],', '').replaceAll(']', '').replaceAll('[', '');
+    fileManager.writeString(cleanedRawData);
   }
 
   streamListen() {
@@ -251,9 +262,9 @@ class _VisualizeVSnewState extends State<VisualizeVSnew> {
 
       localConfigVS.isDeviceConnected = true;
 
+      showRawDataConsole(value);
       //processing the raw data
       _parseProcessedData(value);
-      // showRawDataConsole(value);
 
       //calculating data frequency
       // count_val++;
@@ -552,19 +563,29 @@ class _VisualizeVSnewState extends State<VisualizeVSnew> {
 
     double _raw_temp;
 
-    stored_raw_vals.add(val_list);
+    // ---------------------------------
+    // Data storing in file
+    // ---------------------------------
 
-    if (stored_raw_vals.length == 2000) {
-      print('stored_raw_vals length --> ${stored_raw_vals.length}');
-      print('done test');
-    }
+    // stored_raw_vals.add(val_list); //store raw values
+
+    // // no need
+    // if (stored_raw_vals.length == 2000) {
+    //   print('stored_raw_vals length --> ${stored_raw_vals.length}');
+    //   print('done test');
+    // }
+    // // no need
 
     try {
       if (!isCompareOn) {
         //if not compare is false
         //storing raw data in csv file
-        _storeRawData(val_list);
+        // _storeRawData(val_list); // enable it for storing single line data
       }
+
+      // ---------------------------------
+      // Data storing in file
+      // ---------------------------------
 
       _raw_temp = double.tryParse(val_list.elementAt(0)) ?? 0; //temp
       double _raw_RED = double.tryParse(val_list.elementAt(5)); //RED
