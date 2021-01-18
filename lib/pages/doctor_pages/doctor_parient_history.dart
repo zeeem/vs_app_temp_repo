@@ -28,42 +28,44 @@ class _DoctorPatientHistoryState extends State<DoctorPatientHistory> {
         ),
       );
     } else {
-      return Column(
-        children: [
-          Container(
-            padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
-            child: Text(
-              'Patients\' history',
-              style: TextStyle(fontSize: 21.0, fontWeight: FontWeight.bold),
-              textAlign: TextAlign.left,
+      return Container(
+        child: Column(
+          children: [
+            Container(
+              padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
+              child: Text(
+                'Patients\' history',
+                style: TextStyle(fontSize: 21.0, fontWeight: FontWeight.bold),
+                textAlign: TextAlign.left,
+              ),
             ),
-          ),
-          Container(
-            // padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
-            height: 550, //height of TabBarView
-            child: ListView.builder(
-              itemCount: data.length,
-              itemBuilder: (BuildContext context, int index) {
-                //checking if priority is 2 (0=low, 1=medium, 2=high)
-                return PatientTiles(
-                  title: data[index].name,
-                  networkProfilePicture: data[index].picture,
-                  // priorityLevel: 2,
-                  onPress: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => docVsVisualizerPage(
-                                clicked_user: data[index])));
-                  },
-                );
-              },
+            Container(
+              // padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
+              height: 550, //height of TabBarView
+              child: ListView.builder(
+                itemCount: data.length,
+                itemBuilder: (BuildContext context, int index) {
+                  //checking if priority is 2 (0=low, 1=medium, 2=high)
+                  return PatientTiles(
+                    title: data[index].name,
+                    networkProfilePicture: data[index].picture,
+                    // priorityLevel: 2,
+                    onPress: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => docVsVisualizerPage(
+                                  clicked_user: data[index])));
+                    },
+                  );
+                },
+              ),
             ),
-          ),
-          // SizedBox(
-          //   height: 50,
-          // )
-        ],
+            // SizedBox(
+            //   height: 50,
+            // )
+          ],
+        ),
       );
     }
   }

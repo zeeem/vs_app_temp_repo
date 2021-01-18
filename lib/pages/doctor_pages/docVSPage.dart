@@ -1,3 +1,5 @@
+import 'package:csv/csv.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:loading/indicator/line_scale_indicator.dart';
 import 'package:loading/loading.dart';
@@ -6,9 +8,10 @@ import 'package:flutter/material.dart';
 import 'package:vital_signs_ui_template/elements/CustomAppBar.dart';
 import 'package:vital_signs_ui_template/elements/User.dart';
 import 'package:vital_signs_ui_template/elements/info_card.dart';
+import 'package:vital_signs_ui_template/pages/doctor_pages/HistoryPlot.dart';
 //import 'package:flutter_svg/flutter_svg.dart';
 
-class docVsVisualizerPage extends StatelessWidget {
+class docVsVisualizerPage extends StatefulWidget {
   final User clicked_user;
   final String doc_hr;
   final String doc_rr;
@@ -23,6 +26,31 @@ class docVsVisualizerPage extends StatelessWidget {
       this.doc_spo2 = '99',
       this.doc_temp = '37'})
       : super(key: key);
+
+  @override
+  _docVsVisualizerPageState createState() => _docVsVisualizerPageState();
+}
+
+class _docVsVisualizerPageState extends State<docVsVisualizerPage> {
+  List<dynamic> hitoryData = [];
+
+  loadAsset() async {
+    final myData = await rootBundle.loadString(
+        "assets/csv/mcgill_ble_rawdata_2021-01-04_142115.986889.csv");
+
+    //print(myData);
+    List<dynamic> csvTable = CsvToListConverter().convert(myData);
+    print(csvTable[0].last);
+
+    hitoryData = csvTable;
+  }
+
+  @override
+  void initState() {
+    loadAsset();
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +72,7 @@ class docVsVisualizerPage extends StatelessWidget {
                       Container(
                         padding: EdgeInsets.fromLTRB(20, 0, 0, 0.0),
                         child: Text(
-                          clicked_user.name,
+                          widget.clicked_user.name,
                           style: TextStyle(
                               fontSize: 25.0,
                               fontWeight: FontWeight.bold,
@@ -81,15 +109,74 @@ class docVsVisualizerPage extends StatelessWidget {
                                       title: "Heart Rate",
                                       iconPath: 'assets/icons/hr_icon.png',
                                       valueUnit: 'bpm',
-                                      valueToShow: '$doc_hr',
-                                      press: () {},
+                                      valueToShow: '${widget.doc_hr}',
+                                      press: () {
+                                        if (hitoryData.length > 0) {
+                                          Navigator.of(context).push(
+                                              MaterialPageRoute(
+                                                  builder:
+                                                      (BuildContext context) =>
+                                                          HistoryPlot(
+                                                            data: hitoryData,
+                                                            expandedTitle: 'hr',
+                                                          )));
+                                        } else {
+                                          return AlertDialog(
+                                            title: Text('No history found'),
+                                            content: Text(
+                                                'Do you want to try again?'),
+                                            actions: <Widget>[
+                                              FlatButton(
+                                                  onPressed: () {
+                                                    print('ignored');
+                                                  },
+                                                  child: Text('No')),
+                                              new FlatButton(
+                                                  onPressed: () {
+                                                    loadAsset();
+                                                  },
+                                                  child: new Text('Yes')),
+                                            ],
+                                          );
+                                        }
+                                      },
                                     ),
                                     InfoCard(
                                       title: "Temperature",
                                       iconPath: 'assets/icons/temp_icon.png',
                                       valueUnit: '°C',
-                                      valueToShow: '$doc_temp',
-                                      press: () {},
+                                      valueToShow: '${widget.doc_temp}',
+                                      press: () {
+                                        if (hitoryData.length > 0) {
+                                          Navigator.of(context).push(
+                                              MaterialPageRoute(
+                                                  builder:
+                                                      (BuildContext context) =>
+                                                          HistoryPlot(
+                                                            data: hitoryData,
+                                                            expandedTitle:
+                                                                'temp',
+                                                          )));
+                                        } else {
+                                          return AlertDialog(
+                                            title: Text('No history found'),
+                                            content: Text(
+                                                'Do you want to try again?'),
+                                            actions: <Widget>[
+                                              FlatButton(
+                                                  onPressed: () {
+                                                    print('ignored');
+                                                  },
+                                                  child: Text('No')),
+                                              new FlatButton(
+                                                  onPressed: () {
+                                                    loadAsset();
+                                                  },
+                                                  child: new Text('Yes')),
+                                            ],
+                                          );
+                                        }
+                                      },
                                     ),
                                   ],
                                 ),
@@ -141,7 +228,7 @@ class docVsVisualizerPage extends StatelessWidget {
                                       Row(
                                         children: <Widget>[
                                           Text(
-                                            '$doc_spo2',
+                                            '${widget.doc_spo2}',
                                             textAlign: TextAlign.start,
                                             style: TextStyle(
                                               fontWeight: FontWeight.bold,
@@ -207,7 +294,7 @@ class docVsVisualizerPage extends StatelessWidget {
                                       Row(
                                         children: <Widget>[
                                           Text(
-                                            '$doc_rr',
+                                            '${widget.doc_rr}',
                                             textAlign: TextAlign.start,
                                             style: TextStyle(
                                               fontWeight: FontWeight.bold,

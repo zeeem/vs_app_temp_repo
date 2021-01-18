@@ -2,12 +2,7 @@
 
 UI added, VS visualization page, BT connectivity
 
-### For Jeff:
-Duplicate any of the `formsfill_page `and change it as needed for new pages.
-
-### For Jack:
-for Alert part, please look into the `Processing/BTconnection.dart`.
-Function: `_checkAndIssueWarning`
+## change the project folder name to `vital_signs_ui_template`
 
 For the static variables look into `core/configVS.dart`. 
 I was using the local_config part for storing the alert range. You can use json file to do this as david asked.

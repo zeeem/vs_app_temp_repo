@@ -179,7 +179,7 @@ class _VisualizeVSnewState extends State<VisualizeVSnew> {
     services.forEach((service) {
 //        print('device id----- ${widget.device.id}');
 //        print('device name----- ${widget.device.name}');
-      print('service id----- ${service.uuid.toString()}');
+//       print('service id----- ${service.uuid.toString()}');
       service.characteristics.forEach((characteristic) {
         if (characteristic.uuid.toString() == CHARACTERISTIC_UUID) {
           characteristic.setNotifyValue(!characteristic.isNotifying);

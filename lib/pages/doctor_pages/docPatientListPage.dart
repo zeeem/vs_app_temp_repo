@@ -13,6 +13,10 @@ import 'package:vital_signs_ui_template/pages/doctor_pages/doctor_parient_histor
 import 'package:vital_signs_ui_template/pages/doctor_pages/doctor_profile_page.dart';
 
 class docPatientListPage extends StatefulWidget {
+  final selectedIndex;
+
+  const docPatientListPage({Key key, this.selectedIndex = 0}) : super(key: key);
+
   @override
   _docPatientListPage createState() => _docPatientListPage();
 }
@@ -36,24 +40,9 @@ class _docPatientListPage extends State<docPatientListPage> {
     doctorData.patientList = users;
   }
 
-  int _selectedIndex = 0;
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-
-  static const List<Widget> _widgetOptions = <Widget>[
-    Text(
-      'Index 0: Home',
-      style: optionStyle,
-    ),
-    Text(
-      'Index 1: Journal',
-      style: optionStyle,
-    ),
-    Text(
-      'Index 2: Profile',
-      style: optionStyle,
-    ),
-  ];
+  int _selectedIndex = 0;
 
   void _onItemTapped(int index) {
     setState(() {
@@ -71,7 +60,9 @@ class _docPatientListPage extends State<docPatientListPage> {
 
   @override
   void initState() {
-    // TODO: implement initState
+    //setting the selectedIndex to view tab
+    _selectedIndex = widget.selectedIndex;
+
     getPatientList(); //init the patient list and store as static var
     super.initState();
   }
@@ -82,9 +73,9 @@ class _docPatientListPage extends State<docPatientListPage> {
       resizeToAvoidBottomPadding: false,
       resizeToAvoidBottomInset: true,
       appBar: CustomAppBar(
-        height: 130,
+        height: 130, //no use of this fixed height
         turnOffSettingsButton: true,
-        turnOffBackButton: true, //no use of this fixed height
+        turnOffBackButton: true,
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -243,12 +234,14 @@ class _DoctorPatientListContainerState
                                         priorityLevel: 2,
                                         onPress: () {
                                           Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      docVsVisualizerPage(
-                                                          clicked_user: snapshot
-                                                              .data[index])));
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  docVsVisualizerPage(
+                                                      clicked_user:
+                                                          snapshot.data[index]),
+                                            ),
+                                          );
                                         },
                                       );
                                     } else {
