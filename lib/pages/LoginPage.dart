@@ -11,6 +11,8 @@ import 'registration/condition_page.dart';
 import 'doctor_pages/docPatientListPage.dart';
 import 'registration/configuration_page8.dart';
 
+bool testCase = true;
+
 class LoginPage extends StatefulWidget {
   @override
   _LoginPage createState() => _LoginPage();
@@ -152,6 +154,12 @@ class _LoginPage extends State<LoginPage> {
           //saving PROFILE data in the static vars
           String username = userNameController.text;
           String password = userPasswordController.text;
+
+          //TEST CASE ONLY
+          if (username.length > 1 && testCase == true) {
+            username = 'test_u2';
+            password = '123123';
+          }
 
           if (username.length > 1 && password.length > 1) {
             int statusCode = await logIntoAccount(username, password);
