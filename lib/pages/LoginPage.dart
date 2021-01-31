@@ -156,7 +156,7 @@ class _LoginPage extends State<LoginPage> {
           String password = userPasswordController.text;
 
           //TEST CASE ONLY
-          if (username.length > 1 && testCase == true) {
+          if (username.length < 1 && testCase == true) {
             username = 'test_u2';
             password = '123123';
           }

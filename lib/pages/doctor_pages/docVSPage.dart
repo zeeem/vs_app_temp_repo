@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:vital_signs_ui_template/elements/CustomAppBar.dart';
 import 'package:vital_signs_ui_template/elements/User.dart';
 import 'package:vital_signs_ui_template/elements/info_card.dart';
-import 'package:vital_signs_ui_template/pages/doctor_pages/HistoryPlot.dart';
+import 'HistoryPlots/HistoryPlot.dart';
 //import 'package:flutter_svg/flutter_svg.dart';
 
 class docVsVisualizerPage extends StatefulWidget {
@@ -32,17 +32,18 @@ class docVsVisualizerPage extends StatefulWidget {
 }
 
 class _docVsVisualizerPageState extends State<docVsVisualizerPage> {
-  List<dynamic> hitoryData = [];
+  List<dynamic> historyData = [];
 
   loadAsset() async {
-    final myData = await rootBundle.loadString(
-        "assets/csv/mcgill_ble_rawdata_2021-01-04_142115.986889.csv");
+    final myData = await rootBundle.loadString("assets/csv/dummy_vs.csv");
 
     //print(myData);
     List<dynamic> csvTable = CsvToListConverter().convert(myData);
     print(csvTable[0].last);
 
-    hitoryData = csvTable;
+    historyData = csvTable;
+
+    // print(historyData);
   }
 
   @override
@@ -111,13 +112,13 @@ class _docVsVisualizerPageState extends State<docVsVisualizerPage> {
                                       valueUnit: 'bpm',
                                       valueToShow: '${widget.doc_hr}',
                                       press: () {
-                                        if (hitoryData.length > 0) {
+                                        if (historyData.length > 0) {
                                           Navigator.of(context).push(
                                               MaterialPageRoute(
                                                   builder:
                                                       (BuildContext context) =>
                                                           HistoryPlot(
-                                                            data: hitoryData,
+                                                            data: historyData,
                                                             expandedTitle: 'hr',
                                                           )));
                                         } else {
@@ -147,13 +148,13 @@ class _docVsVisualizerPageState extends State<docVsVisualizerPage> {
                                       valueUnit: '°C',
                                       valueToShow: '${widget.doc_temp}',
                                       press: () {
-                                        if (hitoryData.length > 0) {
+                                        if (historyData.length > 0) {
                                           Navigator.of(context).push(
                                               MaterialPageRoute(
                                                   builder:
                                                       (BuildContext context) =>
                                                           HistoryPlot(
-                                                            data: hitoryData,
+                                                            data: historyData,
                                                             expandedTitle:
                                                                 'temp',
                                                           )));
