@@ -596,8 +596,8 @@ class _HistoryPlotState extends State<HistoryPlot> {
                         LineChartData(
                           minX: 0,
                           maxX: 2000,
-                          minY: 3000,
-                          maxY: 12000,
+                          minY: 30,
+                          maxY: 40,
                           titlesData: FlTitlesData(show: false),
                           borderData: FlBorderData(show: false),
                           gridData: FlGridData(show: false),
