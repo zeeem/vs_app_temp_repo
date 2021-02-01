@@ -35,7 +35,7 @@ class _docVsVisualizerPageState extends State<docVsVisualizerPage> {
   List<dynamic> historyData = [];
 
   loadAsset() async {
-    final myData = await rootBundle.loadString("assets/csv/dummy_vs.csv");
+    final myData = await rootBundle.loadString("assets/csv/dummy2.csv");
 
     //print(myData);
     List<dynamic> csvTable = CsvToListConverter().convert(myData);
