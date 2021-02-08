@@ -71,8 +71,9 @@ List processRange (List data, int range, [String vs_type, String mid_type="avg"]
       avg_or_median = Stats.fromData(list_to_process).average;
     }
 
-
-    List processed_output = [Stats.fromData(list_to_process).min, avg_or_median ,Stats.fromData(list_to_process).max];
+    double std_deviation = Stats.fromData(list_to_process).standardDeviation;
+    List processed_output = [Stats.fromData(list_to_process).min, avg_or_median ,Stats.fromData(list_to_process).max,
+      avg_or_median-std_deviation,avg_or_median+std_deviation];
 
     list_to_process = Array.empty();
     output.add(processed_output);
