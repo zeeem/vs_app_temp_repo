@@ -1,9 +1,12 @@
+import 'dart:math';
+
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:vital_signs_ui_template/elements/CustomAppBar.dart';
 
 import '../../../core/consts.dart';
 import 'PlotDataProcessing.dart';
+import 'package:intl/intl.dart';
 
 class PlotDetails extends StatefulWidget {
   final int touchedIndex;
@@ -25,9 +28,11 @@ class _PlotDetailsState extends State<PlotDetails> {
   double _maxX_range;
   bool isRangeOnSpecificHour = false;
   bool isEmergencyDotOn = false;
+  bool isStdDeviationOn24HoursGraph = false;
   List _long_data;
-  double _currentSliderValue = 30;
+  double _currentSliderValue = 60;
   List _demo_chart;
+  int _typeOfTimeInterval;
 
 
   List<Color> gradientColors = [
@@ -43,6 +48,34 @@ class _PlotDetailsState extends State<PlotDetails> {
     // dataIndex_to_show = 1;   // 0 = min, 1 = average, 2 = max
     // maxX_range = dataToPlot.length*1.0;
   }
+  String getTimes (int timeToAdd, String typeOfTime)
+  {
+
+    DateTime now = DateTime.now();
+    //String formattedDate = DateFormat().add_jm().format(now);
+    //print(formattedDate);
+
+    switch(typeOfTime)
+        {
+      case 'min':
+        DateTime add15Minutes = now.subtract(new Duration(minutes: timeToAdd));
+        String formattedDate = DateFormat().add_jm().format(add15Minutes);
+        return formattedDate;
+      case 'hour':
+        DateTime add1Hour = now.subtract(new Duration(hours: timeToAdd));
+        String formattedDate = DateFormat().add_jm().format(add1Hour);
+        return formattedDate;
+      case 'day':
+        DateTime add1Day = now.subtract(new Duration(days: timeToAdd));
+        String formattedDate = DateFormat().add_Md().format(add1Day);
+        return formattedDate;
+      default:
+        DateTime add15Minutes = now.subtract(new Duration(minutes: timeToAdd));
+        String formattedDate = DateFormat().add_jm().format(add15Minutes);
+        return formattedDate;
+
+    }
+  }
 
   @override
   void initState() {
@@ -53,6 +86,21 @@ class _PlotDetailsState extends State<PlotDetails> {
     _long_data = widget.long_data;
     _long_data = processRange(_long_data, 20, "hr");
     super.initState();
+
+    switch(_touchedScale)
+    {
+      case 'min':
+        _typeOfTimeInterval = 15;
+        break;
+      case 'hour':
+        _typeOfTimeInterval = 6;
+        break;
+      case 'day':
+        _typeOfTimeInterval = 1;
+        break;
+      default:
+        _typeOfTimeInterval = 1;
+    }
   }
 
   @override
@@ -145,6 +193,34 @@ class _PlotDetailsState extends State<PlotDetails> {
                         ),
                       )),
                     ),
+                    SizedBox(
+                      height: 25,
+                      child: FlatButton(onPressed: (){
+                        if(isStdDeviationOn24HoursGraph)
+                        {
+                          setState(() {
+                            isStdDeviationOn24HoursGraph = false;
+                          });
+
+                        }
+                        else {
+                          setState(() {
+                            isStdDeviationOn24HoursGraph = true;
+                          });
+                        }
+                      }, child: Padding(
+                        padding: const EdgeInsets.fromLTRB(0, 0, 20, 0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Text("---- ", style: TextStyle(color: isStdDeviationOn24HoursGraph? Colors.black54: Colors.grey, fontWeight: FontWeight.bold, fontSize: 20),),
+                            Text("Standard Deviation", style: TextStyle(color: AppColors.textColor),),
+                            Icon(Icons.fiber_manual_record_rounded, color: isStdDeviationOn24HoursGraph? Colors.green: Colors.grey, size: 10,),
+
+                          ],
+                        ),
+                      )),
+                    ),
                   ],
                 ),
                 Expanded(
@@ -177,20 +253,28 @@ class _PlotDetailsState extends State<PlotDetails> {
                             showTitles: true,
                             reservedSize: 6,
                             getTitles: (value) {
-                              switch (value.toInt()) {
-                                case 0:
-                                  return '0';
-                                case 15:
-                                  return '15m';
-                                case 30:
-                                  return '30m';
-                                case 45:
-                                  return '45m';
-                                case 60:
-                                  return '1h';
-                                default:
-                                  return '';
+                              if(value.toInt()%(_maxX_range/3)==0)
+                              {
+                                return getTimes(value.toInt(), _touchedScale);
                               }
+                              else
+                              {
+                                return '';
+                              }
+                              // switch (value.toInt()) {
+                              //   case 0:
+                              //     return '0';
+                              //   case 15:
+                              //     return '15m';
+                              //   case 30:
+                              //     return '30m';
+                              //   case 45:
+                              //     return '45m';
+                              //   case 60:
+                              //     return '1h';
+                              //   default:
+                              //     return '';
+                              // }
                             }),
                         leftTitles: SideTitles(
                           showTitles: true,
@@ -238,6 +322,31 @@ class _PlotDetailsState extends State<PlotDetails> {
                               colors: gradientColors
                                   .map((color) => color.withOpacity(0.15))
                                   .toList()),
+                        ),
+                        LineChartBarData(
+                          spots: generateHourlySpots(_data_to_plot,3),
+                          isCurved: true,
+                          colors: [Colors.grey],
+                          barWidth: 1,
+                          isStrokeCapRound: true,
+                          dotData: FlDotData(show: false),
+                          show: isStdDeviationOn24HoursGraph?true:false,
+                          //barWidth: 1,
+
+                        ),
+
+
+
+                        LineChartBarData(
+                          spots: generateHourlySpots(_data_to_plot,4),
+                          isCurved: true,
+                          colors: [Colors.grey],
+                          barWidth: 1,
+                          isStrokeCapRound: true,
+                          dotData: FlDotData(show: false),
+                          show: isStdDeviationOn24HoursGraph?true:false,
+                          //barWidth: 1,
+
                         ),
                       ],
                       axisTitleData: FlAxisTitleData(
@@ -326,10 +435,10 @@ class _PlotDetailsState extends State<PlotDetails> {
       _data_to_plot = _demo_chart;
     });
   }
-
+Random random = new Random();
   List<FlSpot> generateHourlySpots(List data_to_plot, int index) {
     List<FlSpot> spots = data_to_plot.asMap().entries.map((e) {
-      double y = double.tryParse(e.value[index].toString());
+      double y = double.tryParse((e.value[index]+ random.nextInt(3)).toString());
       return FlSpot(e.key.toDouble(), y);
     }).toList();
 
