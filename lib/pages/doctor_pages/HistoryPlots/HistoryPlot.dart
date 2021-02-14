@@ -918,6 +918,7 @@ class _HistoryPlotState extends State<HistoryPlot> {
                                           touchedIndex: _touchedIndex,
                                           touchedScale: 'hr',
                                           data_to_plot: data_to_send,
+                                          long_data: data,
                                         ),
                                       ),
                                     );
