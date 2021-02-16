@@ -3,6 +3,8 @@ import 'dart:math';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:vital_signs_ui_template/elements/CustomAppBar.dart';
+import 'package:vital_signs_ui_template/elements/ButtonWidget.dart';
+import 'package:vital_signs_ui_template/pages/Dashboard/AbnormalVsBoard.dart';
 
 import '../../../core/consts.dart';
 import 'PlotDataProcessing.dart';
@@ -14,7 +16,15 @@ class PlotDetails extends StatefulWidget {
   final List data_to_plot;
   final List long_data;
 
-  const PlotDetails({Key key, this.touchedIndex, this.touchedScale, this.data_to_plot, this.long_data})
+  final bool showAbnormalDots;
+
+  const PlotDetails(
+      {Key key,
+      this.touchedIndex,
+      this.touchedScale,
+      this.data_to_plot,
+      this.long_data,
+      this.showAbnormalDots = false})
       : super(key: key);
 
   @override
@@ -27,36 +37,35 @@ class _PlotDetailsState extends State<PlotDetails> {
   List _data_to_plot;
   double _maxX_range;
   bool isRangeOnSpecificHour = false;
-  bool isEmergencyDotOn = false;
+  bool isEmergencyDotOn = false; //false
   bool isStdDeviationOn24HoursGraph = false;
   List _long_data;
-  double _currentSliderValue = 60;
+  double _currentSliderValue = 30;
   List _demo_chart;
   int _typeOfTimeInterval;
 
+  Random random = new Random();
+  int randomInt = 0;
 
   List<Color> gradientColors = [
     const Color(0xff23b6e6),
     //const Color(0xff02d39a),
   ];
 
-  void initial_data_process(List data)
-  {
-    // int length = data.length;
-    // List sub_data = data.sublist(length-1200,length);
-    _long_data = processRange(data, 20, "hr");
-    // dataIndex_to_show = 1;   // 0 = min, 1 = average, 2 = max
-    // maxX_range = dataToPlot.length*1.0;
-  }
-  String getTimes (int timeToAdd, String typeOfTime)
-  {
+  // void initial_data_process(List data) {
+  //   // int length = data.length;
+  //   // List sub_data = data.sublist(length-1200,length);
+  //   _long_data = processRange(data, 20, "hr");
+  //   // dataIndex_to_show = 1;   // 0 = min, 1 = average, 2 = max
+  //   // maxX_range = dataToPlot.length*1.0;
+  // }
 
-    DateTime now = DateTime.now();
+  String getTimes(int timeToAdd, String typeOfTime) {
+    final DateTime now = DateTime.now();
     //String formattedDate = DateFormat().add_jm().format(now);
     //print(formattedDate);
 
-    switch(typeOfTime)
-        {
+    switch (typeOfTime) {
       case 'min':
         DateTime add15Minutes = now.subtract(new Duration(minutes: timeToAdd));
         String formattedDate = DateFormat().add_jm().format(add15Minutes);
@@ -73,7 +82,6 @@ class _PlotDetailsState extends State<PlotDetails> {
         DateTime add15Minutes = now.subtract(new Duration(minutes: timeToAdd));
         String formattedDate = DateFormat().add_jm().format(add15Minutes);
         return formattedDate;
-
     }
   }
 
@@ -82,13 +90,17 @@ class _PlotDetailsState extends State<PlotDetails> {
     _touchedIndex = widget.touchedIndex;
     _touchedScale = widget.touchedScale;
     _data_to_plot = widget.data_to_plot;
-    _maxX_range = _data_to_plot.length*1.0;
+    _maxX_range = _data_to_plot.length * 1.0;
     _long_data = widget.long_data;
     _long_data = processRange(_long_data, 20, "hr");
+
+    isEmergencyDotOn = widget.showAbnormalDots; //false as default
+
+    randomInt = random.nextInt(3);
+
     super.initState();
 
-    switch(_touchedScale)
-    {
+    switch (_touchedScale) {
       case 'min':
         _typeOfTimeInterval = 15;
         break;
@@ -117,16 +129,14 @@ class _PlotDetailsState extends State<PlotDetails> {
           Container(
             padding: EdgeInsets.all(15),
             child: Center(
-              child: Text("Data for hour: $_touchedIndex", style: TextStyle(fontWeight: FontWeight.bold, color: AppColors.textColor)),
+              child: Text("Data for hour: $_touchedIndex",
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold, color: AppColors.textColor)),
             ),
           ),
           Container(
-
-
             width: 335,
             height: 300,
-
-
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(8),
               color: Colors.grey[100],
@@ -136,113 +146,159 @@ class _PlotDetailsState extends State<PlotDetails> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-
                     SizedBox(
                       height: 20,
-                      child: FlatButton(onPressed: (){
-                        if(isRangeOnSpecificHour)
-                        {
-                          setState(() {
-                            isRangeOnSpecificHour = false;
-                          });
-
-                        }
-                        else {
-                          setState(() {
-                            isRangeOnSpecificHour = true;
-                          });
-                        }
-                      }, child: Padding(
-                        padding: const EdgeInsets.fromLTRB(0, 0, 20, 0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            Text("---- ", style: TextStyle(color: isRangeOnSpecificHour? Colors.redAccent: Colors.grey, fontWeight: FontWeight.bold, fontSize: 20),),
-                            Text("Range", style: TextStyle(color: AppColors.textColor, fontSize: 12,),),
-                            Icon(Icons.fiber_manual_record_rounded, color: isRangeOnSpecificHour? Colors.green: Colors.grey, size: 10,),
-
-                          ],
-                        ),
-                      )),
+                      child: FlatButton(
+                          onPressed: () {
+                            if (isRangeOnSpecificHour) {
+                              setState(() {
+                                isRangeOnSpecificHour = false;
+                              });
+                            } else {
+                              setState(() {
+                                isRangeOnSpecificHour = true;
+                              });
+                            }
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.fromLTRB(0, 0, 20, 0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Text(
+                                  "---- ",
+                                  style: TextStyle(
+                                      color: isRangeOnSpecificHour
+                                          ? Colors.redAccent
+                                          : Colors.grey,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20),
+                                ),
+                                Text(
+                                  "Range",
+                                  style: TextStyle(
+                                    color: AppColors.textColor,
+                                    fontSize: 12,
+                                  ),
+                                ),
+                                Icon(
+                                  Icons.fiber_manual_record_rounded,
+                                  color: isRangeOnSpecificHour
+                                      ? Colors.green
+                                      : Colors.grey,
+                                  size: 10,
+                                ),
+                              ],
+                            ),
+                          )),
                     ),
                     SizedBox(
                       height: 20,
-                      child: FlatButton(onPressed: (){
-                        if(isEmergencyDotOn)
-                        {
-                          setState(() {
-                            isEmergencyDotOn = false;
-                          });
-
-                        }
-                        else {
-                          setState(() {
-                            isEmergencyDotOn = true;
-                          });
-                        }
-                      }, child: Padding(
-                        padding: const EdgeInsets.fromLTRB(0, 0, 20, 0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            Text("---- ", style: TextStyle(color: isEmergencyDotOn? Colors.redAccent: Colors.grey, fontWeight: FontWeight.bold, fontSize: 20),),
-                            Text("Emergency Dot", style: TextStyle(color: AppColors.textColor, fontSize: 12),),
-                            Icon(Icons.fiber_manual_record_rounded, color: isEmergencyDotOn? Colors.green: Colors.grey, size: 10,),
-
-                          ],
-                        ),
-                      )),
+                      child: FlatButton(
+                          onPressed: () {
+                            if (isEmergencyDotOn) {
+                              setState(() {
+                                isEmergencyDotOn = false;
+                              });
+                            } else {
+                              setState(() {
+                                isEmergencyDotOn = true;
+                              });
+                            }
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.fromLTRB(0, 0, 20, 0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Text(
+                                  "---- ",
+                                  style: TextStyle(
+                                      color: isEmergencyDotOn
+                                          ? Colors.redAccent
+                                          : Colors.grey,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20),
+                                ),
+                                Text(
+                                  "Emergency Dot",
+                                  style: TextStyle(
+                                      color: AppColors.textColor, fontSize: 12),
+                                ),
+                                Icon(
+                                  Icons.fiber_manual_record_rounded,
+                                  color: isEmergencyDotOn
+                                      ? Colors.green
+                                      : Colors.grey,
+                                  size: 10,
+                                ),
+                              ],
+                            ),
+                          )),
                     ),
                     SizedBox(
                       height: 25,
-                      child: FlatButton(onPressed: (){
-                        if(isStdDeviationOn24HoursGraph)
-                        {
-                          setState(() {
-                            isStdDeviationOn24HoursGraph = false;
-                          });
-
-                        }
-                        else {
-                          setState(() {
-                            isStdDeviationOn24HoursGraph = true;
-                          });
-                        }
-                      }, child: Padding(
-                        padding: const EdgeInsets.fromLTRB(0, 0, 20, 0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            Text("---- ", style: TextStyle(color: isStdDeviationOn24HoursGraph? Colors.black54: Colors.grey, fontWeight: FontWeight.bold, fontSize: 20),),
-                            Text("Standard Deviation", style: TextStyle(color: AppColors.textColor),),
-                            Icon(Icons.fiber_manual_record_rounded, color: isStdDeviationOn24HoursGraph? Colors.green: Colors.grey, size: 10,),
-
-                          ],
-                        ),
-                      )),
+                      child: FlatButton(
+                          onPressed: () {
+                            if (isStdDeviationOn24HoursGraph) {
+                              setState(() {
+                                isStdDeviationOn24HoursGraph = false;
+                              });
+                            } else {
+                              setState(() {
+                                isStdDeviationOn24HoursGraph = true;
+                              });
+                            }
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.fromLTRB(0, 0, 20, 0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Text(
+                                  "---- ",
+                                  style: TextStyle(
+                                      color: isStdDeviationOn24HoursGraph
+                                          ? Colors.black54
+                                          : Colors.grey,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20),
+                                ),
+                                Text(
+                                  "Standard Deviation",
+                                  style: TextStyle(color: AppColors.textColor),
+                                ),
+                                Icon(
+                                  Icons.fiber_manual_record_rounded,
+                                  color: isStdDeviationOn24HoursGraph
+                                      ? Colors.green
+                                      : Colors.grey,
+                                  size: 10,
+                                ),
+                              ],
+                            ),
+                          )),
                     ),
                   ],
                 ),
                 Expanded(
                   child: LineChart(
                     LineChartData(
-                      extraLinesData:
-                      isRangeOnSpecificHour?
-                      ExtraLinesData(horizontalLines: [
-                        HorizontalLine(
-                          y: 75,
-                          color: Colors.redAccent,
-                          strokeWidth: 1,
-                        ),
-                        HorizontalLine(
-                          y: 85,
-                          color: Colors.redAccent,
-
-                        )
-
-                      ],
-
-                      ): ExtraLinesData(),
+                      extraLinesData: isRangeOnSpecificHour
+                          ? ExtraLinesData(
+                              horizontalLines: [
+                                HorizontalLine(
+                                  y: 75,
+                                  color: Colors.redAccent,
+                                  strokeWidth: 1,
+                                ),
+                                HorizontalLine(
+                                  y: 85,
+                                  color: Colors.redAccent,
+                                )
+                              ],
+                            )
+                          : ExtraLinesData(),
 
                       minX: 0,
                       maxX: _maxX_range,
@@ -253,12 +309,9 @@ class _PlotDetailsState extends State<PlotDetails> {
                             showTitles: true,
                             reservedSize: 6,
                             getTitles: (value) {
-                              if(value.toInt()%(_maxX_range/3)==0)
-                              {
+                              if (value.toInt() % (_maxX_range / 3) == 0) {
                                 return getTimes(value.toInt(), _touchedScale);
-                              }
-                              else
-                              {
+                              } else {
                                 return '';
                               }
                               // switch (value.toInt()) {
@@ -305,16 +358,19 @@ class _PlotDetailsState extends State<PlotDetails> {
                           barWidth: 3,
                           isStrokeCapRound: true,
 
-                          dotData:
-                          isEmergencyDotOn?
-                          FlDotData(show: true,
-                              checkToShowDot: (spot, belowBarData) {
-                                return spot.y > 85;
-                              },
-                            getDotPainter: (spot, percent, barData, index) =>
-                                //FlDotCirclePainter(radius: 5, color: Colors.red.withOpacity(0.5)),
-                            FlDotCirclePainter(radius: 3, color: Colors.redAccent),
-                          ):FlDotData(show: false),
+                          dotData: isEmergencyDotOn
+                              ? FlDotData(
+                                  show: true,
+                                  checkToShowDot: (spot, belowBarData) {
+                                    return spot.y > 85;
+                                  },
+                                  getDotPainter: (spot, percent, barData,
+                                          index) =>
+                                      //FlDotCirclePainter(radius: 5, color: Colors.red.withOpacity(0.5)),
+                                      FlDotCirclePainter(
+                                          radius: 3, color: Colors.redAccent),
+                                )
+                              : FlDotData(show: false),
 
                           //barWidth: 1,
                           belowBarData: BarAreaData(
@@ -324,29 +380,25 @@ class _PlotDetailsState extends State<PlotDetails> {
                                   .toList()),
                         ),
                         LineChartBarData(
-                          spots: generateHourlySpots(_data_to_plot,3),
+                          spots: generateHourlySpots(_data_to_plot, 3),
                           isCurved: true,
                           colors: [Colors.grey],
                           barWidth: 1,
                           isStrokeCapRound: true,
                           dotData: FlDotData(show: false),
-                          show: isStdDeviationOn24HoursGraph?true:false,
+                          show: isStdDeviationOn24HoursGraph ? true : false,
                           //barWidth: 1,
-
                         ),
 
-
-
                         LineChartBarData(
-                          spots: generateHourlySpots(_data_to_plot,4),
+                          spots: generateHourlySpots(_data_to_plot, 4),
                           isCurved: true,
                           colors: [Colors.grey],
                           barWidth: 1,
                           isStrokeCapRound: true,
                           dotData: FlDotData(show: false),
-                          show: isStdDeviationOn24HoursGraph?true:false,
+                          show: isStdDeviationOn24HoursGraph ? true : false,
                           //barWidth: 1,
-
                         ),
                       ],
                       axisTitleData: FlAxisTitleData(
@@ -392,18 +444,11 @@ class _PlotDetailsState extends State<PlotDetails> {
                     ),
                   ),
                 ),
-
-
-
-
               ],
-
             ),
-
-
           ),
           Container(
-            padding: EdgeInsets.fromLTRB(15, 15, 15, 15),
+            padding: EdgeInsets.fromLTRB(15, 15, 15, 0),
             child: Slider(
                 value: _currentSliderValue,
                 min: 15,
@@ -415,7 +460,28 @@ class _PlotDetailsState extends State<PlotDetails> {
                   setState(() {
                     _currentSliderValue = value;
                   });
-                }
+                }),
+          ),
+          Text(
+            'Use slider to change the timeline',
+            style: TextStyle(
+                color: AppColors.textColor, fontStyle: FontStyle.italic),
+          ),
+          Container(
+            padding: EdgeInsets.all(30),
+            child: ButtonWidget(
+              buttonTitle: 'Goto full history',
+              buttonHeight: 50,
+              onTapFunction: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => AbnormalVsBoard(
+                      selectedIndexToOpen: 1,
+                    ),
+                  ),
+                );
+              },
             ),
           ),
         ],
@@ -425,20 +491,23 @@ class _PlotDetailsState extends State<PlotDetails> {
 
   updateRange(int rangeVal) {
     if (rangeVal != -1) {
-      rangeVal = rangeVal * 20;
-      _demo_chart = _long_data.getRange(_long_data.length - rangeVal, _long_data.length).toList();
+      rangeVal = rangeVal;
+      _demo_chart = _long_data
+          .getRange(_long_data.length - rangeVal, _long_data.length)
+          .toList();
     } else {
       _demo_chart = _long_data;
     }
     setState(() {
       _maxX_range = 1.00 * _demo_chart.length;
       _data_to_plot = _demo_chart;
+      print('len---> ${_data_to_plot.length}');
     });
   }
-Random random = new Random();
+
   List<FlSpot> generateHourlySpots(List data_to_plot, int index) {
     List<FlSpot> spots = data_to_plot.asMap().entries.map((e) {
-      double y = double.tryParse((e.value[index]+ random.nextInt(3)).toString());
+      double y = double.tryParse((e.value[index] + randomInt).toString());
       return FlSpot(e.key.toDouble(), y);
     }).toList();
 

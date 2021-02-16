@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:csv/csv.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -17,6 +19,7 @@ class docVsVisualizerPage extends StatefulWidget {
   final String doc_rr;
   final String doc_spo2;
   final String doc_temp;
+  final String doc_bp;
 
   const docVsVisualizerPage(
       {Key key,
@@ -24,7 +27,8 @@ class docVsVisualizerPage extends StatefulWidget {
       this.doc_hr = '78',
       this.doc_rr = '16',
       this.doc_spo2 = '99',
-      this.doc_temp = '37'})
+      this.doc_temp = '37',
+      this.doc_bp = '125/85'})
       : super(key: key);
 
   @override
@@ -33,6 +37,12 @@ class docVsVisualizerPage extends StatefulWidget {
 
 class _docVsVisualizerPageState extends State<docVsVisualizerPage> {
   List<dynamic> historyData = [];
+
+  String _doc_hr;
+  String _doc_rr;
+  String _doc_spo2;
+  String _doc_temp;
+  String _doc_bp;
 
   loadAsset() async {
     final myData = await rootBundle.loadString("assets/csv/dummy2.csv");
@@ -50,18 +60,38 @@ class _docVsVisualizerPageState extends State<docVsVisualizerPage> {
   void initState() {
     loadAsset();
 
+    _doc_hr = widget.doc_hr;
+    _doc_rr = widget.doc_rr;
+    _doc_spo2 = widget.doc_spo2;
+    _doc_temp = widget.doc_temp;
+    _doc_bp = widget.doc_bp;
+
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    Random random = new Random();
+    int sbp = 124 + random.nextInt(7);
+    int dbp = 85 + random.nextInt(4);
+    String rand_bp_to_show = '$sbp/$dbp';
+
+    _doc_hr = (80 + random.nextInt(40)).toString();
+    _doc_hr = (120).toString();
+
+    _doc_rr = (16 + random.nextInt(5)).toString();
+    _doc_spo2 = (99 - random.nextInt(4)).toString();
+    _doc_temp = (36.5 + random.nextInt(2)).toString();
+    _doc_temp = (37 + random.nextInt(1)).toString();
+    _doc_bp = rand_bp_to_show;
+
     return LayoutBuilder(
       builder: (context, constraints) {
         return Scaffold(
           resizeToAvoidBottomPadding: false,
           appBar: CustomAppBar(
             turnOffBackButton: false,
-            turnOffSettingsButton: true,
+            turnOffSettingsButton: false,
             height: 130, //no use of this fixed height
           ),
           body: SingleChildScrollView(
@@ -84,8 +114,7 @@ class _docVsVisualizerPageState extends State<docVsVisualizerPage> {
                     ],
                   ),
                   Container(
-                    padding:
-                        EdgeInsets.only(top: 20.0, left: 20.0, right: 20.0),
+                    padding: EdgeInsets.only(top: 0.0, left: 20.0, right: 20.0),
                     child: Column(
                       children: <Widget>[
                         Center(
@@ -110,7 +139,7 @@ class _docVsVisualizerPageState extends State<docVsVisualizerPage> {
                                       title: "Heart Rate",
                                       iconPath: 'assets/icons/hr_icon.png',
                                       valueUnit: 'bpm',
-                                      valueToShow: '${widget.doc_hr}',
+                                      valueToShow: '${_doc_hr}',
                                       press: () {
                                         if (historyData.length > 0) {
                                           Navigator.of(context).push(
@@ -146,7 +175,7 @@ class _docVsVisualizerPageState extends State<docVsVisualizerPage> {
                                       title: "Temperature",
                                       iconPath: 'assets/icons/temp_icon.png',
                                       valueUnit: '°C',
-                                      valueToShow: '${widget.doc_temp}',
+                                      valueToShow: '${_doc_temp}',
                                       press: () {
                                         if (historyData.length > 0) {
                                           Navigator.of(context).push(
@@ -185,11 +214,11 @@ class _docVsVisualizerPageState extends State<docVsVisualizerPage> {
                             ),
                           ),
                         ),
-                        SizedBox(height: 10),
+                        SizedBox(height: 0),
                         Center(
                           child: Container(
                             padding: EdgeInsets.only(
-                                left: 0, top: 20, right: 0, bottom: 20),
+                                left: 0, top: 10, right: 0, bottom: 20),
                             width: double.infinity,
                             decoration: BoxDecoration(
                               color: AppColors.deccolor3.withOpacity(.1),
@@ -229,7 +258,7 @@ class _docVsVisualizerPageState extends State<docVsVisualizerPage> {
                                       Row(
                                         children: <Widget>[
                                           Text(
-                                            '${widget.doc_spo2}',
+                                            '${_doc_spo2}',
                                             textAlign: TextAlign.start,
                                             style: TextStyle(
                                               fontWeight: FontWeight.bold,
@@ -295,7 +324,7 @@ class _docVsVisualizerPageState extends State<docVsVisualizerPage> {
                                       Row(
                                         children: <Widget>[
                                           Text(
-                                            '${widget.doc_rr}',
+                                            '${_doc_rr}',
                                             textAlign: TextAlign.start,
                                             style: TextStyle(
                                               fontWeight: FontWeight.bold,
@@ -317,12 +346,97 @@ class _docVsVisualizerPageState extends State<docVsVisualizerPage> {
                             ),
                           ),
                         ),
+                        SizedBox(height: 10),
+                        Center(
+                          child: Container(
+                            padding: EdgeInsets.only(
+                                left: 0, top: 20, right: 0, bottom: 20),
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                              color: AppColors.deccolor3.withOpacity(.1),
+                              borderRadius: BorderRadius.circular(25),
+//                      boxShadow: [
+//                        BoxShadow(
+//                          color: Colors.grey.withOpacity(0.05),
+//                          spreadRadius: 1,
+//                          blurRadius: 1,
+//                          offset: Offset(1, 2), // changes position of shadow
+//                        ),
+//                      ],
+                            ),
+                            child: Row(
+                              children: <Widget>[
+                                Container(
+                                  alignment: Alignment.center,
+//                          height: 40,
+                                  width: 60,
+                                  child:
+                                      Image.asset('assets/icons/bp_icon.png'),
+                                ),
+                                SizedBox(width: 10),
+                                Padding(
+                                  padding: const EdgeInsets.all(0.0),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                      Text(
+                                        'Blood Pressure',
+                                        style: TextStyle(
+                                            color: AppColors.textColor,
+                                            fontSize: 17),
+                                      ),
+//                              SizedBox(height: 4),
+                                      Row(
+                                        children: <Widget>[
+                                          Text(
+                                            '${_doc_bp}', //widget.doc_bp
+                                            textAlign: TextAlign.start,
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 35,
+                                            ),
+                                          ),
+                                          SizedBox(width: 3),
+                                          Text(
+                                            'mmHg',
+                                            style: TextStyle(fontSize: 20),
+//                                    textAlign: TextAlign.end,
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
                       ],
                     ),
                   ),
                 ],
               ),
             ),
+          ),
+          bottomNavigationBar: BottomNavigationBar(
+            items: const <BottomNavigationBarItem>[
+              BottomNavigationBarItem(
+                icon: Icon(Icons.home),
+                title: Text('Home'),
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.assessment),
+                title: Text('History'),
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.warning),
+                title: Text('HELP'),
+              ),
+            ],
+            currentIndex: 0,
+            selectedItemColor: AppColors.deccolor1,
+            // onTap: _onItemTapped,
           ),
         );
       },

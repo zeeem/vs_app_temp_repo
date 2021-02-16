@@ -7,6 +7,7 @@ import 'package:vital_signs_ui_template/Processing/AlertSystem/AlertManagerPoint
 import 'package:vital_signs_ui_template/core/configVS.dart';
 import 'package:vital_signs_ui_template/elements/ButtonWidget.dart';
 import 'package:vital_signs_ui_template/elements/CustomAppBar.dart';
+import 'package:vital_signs_ui_template/pages/Dashboard/AbnormalVsBoard.dart';
 
 class AlertHomePage extends StatelessWidget {
   final String alert_text;
@@ -130,4 +131,115 @@ _playWarningSound() async {
     return pool.load(soundData);
   });
   int streamId = await pool.play(soundId);
+}
+
+class AlterWindowV2 extends StatelessWidget {
+  final String alert_text;
+  final int backButtonType;
+
+  const AlterWindowV2(
+      {Key key,
+      this.alert_text = 'Your Trusted Contacts',
+      this.backButtonType = 1})
+      : super(key: key);
+
+  static double btn_height = 45;
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      child: Column(
+        children: <Widget>[
+          Container(
+            child: Column(
+              children: <Widget>[
+                Container(
+                  padding: EdgeInsets.fromLTRB(50, 40, 50, 0.0),
+                  child: Align(
+                    child: Image.asset(
+                      "assets/images/vs_avatar_01.png",
+                      scale: 1,
+                    ),
+                  ),
+                ),
+                Container(
+                  padding: EdgeInsets.fromLTRB(40, 20, 40, 0.0),
+                  child: Text(
+                    '$alert_text',
+                    style:
+                        TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+                    textAlign: TextAlign.center,
+                  ),
+                )
+              ],
+            ),
+          ),
+          Container(
+            padding: EdgeInsets.only(top: 20.0, left: 20.0, right: 20.0),
+            child: Column(
+              children: <Widget>[
+                ButtonWidget(
+                  buttonTitle:
+                      'CALL ${profileData.DOCTOR_FULL_NAME ?? 'Hospital'}',
+                  buttonHeight: btn_height,
+                  secondaryButtonStyle: 2,
+                  onTapFunction: () {
+                    _callNumber('7804445140');
+                  },
+                ),
+                ButtonWidget(
+                  buttonTitle:
+                      'CALL ${profileData.EMERGENCY_CONTACT_1_NAME ?? 'Daughter: Alison'}',
+                  buttonHeight: btn_height,
+                  onTapFunction: () {
+                    _callNumber(profileData.EMERGENCY_CONTACT_1_PHONE);
+                  },
+                ),
+                ButtonWidget(
+                  buttonTitle:
+                      'CALL ${profileData.EMERGENCY_CONTACT_2_NAME ?? 'Son: Brandon'}',
+                  buttonHeight: btn_height,
+                  onTapFunction: () {
+                    _callNumber(profileData.EMERGENCY_CONTACT_2_PHONE);
+                  },
+                ),
+                ButtonWidget(
+                  buttonTitle:
+                      'CALL ${profileData.EMERGENCY_CONTACT_3_NAME ?? 'Steve'}',
+                  buttonHeight: btn_height,
+                  onTapFunction: () {
+                    _callNumber(profileData.EMERGENCY_CONTACT_3_PHONE);
+                  },
+                ),
+                ButtonWidget(
+                  buttonTitle: backButtonType <= 1
+                      ? 'CANCEL'
+                      : 'I\'M OK! CHECK AGAIN IN 1H',
+                  secondaryButtonStyle: 4,
+                  buttonHeight: 50,
+                  onTapFunction: () {
+                    if (backButtonType <= 1) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => AbnormalVsBoard(
+                            selectedIndexToOpen: 0,
+                          ),
+                        ),
+                      );
+                    } else {
+                      //delaying alarm for 1 hr
+                      alertManager.delayAlarm();
+                      Navigator.pop(context);
+                    }
+                  },
+                ),
+              ],
+            ),
+          ),
+//            SizedBox(height: 30),
+        ],
+      ),
+    );
+  }
 }
