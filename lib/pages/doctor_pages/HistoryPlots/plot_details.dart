@@ -13,6 +13,7 @@ import 'package:intl/intl.dart';
 class PlotDetails extends StatefulWidget {
   final int touchedIndex;
   final String touchedScale;
+  final String touchedVSType;
   final List data_to_plot;
   final List long_data;
 
@@ -24,7 +25,8 @@ class PlotDetails extends StatefulWidget {
       this.touchedScale,
       this.data_to_plot,
       this.long_data,
-      this.showAbnormalDots = false})
+      this.showAbnormalDots = false,
+        this.touchedVSType = ''})
       : super(key: key);
 
   @override
@@ -36,12 +38,17 @@ class _PlotDetailsState extends State<PlotDetails> {
   String _touchedScale;
   List _data_to_plot;
   double _maxX_range;
+  String _touchedVSType;
   bool isRangeOnSpecificHour = false;
   bool isEmergencyDotOn = false; //false
   bool isStdDeviationOn24HoursGraph = false;
   List _long_data;
   double _currentSliderValue = 30;
   List _demo_chart;
+  double _yMinRange;
+  double _yMaxRange;
+  double _normalRange1 = 75;
+  double _normalRange2 = 85;
   int _typeOfTimeInterval;
 
   Random random = new Random();
@@ -92,11 +99,12 @@ class _PlotDetailsState extends State<PlotDetails> {
     _data_to_plot = widget.data_to_plot;
     _maxX_range = _data_to_plot.length * 1.0;
     _long_data = widget.long_data;
+    _touchedVSType = widget.touchedVSType;
     _long_data = processRange(_long_data, 20, "hr");
 
     isEmergencyDotOn = widget.showAbnormalDots; //false as default
 
-    randomInt = random.nextInt(3);
+
 
     super.initState();
 
@@ -112,6 +120,28 @@ class _PlotDetailsState extends State<PlotDetails> {
         break;
       default:
         _typeOfTimeInterval = 1;
+    }
+
+    switch (_touchedVSType)
+    {
+      case 'hr':
+        _yMinRange = 30;
+        _yMaxRange = 150;
+        randomInt = random.nextInt(3);
+        _normalRange1 = 75;
+        _normalRange2 = 90;
+        break;
+      case 'temp':
+        _yMinRange = 30;
+        _yMaxRange = 45;
+        break;
+      case 'spo2':
+        _yMinRange = 85;
+        _yMaxRange = 105;
+        randomInt = 10;
+        _normalRange1 = 95;
+        _normalRange2 = 95;
+        break;
     }
   }
 
@@ -288,12 +318,12 @@ class _PlotDetailsState extends State<PlotDetails> {
                           ? ExtraLinesData(
                               horizontalLines: [
                                 HorizontalLine(
-                                  y: 75,
+                                  y: _normalRange1,
                                   color: Colors.redAccent,
                                   strokeWidth: 1,
                                 ),
                                 HorizontalLine(
-                                  y: 85,
+                                  y: _normalRange2,
                                   color: Colors.redAccent,
                                 )
                               ],
@@ -302,8 +332,8 @@ class _PlotDetailsState extends State<PlotDetails> {
 
                       minX: 0,
                       maxX: _maxX_range,
-                      minY: 30,
-                      maxY: 150,
+                      minY: _yMinRange,
+                      maxY: _yMaxRange,
                       titlesData: FlTitlesData(
                         bottomTitles: SideTitles(
                             showTitles: true,
@@ -332,18 +362,37 @@ class _PlotDetailsState extends State<PlotDetails> {
                         leftTitles: SideTitles(
                           showTitles: true,
                           getTitles: (value) {
-                            switch (value.toInt()) {
-                              case 50:
-                                return '50';
-                              case 75:
-                                return '75';
-                              case 100:
-                                return '100';
-                              case 125:
-                                return '125';
-                              default:
+                            if (_touchedVSType == 'spo2'){
+                              if (value.toInt() % 5 == 0 && value.toInt()<=100) {
+                                return value.toInt().toString() + '%';
+                              } else {
                                 return '';
+                              }
                             }
+                            else if (_touchedVSType == 'temp')
+                              {
+                                if (value.toInt() % 5 == 0) {
+                                  return value.toString() + '°C';
+                                } else {
+                                  return '';
+                                }
+                              }
+                            else {
+                              switch (value.toInt()) {
+                                case 50:
+                                  return '50';
+                                case 75:
+                                  return '75';
+                                case 100:
+                                  return '100';
+                                case 125:
+                                  return '125';
+                                default:
+                                  return '';
+                              }
+                            }
+
+
                           },
                         ),
                       ),

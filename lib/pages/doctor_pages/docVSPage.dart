@@ -21,6 +21,7 @@ class docVsVisualizerPage extends StatefulWidget {
   final String doc_temp;
   final String doc_bp;
 
+
   const docVsVisualizerPage(
       {Key key,
       this.clicked_user,
@@ -242,38 +243,53 @@ class _docVsVisualizerPageState extends State<docVsVisualizerPage> {
                                       Image.asset('assets/icons/spo2_icon.png'),
                                 ),
                                 SizedBox(width: 10),
-                                Padding(
-                                  padding: const EdgeInsets.all(0.0),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: <Widget>[
-                                      Text(
-                                        'Oxygen Saturation',
-                                        style: TextStyle(
-                                            color: AppColors.textColor,
-                                            fontSize: 17),
-                                      ),
+                                GestureDetector(
+                                  onTap: (){
+                                    if (historyData.length > 0) {
+                                      Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                              builder:
+                                                  (BuildContext context) =>
+                                                  HistoryPlot(
+                                                    data: historyData,
+                                                    expandedTitle:
+                                                    'spo2',
+                                                  )));
+                                    }
+                                  },
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(0.0),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: <Widget>[
+                                        Text(
+                                          'Oxygen Saturation',
+                                          style: TextStyle(
+                                              color: AppColors.textColor,
+                                              fontSize: 17),
+                                        ),
 //                              SizedBox(height: 4),
-                                      Row(
-                                        children: <Widget>[
-                                          Text(
-                                            '${_doc_spo2}',
-                                            textAlign: TextAlign.start,
-                                            style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 35,
+                                        Row(
+                                          children: <Widget>[
+                                            Text(
+                                              '${_doc_spo2}',
+                                              textAlign: TextAlign.start,
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 35,
+                                              ),
                                             ),
-                                          ),
-                                          SizedBox(width: 3),
-                                          Text(
-                                            '%',
-                                            style: TextStyle(fontSize: 20),
+                                            SizedBox(width: 3),
+                                            Text(
+                                              '%',
+                                              style: TextStyle(fontSize: 20),
 //                                    textAlign: TextAlign.end,
-                                          ),
-                                        ],
-                                      ),
-                                    ],
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ],
