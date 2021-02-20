@@ -97,7 +97,7 @@ class _MyAppState extends State<MyApp> {
         fontFamily: "OpenSans",
       ),
       home: () {
-        return LoginPage(); //change to doctors page when needed
+        return AbnormalVsBoard(); //change to doctors page when needed
       }(), //docPatientListPage()LoginPage()AbnormalVsBoard
       // SplashScreen()UserSelectionPage
     );

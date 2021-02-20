@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:vital_signs_ui_template/pages/Dashboard/AbnormalVsBoard.dart';
 import 'package:vital_signs_ui_template/pages/doctor_pages/HistoryPlots/PlotDataProcessing.dart';
 import 'package:vital_signs_ui_template/pages/doctor_pages/HistoryPlots/plot_details.dart';
 
@@ -33,6 +34,10 @@ class alert_Card extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    List vsData_to_use = vs_data;
+    if (vs_data == null) {
+      vsData_to_use = tempStaticVals.historyplot;
+    }
     int bp_MAP = (1 / 3 * bp_val[0] + 2 / 3 * bp_val[1]).truncate();
     return Container(
         child: Column(
@@ -41,18 +46,18 @@ class alert_Card extends StatelessWidget {
           padding: EdgeInsets.fromLTRB(20, 5, 0, 5),
           child: Row(
             children: [
-              Text(
-                'Measured at: ',
-                style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black.withOpacity(.7)),
-              ),
+              // Text(
+              //   'Measured at: ',
+              //   style: TextStyle(
+              //       fontSize: 16,
+              //       fontWeight: FontWeight.bold,
+              //       color: Colors.black.withOpacity(.7)),
+              // ),
               Text(
                 getRandomTime(time_substract_val),
                 style: TextStyle(
                     fontSize: 16,
-                    // fontWeight: FontWeight.bold,
+                    fontWeight: FontWeight.bold,
                     color: Colors.black.withOpacity(.7)),
               ),
             ],
@@ -70,31 +75,8 @@ class alert_Card extends StatelessWidget {
                 valueUnit: 'bpm',
                 iconPath: 'assets/icons/hr_icon.png',
                 press: () async {
-                  // if (vs_data.length > 0) {
-                  //   Navigator.of(context).push(MaterialPageRoute(
-                  //       builder: (BuildContext context) => HistoryPlot(
-                  //             data: vs_data,
-                  //             expandedTitle: 'hr',
-                  //           )));
-                  // } else {
-                  //   return AlertDialog(
-                  //     title: Text('No history found'),
-                  //     content: Text('Do you want to try again?'),
-                  //     actions: <Widget>[
-                  //       FlatButton(
-                  //           onPressed: () {
-                  //             print('ignored');
-                  //           },
-                  //           child: Text('No')),
-                  //       new FlatButton(
-                  //           onPressed: () {
-                  //             // loadAsset();
-                  //           },
-                  //           child: new Text('Yes')),
-                  //     ],
-                  //   );
-                  // }
-                  List whole_day_data_hr = await initial_hourly_plot(vs_data);
+                  List whole_day_data_hr =
+                      await initial_hourly_plot(vsData_to_use);
 
                   List data_to_send = await processRange(
                       whole_day_data_hr.sublist(0, 600), 20); //30min data
@@ -108,6 +90,7 @@ class alert_Card extends StatelessWidget {
                         data_to_plot: data_to_send,
                         long_data: whole_day_data_hr,
                         showAbnormalDots: true,
+                        touchedVSType: 'hr',
                       ),
                     ),
                   );
@@ -129,7 +112,27 @@ class alert_Card extends StatelessWidget {
                 valueToShow: '$spo2_val',
                 valueUnit: '%',
                 iconPath: 'assets/icons/spo2_icon.png',
-                press: () {},
+                press: () async {
+                  List whole_day_data_hr =
+                      await initial_hourly_plot(vsData_to_use);
+
+                  List data_to_send = await processRange(
+                      whole_day_data_hr.sublist(0, 600), 20); //30min data
+                  //goto next page for details
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => PlotDetails(
+                        touchedIndex: 0,
+                        touchedScale: 'min', //hour,min,day
+                        data_to_plot: data_to_send,
+                        long_data: whole_day_data_hr,
+                        showAbnormalDots: true,
+                        touchedVSType: 'spo2',
+                      ),
+                    ),
+                  );
+                },
                 isAbnormal: spo2_alert,
               ),
               vs_item(
@@ -172,6 +175,9 @@ class alert_Card extends StatelessWidget {
   // static List hourlyDataToPlot_hr;
 
   List initial_hourly_plot(List data) {
+    if (data == null) {
+      data = tempStaticVals.historyplot;
+    }
     int length = data.length;
     List sub_data = data.sublist(length - 28800, length);
     List whole_day_data_hr = sub_data;

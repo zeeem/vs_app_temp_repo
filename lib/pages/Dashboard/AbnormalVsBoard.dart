@@ -8,16 +8,23 @@ import 'package:vital_signs_ui_template/pages/Dashboard/vs_item.dart';
 import 'package:intl/intl.dart';
 import 'package:vital_signs_ui_template/pages/doctor_pages/HistoryPlots/HistoryPlot.dart';
 import 'package:vital_signs_ui_template/pages/doctor_pages/HistoryPlots/HistoryPlot_element.dart';
+import 'package:vital_signs_ui_template/pages/doctor_pages/docVSPage.dart';
 
 import '../AlertHomePage.dart';
 import 'alert_Cards.dart';
 
+bool simulateDoctorBehavior = false;
+
 class AbnormalVsBoard extends StatefulWidget {
   final User clicked_user;
   final int selectedIndexToOpen;
+  final String openedHistoryVSType;
 
   const AbnormalVsBoard(
-      {Key key, this.clicked_user, this.selectedIndexToOpen = 0})
+      {Key key,
+      this.clicked_user,
+      this.selectedIndexToOpen = 0,
+      this.openedHistoryVSType})
       : super(key: key);
 
   @override
@@ -29,6 +36,7 @@ class _AbnormalVsBoardState extends State<AbnormalVsBoard> {
   String _userName;
   List<dynamic> historyData = [];
   int _selectedIndex = 0;
+  String _openedHistoryVSType;
 
   void _onItemTapped(int index) {
     setState(() {
@@ -73,7 +81,7 @@ class _AbnormalVsBoardState extends State<AbnormalVsBoard> {
       _userName = '';
     }
     _selectedIndex = 0;
-
+    _openedHistoryVSType = widget.openedHistoryVSType;
     _selectedIndex = widget.selectedIndexToOpen;
 
     // TODO: implement initState
@@ -119,15 +127,22 @@ class _AbnormalVsBoardState extends State<AbnormalVsBoard> {
                 child: () {
                   switch (_selectedIndex) {
                     case 0:
-                      return AbnormalVSList(
-                        userName: _userName,
-                        historyData: historyData,
-                      );
+                      _openedHistoryVSType = null;
+                      return doctorVSPage_element();
                     case 1:
-                      return HistoryPlotElement(
-                        data: historyData,
-                        expandedTitle: 'hr',
-                      );
+                      if (_openedHistoryVSType != null) {
+                        return HistoryPlotElement(
+                          data: historyData,
+                          expandedTitle: _openedHistoryVSType,
+                        );
+                      } else {
+                        return AbnormalVSList(
+                          userName: _userName,
+                          historyData: historyData,
+                        );
+                      }
+                      break;
+
                     // Navigator.push(
                     //   context,
                     //   MaterialPageRoute(
@@ -139,9 +154,17 @@ class _AbnormalVsBoardState extends State<AbnormalVsBoard> {
                     // );
                     // break;
                     case 2:
-                      return AlterWindowV2(
-                        alert_text: "Your trusted care-network.",
-                      );
+                      if (simulateDoctorBehavior) {
+                        return contactPatientPage(
+                          alert_text:
+                              "Do you want to call ${_userName.length > 0 ? _userName : 'Jon'}?",
+                        );
+                      } else {
+                        return AlterWindowV2(
+                          alert_text: "Your trusted care-network.",
+                        );
+                      }
+                      break;
 
                     default:
                       return AbnormalVSList(
@@ -155,7 +178,7 @@ class _AbnormalVsBoardState extends State<AbnormalVsBoard> {
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
+        items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
             title: Text('Home'),
@@ -166,7 +189,7 @@ class _AbnormalVsBoardState extends State<AbnormalVsBoard> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.warning),
-            title: Text('HELP'),
+            title: Text(simulateDoctorBehavior ? 'Contact' : 'HELP'),
           ),
         ],
         currentIndex: _selectedIndex,
@@ -199,7 +222,7 @@ class AbnormalVSList extends StatelessWidget {
                 child: Text(
                   (userName.length > 0)
                       ? 'History of $userName'
-                      : "Vital Signs History",
+                      : "Vital Sign History",
                   style: TextStyle(
                       fontSize: 25.0,
                       fontWeight: FontWeight.bold,
@@ -239,21 +262,21 @@ class AbnormalVSList extends StatelessWidget {
             height: 20,
           ),
           alert_Card(
-            hr_val: 120,
-            hr_alert: true,
+            hr_val: 100,
+            spo2_alert: true,
             temp_val: 37,
-            spo2_val: 98,
+            spo2_val: 89,
             rr_val: 15,
             bp_val: [125, 90],
             time_substract_val: Duration(minutes: 0),
             vs_data: tempStaticVals.historyplot,
           ),
           alert_Card(
-            hr_val: 80,
-            hr_alert: false,
-            temp_val: 39,
-            temp_alert: true,
-            spo2_val: 99,
+            hr_val: 130,
+            hr_alert: true,
+            temp_val: 37,
+            temp_alert: false,
+            spo2_val: 94,
             rr_val: 16,
             bp_val: [120, 85],
             time_substract_val: Duration(hours: 5),
@@ -264,7 +287,7 @@ class AbnormalVSList extends StatelessWidget {
             hr_alert: false,
             temp_val: 39.5,
             temp_alert: true,
-            spo2_val: 96,
+            spo2_val: 95,
             rr_val: 17,
             bp_val: [130, 98],
             time_substract_val: Duration(hours: 9),
@@ -292,5 +315,18 @@ class AbnormalVSList extends StatelessWidget {
 }
 
 class tempStaticVals {
-  static List historyplot;
+  static List<dynamic> historyplot;
+
+  static loadAsset() async {
+    final myData = await rootBundle.loadString("assets/csv/dummy2.csv");
+
+    //print(myData);
+    List<dynamic> csvTable = CsvToListConverter().convert(myData);
+    print(csvTable[0].last);
+
+    // historyData = csvTable;
+
+    tempStaticVals.historyplot = csvTable;
+    // print(historyData);
+  }
 }

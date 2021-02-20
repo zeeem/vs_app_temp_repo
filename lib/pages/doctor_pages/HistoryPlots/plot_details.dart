@@ -16,6 +16,7 @@ class PlotDetails extends StatefulWidget {
   final String touchedVSType;
   final List data_to_plot;
   final List long_data;
+  final String timeOfData;
 
   final bool showAbnormalDots;
 
@@ -26,7 +27,8 @@ class PlotDetails extends StatefulWidget {
       this.data_to_plot,
       this.long_data,
       this.showAbnormalDots = false,
-        this.touchedVSType = ''})
+      this.touchedVSType = '',
+      this.timeOfData})
       : super(key: key);
 
   @override
@@ -50,6 +52,9 @@ class _PlotDetailsState extends State<PlotDetails> {
   double _normalRange1 = 75;
   double _normalRange2 = 85;
   int _typeOfTimeInterval;
+  double _emergencyDotBracket;
+  DateTime now;
+  String _timeOfData;
 
   Random random = new Random();
   int randomInt = 0;
@@ -68,7 +73,7 @@ class _PlotDetailsState extends State<PlotDetails> {
   // }
 
   String getTimes(int timeToAdd, String typeOfTime) {
-    final DateTime now = DateTime.now();
+    // now = DateTime.now();
     //String formattedDate = DateFormat().add_jm().format(now);
     //print(formattedDate);
 
@@ -94,6 +99,7 @@ class _PlotDetailsState extends State<PlotDetails> {
 
   @override
   void initState() {
+    now = DateTime.now();
     _touchedIndex = widget.touchedIndex;
     _touchedScale = widget.touchedScale;
     _data_to_plot = widget.data_to_plot;
@@ -102,9 +108,10 @@ class _PlotDetailsState extends State<PlotDetails> {
     _touchedVSType = widget.touchedVSType;
     _long_data = processRange(_long_data, 20, "hr");
 
+    _timeOfData =
+        widget.timeOfData ?? DateFormat().add_Md().add_jm().format(now);
+
     isEmergencyDotOn = widget.showAbnormalDots; //false as default
-
-
 
     super.initState();
 
@@ -122,25 +129,27 @@ class _PlotDetailsState extends State<PlotDetails> {
         _typeOfTimeInterval = 1;
     }
 
-    switch (_touchedVSType)
-    {
+    switch (_touchedVSType) {
       case 'hr':
         _yMinRange = 30;
         _yMaxRange = 150;
         randomInt = random.nextInt(3);
         _normalRange1 = 75;
         _normalRange2 = 90;
+        _emergencyDotBracket = 85;
         break;
       case 'temp':
         _yMinRange = 30;
         _yMaxRange = 45;
+        _emergencyDotBracket = 38;
         break;
       case 'spo2':
         _yMinRange = 85;
         _yMaxRange = 105;
-        randomInt = 10;
-        _normalRange1 = 95;
-        _normalRange2 = 95;
+        randomInt = 8;
+        _normalRange1 = 94;
+        _normalRange2 = 94;
+        _emergencyDotBracket = 94;
         break;
     }
   }
@@ -159,7 +168,7 @@ class _PlotDetailsState extends State<PlotDetails> {
           Container(
             padding: EdgeInsets.all(15),
             child: Center(
-              child: Text("Data for hour: $_touchedIndex",
+              child: Text("Data from $_timeOfData",
                   style: TextStyle(
                       fontWeight: FontWeight.bold, color: AppColors.textColor)),
             ),
@@ -362,22 +371,20 @@ class _PlotDetailsState extends State<PlotDetails> {
                         leftTitles: SideTitles(
                           showTitles: true,
                           getTitles: (value) {
-                            if (_touchedVSType == 'spo2'){
-                              if (value.toInt() % 5 == 0 && value.toInt()<=100) {
+                            if (_touchedVSType == 'spo2') {
+                              if (value.toInt() % 5 == 0 &&
+                                  value.toInt() <= 100) {
                                 return value.toInt().toString() + '%';
                               } else {
                                 return '';
                               }
-                            }
-                            else if (_touchedVSType == 'temp')
-                              {
-                                if (value.toInt() % 5 == 0) {
-                                  return value.toString() + '°C';
-                                } else {
-                                  return '';
-                                }
+                            } else if (_touchedVSType == 'temp') {
+                              if (value.toInt() % 5 == 0) {
+                                return value.toString() + '°C';
+                              } else {
+                                return '';
                               }
-                            else {
+                            } else {
                               switch (value.toInt()) {
                                 case 50:
                                   return '50';
@@ -391,8 +398,6 @@ class _PlotDetailsState extends State<PlotDetails> {
                                   return '';
                               }
                             }
-
-
                           },
                         ),
                       ),
@@ -411,7 +416,9 @@ class _PlotDetailsState extends State<PlotDetails> {
                               ? FlDotData(
                                   show: true,
                                   checkToShowDot: (spot, belowBarData) {
-                                    return spot.y > 85;
+                                    return _touchedVSType == 'spo2'
+                                        ? (spot.y < _emergencyDotBracket)
+                                        : (spot.y > _emergencyDotBracket);
                                   },
                                   getDotPainter: (spot, percent, barData,
                                           index) =>
@@ -527,6 +534,7 @@ class _PlotDetailsState extends State<PlotDetails> {
                   MaterialPageRoute(
                     builder: (context) => AbnormalVsBoard(
                       selectedIndexToOpen: 1,
+                      openedHistoryVSType: 'spo2',
                     ),
                   ),
                 );
@@ -554,9 +562,14 @@ class _PlotDetailsState extends State<PlotDetails> {
     });
   }
 
-  List<FlSpot> generateHourlySpots(List data_to_plot, int index) {
+  List<FlSpot> generateHourlySpots(List data_to_plot, int index,
+      [int randomIntToRemove = 0]) {
+    // if(randomIntToRemove != 0){
+    //
+    // }
     List<FlSpot> spots = data_to_plot.asMap().entries.map((e) {
-      double y = double.tryParse((e.value[index] + randomInt).toString());
+      double y = double.tryParse(
+          (e.value[index] + randomInt - randomIntToRemove).toString());
       return FlSpot(e.key.toDouble(), y);
     }).toList();
 

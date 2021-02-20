@@ -35,7 +35,7 @@ class _HistoryPlotElementState extends State<HistoryPlotElement> {
   bool isRangeOn1HourGraph = false;
   bool isStdDeviationOn1HourGraph = false;
   bool isMinMaxOn1HourGraph = false;
-  bool isRangeOn24HoursGraph = false;
+  bool isRangeOn24HoursGraph = true;
   bool isStdDeviationOn24HoursGraph = false;
   bool isMinMaxOn24HoursGraph = true;
   bool isRangeOn3WeeksGraph = false;
@@ -59,6 +59,13 @@ class _HistoryPlotElementState extends State<HistoryPlotElement> {
   List<dynamic> whole_day_data_temp = [];
   double maxX_range_temp = 60;
   double maxX_range_hourly_temp = 24;
+
+  List<dynamic> dataToPlot_spo2 = [];
+  List<dynamic> hourlyDataToPlot_spo2 = [];
+  List<dynamic> demo_chart_spo2 = [];
+  List<dynamic> whole_day_data_spo2 = [];
+  double maxX_range_spo2 = 60;
+  double maxX_range_hourly_spo2 = 24;
 
   int dataIndex_to_show =
       0; // 0=hr, 1=rr, 2=spo2, 3=temp  - might need to change (min, max, median)
@@ -124,7 +131,15 @@ class _HistoryPlotElementState extends State<HistoryPlotElement> {
     maxX_range_temp = dataToPlot_temp.length * 1.0;
   }
 
-  void initial_hourly_plot(List data) {
+  void initial_plot_spo2(List data) {
+    int length = data.length;
+    List sub_data = data.sublist(length - 1200, length);
+    dataToPlot_spo2 = processRange(sub_data, 20, "spo2");
+    dataIndex_to_show = 1; // 0 = min, 1 = average, 2 = max
+    maxX_range_spo2 = dataToPlot_spo2.length * 1.0;
+  }
+
+  void initial_hourly_plot_hr(List data) {
     int length = data.length;
     List sub_data = data.sublist(length - 28800, length);
     whole_day_data_hr = sub_data;
@@ -133,8 +148,17 @@ class _HistoryPlotElementState extends State<HistoryPlotElement> {
     maxX_range_hourly_hr = hourlyDataToPlot_hr.length * 1.0;
   }
 
+  void initial_hourly_plot_sp02(List data) {
+    int length = data.length;
+    List sub_data = data.sublist(length - 28800, length);
+    whole_day_data_spo2 = sub_data;
+    hourlyDataToPlot_spo2 = processRange(sub_data, 1200, "spo2", 'median');
+    //dataIndex_to_show = 1;   // 0 = min, 1 = average, 2 = max
+    maxX_range_hourly_spo2 = hourlyDataToPlot_spo2.length * 1.0;
+  }
+
   String getTimes(int timeToAdd, String typeOfTime) {
-    DateTime now = DateTime.now();
+    final DateTime now = DateTime.now();
     //String formattedDate = DateFormat().add_jm().format(now);
     //print(formattedDate);
 
@@ -166,12 +190,15 @@ class _HistoryPlotElementState extends State<HistoryPlotElement> {
     initial_plot(data);
     initial_plot_temp(
         data); //Initial function to show last 1 hour data (1 min average)
-    initial_hourly_plot(data); //Initial hourly data
+    initial_hourly_plot_hr(data); //Initial hourly data
+    initial_plot_spo2(data);
+    initial_hourly_plot_sp02(data);
 
-    print(dataToPlot_hr);
     // random ints
     randomNumber7 = random.nextInt(7);
     randomNumber2 = random.nextInt(3);
+
+    print(dataToPlot_hr);
 
     switch (widget.expandedTitle) {
       case 'hr':
@@ -224,6 +251,7 @@ class _HistoryPlotElementState extends State<HistoryPlotElement> {
     // TODO: implement initState
     super.initState();
     // loadAsset();
+    print(randomNumber7);
   }
 
   List<Color> gradientColors = [
@@ -1031,6 +1059,7 @@ class _HistoryPlotElementState extends State<HistoryPlotElement> {
                                         touchedScale: 'hour', //hour,min,day
                                         data_to_plot: data_to_send,
                                         long_data: data,
+                                        touchedVSType: 'hr',
                                       ),
                                     ),
                                   );
@@ -1468,40 +1497,6 @@ class _HistoryPlotElementState extends State<HistoryPlotElement> {
                                 leftTitle: AxisTitle(
                                     showTitle: true, titleText: '', margin: 0),
                               ),
-                              // lineTouchData: LineTouchData(getTouchedSpotIndicator:
-                              //     (LineChartBarData barData,
-                              //         List<int> spotIndexes) {
-                              //   return spotIndexes.map((spotIndex) {
-                              //     final FlSpot spot = barData.spots[spotIndex];
-                              //
-                              //     _touchedIndex = spotIndex;
-                              //     _touchedSpotValue = spot
-                              //         .x; //double (getting the x value or y value)
-                              //
-                              //     // if (spot.x == 0 || spot.x == 30 || spot.x == 29) {
-                              //     //   return null;
-                              //     // }
-                              //   }).toList();
-                              // }, touchCallback: (LineTouchResponse touchResponse) {
-                              //   if (touchResponse.touchInput is FlPanEnd ||
-                              //       touchResponse.touchInput is FlLongPressEnd) {
-                              //     //goto next page for details
-                              //     Navigator.push(
-                              //       context,
-                              //       MaterialPageRoute(
-                              //         builder: (context) => PlotDetails(
-                              //           touchedIndex: _touchedIndex,
-                              //           touchedScale: 'hr',
-                              //         ),
-                              //       ),
-                              //     );
-                              //     setState(() {
-                              //       print('touched index---> $_touchedIndex');
-                              //     });
-                              //   } else {
-                              //     print('wait');
-                              //   }
-                              // }),
                             ),
                           ),
                         ],
@@ -2173,38 +2168,888 @@ class _HistoryPlotElementState extends State<HistoryPlotElement> {
               children: <Widget>[
                 Column(
                   children: <Widget>[
-                    LineChart(
-                      LineChartData(
-                        minX: 0,
-                        maxX: 2000,
-                        minY: 3000,
-                        maxY: 12000,
-                        titlesData: FlTitlesData(show: false),
-                        borderData: FlBorderData(show: false),
-                        gridData: FlGridData(show: false),
-                        lineBarsData: [
-                          //loadAsset(),
-                          LineChartBarData(
-                            spots:
-                                generateSpots(dataToPlot_hr, dataIndex_to_show),
-                            colors: [Colors.orange],
-                            dotData: FlDotData(show: false),
-                            barWidth: 1,
-                            belowBarData: BarAreaData(
-                                show: true,
-                                colors: [Colors.orangeAccent.withOpacity(.5)]),
+                    Container(
+                      width: 335,
+                      //height: 300,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8),
+                        color: Colors.grey[100],
+                      ),
+                      child: Column(
+                        children: [
+                          Container(
+                            padding: EdgeInsets.only(top: 10),
+                            child: Center(
+                              child: Text("Last 1 Hour",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: AppColors.textColor)),
+                            ),
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              SizedBox(
+                                height: 25,
+                                child: FlatButton(
+                                    onPressed: () {
+                                      if (isRangeOn1HourGraph) {
+                                        setState(() {
+                                          isRangeOn1HourGraph = false;
+                                        });
+                                      } else {
+                                        setState(() {
+                                          isRangeOn1HourGraph = true;
+                                        });
+                                      }
+                                    },
+                                    child: Padding(
+                                      padding: const EdgeInsets.fromLTRB(
+                                          0, 0, 20, 0),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.end,
+                                        children: [
+                                          Text(
+                                            "---- ",
+                                            style: TextStyle(
+                                                color: isRangeOn1HourGraph
+                                                    ? Colors.redAccent
+                                                    : Colors.grey,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 20),
+                                          ),
+                                          Text(
+                                            "Range",
+                                            style: TextStyle(
+                                                color: AppColors.textColor),
+                                          ),
+                                          Icon(
+                                            Icons.fiber_manual_record_rounded,
+                                            color: isRangeOn1HourGraph
+                                                ? Colors.green
+                                                : Colors.grey,
+                                            size: 10,
+                                          ),
+                                        ],
+                                      ),
+                                    )),
+                              ),
+                            ],
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              SizedBox(
+                                height: 25,
+                                child: FlatButton(
+                                    onPressed: () {
+                                      if (isStdDeviationOn1HourGraph) {
+                                        setState(() {
+                                          isStdDeviationOn1HourGraph = false;
+                                        });
+                                      } else {
+                                        setState(() {
+                                          isStdDeviationOn1HourGraph = true;
+                                        });
+                                      }
+                                    },
+                                    child: Padding(
+                                      padding: const EdgeInsets.fromLTRB(
+                                          0, 0, 20, 0),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.end,
+                                        children: [
+                                          Text(
+                                            "---- ",
+                                            style: TextStyle(
+                                                color:
+                                                    isStdDeviationOn1HourGraph
+                                                        ? Colors.black54
+                                                        : Colors.grey,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 20),
+                                          ),
+                                          Text(
+                                            "Standard Deviation",
+                                            style: TextStyle(
+                                                color: AppColors.textColor),
+                                          ),
+                                          Icon(
+                                            Icons.fiber_manual_record_rounded,
+                                            color: isStdDeviationOn1HourGraph
+                                                ? Colors.green
+                                                : Colors.grey,
+                                            size: 10,
+                                          ),
+                                        ],
+                                      ),
+                                    )),
+                              ),
+                            ],
+                          ),
+                          LineChart(
+                            LineChartData(
+                              extraLinesData: isRangeOn1HourGraph
+                                  ? ExtraLinesData(horizontalLines: [
+                                      HorizontalLine(
+                                        //y: isSwitched? 75:0,
+                                        y: 95,
+                                        color: Colors.redAccent,
+                                        strokeWidth: 1,
+                                      ),
+
+                                      // HorizontalLine(
+                                      //
+                                      //   //y: isSwitched? 75:0,
+                                      //   y: 85,
+                                      //   color: Colors.redAccent,
+                                      //   strokeWidth: 1,
+                                      // ),
+                                    ])
+                                  : ExtraLinesData(),
+                              minX: 0,
+                              maxX: maxX_range_spo2,
+                              minY: 85,
+                              maxY: 105,
+                              titlesData: FlTitlesData(
+                                bottomTitles: SideTitles(
+                                    showTitles: true,
+                                    reservedSize: 6,
+                                    getTitles: (value) {
+                                      if (value.toInt() % 15 == 0) {
+                                        return getTimes(value.toInt(), 'min');
+                                      } else {
+                                        return '';
+                                      }
+                                    }),
+                                leftTitles: SideTitles(
+                                  showTitles: true,
+                                  getTitles: (value) {
+                                    if (value.toInt() % 5 == 0 &&
+                                        value.toInt() <= 100) {
+                                      return value.toInt().toString() + '%';
+                                    } else {
+                                      return '';
+                                    }
+                                  },
+                                ),
+                              ),
+                              borderData: FlBorderData(show: false),
+                              gridData: FlGridData(show: false),
+                              lineBarsData: [
+                                //loadAsset(),
+                                LineChartBarData(
+                                  spots: generateSpots(dataToPlot_spo2,
+                                      dataIndex_to_show), // mean data, index 1 = avg
+                                  isCurved: true,
+                                  colors: gradientColors,
+                                  barWidth: 3,
+                                  isStrokeCapRound: true,
+                                  dotData: FlDotData(show: false),
+                                  //barWidth: 1,
+                                  belowBarData: BarAreaData(
+                                      show: true,
+                                      colors: gradientColors
+                                          .map((color) =>
+                                              color.withOpacity(0.15))
+                                          .toList()),
+                                ),
+
+                                LineChartBarData(
+                                  spots: generateSpots(
+                                      dataToPlot_spo2, 3), // deviation negative
+                                  isCurved: true,
+                                  colors: [Colors.black54],
+                                  barWidth: 1,
+                                  isStrokeCapRound: true,
+                                  show:
+                                      isStdDeviationOn1HourGraph ? true : false,
+                                  dotData: FlDotData(show: false),
+                                  //barWidth: 1,
+                                ),
+
+                                LineChartBarData(
+                                  spots: generateSpots(
+                                      dataToPlot_spo2, 4), // deviation positive
+                                  isCurved: true,
+                                  colors: [Colors.black54],
+                                  barWidth: 1,
+                                  isStrokeCapRound: true,
+                                  show:
+                                      isStdDeviationOn1HourGraph ? true : false,
+                                  dotData: FlDotData(show: false),
+                                  //barWidth: 1,
+                                ),
+                              ],
+                              axisTitleData: FlAxisTitleData(
+                                bottomTitle: AxisTitle(
+                                    showTitle: true, titleText: '', margin: 5),
+                                leftTitle: AxisTitle(
+                                    showTitle: true, titleText: '', margin: 0),
+                              ),
+                            ),
                           ),
                         ],
-                        axisTitleData: FlAxisTitleData(
-                          bottomTitle: AxisTitle(
-                              showTitle: true, titleText: 'Time', margin: 10),
-                          leftTitle: AxisTitle(
-                              showTitle: true,
-                              titleText: 'PPG Signals',
-                              margin: 10),
-                        ),
                       ),
-                    )
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Container(
+                      width: 335,
+                      //height: 300,
+
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8),
+                        color: Colors.grey[100],
+                      ),
+                      child: Column(
+                        children: [
+                          Container(
+                            padding: EdgeInsets.only(top: 10),
+                            child: Center(
+                              child: Text("Last 24 Hours",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: AppColors.textColor)),
+                            ),
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              SizedBox(
+                                height: 25,
+                                child: FlatButton(
+                                    onPressed: () {
+                                      if (isRangeOn24HoursGraph) {
+                                        setState(() {
+                                          isRangeOn24HoursGraph = false;
+                                        });
+                                      } else {
+                                        setState(() {
+                                          isRangeOn24HoursGraph = true;
+                                        });
+                                      }
+                                    },
+                                    child: Padding(
+                                      padding: const EdgeInsets.fromLTRB(
+                                          0, 0, 20, 0),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.end,
+                                        children: [
+                                          Text(
+                                            "---- ",
+                                            style: TextStyle(
+                                                color: isRangeOn24HoursGraph
+                                                    ? Colors.green
+                                                    : Colors.grey,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 20),
+                                          ),
+                                          Text(
+                                            "Range",
+                                            style: TextStyle(
+                                                color: AppColors.textColor),
+                                          ),
+                                          Icon(
+                                            Icons.fiber_manual_record_rounded,
+                                            color: isRangeOn24HoursGraph
+                                                ? Colors.green
+                                                : Colors.grey,
+                                            size: 10,
+                                          ),
+                                        ],
+                                      ),
+                                    )),
+                              ),
+                            ],
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              SizedBox(
+                                height: 25,
+                                child: FlatButton(
+                                    onPressed: () {
+                                      if (isStdDeviationOn24HoursGraph) {
+                                        setState(() {
+                                          isStdDeviationOn24HoursGraph = false;
+                                        });
+                                      } else {
+                                        setState(() {
+                                          isStdDeviationOn24HoursGraph = true;
+                                        });
+                                      }
+                                    },
+                                    child: Padding(
+                                      padding: const EdgeInsets.fromLTRB(
+                                          0, 0, 20, 0),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.end,
+                                        children: [
+                                          Text(
+                                            "---- ",
+                                            style: TextStyle(
+                                                color:
+                                                    isStdDeviationOn24HoursGraph
+                                                        ? Colors.black54
+                                                        : Colors.grey,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 20),
+                                          ),
+                                          Text(
+                                            "Standard Deviation",
+                                            style: TextStyle(
+                                                color: AppColors.textColor),
+                                          ),
+                                          Icon(
+                                            Icons.fiber_manual_record_rounded,
+                                            color: isStdDeviationOn24HoursGraph
+                                                ? Colors.green
+                                                : Colors.grey,
+                                            size: 10,
+                                          ),
+                                        ],
+                                      ),
+                                    )),
+                              ),
+                            ],
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              SizedBox(
+                                height: 25,
+                                child: FlatButton(
+                                    onPressed: () {
+                                      if (isMinMaxOn24HoursGraph) {
+                                        setState(() {
+                                          isMinMaxOn24HoursGraph = false;
+                                        });
+                                      } else {
+                                        setState(() {
+                                          isMinMaxOn24HoursGraph = true;
+                                        });
+                                      }
+                                    },
+                                    child: Padding(
+                                      padding: const EdgeInsets.fromLTRB(
+                                          0, 0, 20, 0),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.end,
+                                        children: [
+                                          Text(
+                                            "--",
+                                            style: TextStyle(
+                                                color: isMinMaxOn24HoursGraph
+                                                    ? Colors.orangeAccent
+                                                    : Colors.grey,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 20),
+                                          ),
+                                          Text(
+                                            "-- ",
+                                            style: TextStyle(
+                                                color: isMinMaxOn24HoursGraph
+                                                    ? Colors.yellowAccent
+                                                    : Colors.grey,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 20),
+                                          ),
+                                          Text(
+                                            "Min Max Line",
+                                            style: TextStyle(
+                                                color: AppColors.textColor),
+                                          ),
+                                          Icon(
+                                            Icons.fiber_manual_record_rounded,
+                                            color: isMinMaxOn24HoursGraph
+                                                ? Colors.green
+                                                : Colors.grey,
+                                            size: 10,
+                                          ),
+                                        ],
+                                      ),
+                                    )),
+                              ),
+                            ],
+                          ),
+                          LineChart(
+                            LineChartData(
+                              extraLinesData: isRangeOn24HoursGraph
+                                  ? ExtraLinesData(horizontalLines: [
+                                      HorizontalLine(
+                                        y: 95,
+                                        color: Colors.green,
+                                        strokeWidth: 1,
+                                      ),
+                                    ])
+                                  : ExtraLinesData(),
+                              minX: 0,
+                              maxX: maxX_range_hourly_spo2,
+                              minY: 85,
+                              maxY: 105,
+                              titlesData: FlTitlesData(
+                                bottomTitles: SideTitles(
+                                    showTitles: true,
+                                    reservedSize: 6,
+                                    getTitles: (value) {
+                                      if (value.toInt() % 6 == 0) {
+                                        return getTimes(value.toInt(), 'day');
+                                      } else {
+                                        return '';
+                                      }
+                                    }),
+                                leftTitles: SideTitles(
+                                  showTitles: true,
+                                  getTitles: (value) {
+                                    if (value.toInt() % 5 == 0 &&
+                                        value.toInt() <= 100) {
+                                      return value.toInt().toString() + '%';
+                                    } else {
+                                      return '';
+                                    }
+                                  },
+                                ),
+                              ),
+                              borderData: FlBorderData(show: false),
+                              gridData: FlGridData(show: false),
+                              lineBarsData: [
+                                LineChartBarData(
+                                  spots: generateHourlySpots_spo2(1),
+                                  isCurved: true,
+                                  colors: gradientColors,
+                                  barWidth: 3,
+                                  isStrokeCapRound: true,
+                                  dotData: FlDotData(show: false),
+                                  //barWidth: 1,
+                                  belowBarData: BarAreaData(
+                                      show: true,
+                                      colors: gradientColors
+                                          .map((color) =>
+                                              color.withOpacity(0.15))
+                                          .toList()),
+                                ),
+                                LineChartBarData(
+                                  spots: generateHourlySpots_spo2(0),
+                                  isCurved: true,
+                                  colors: [Colors.yellowAccent],
+                                  barWidth: 3,
+                                  isStrokeCapRound: true,
+                                  dotData: FlDotData(show: false),
+                                  show: isMinMaxOn24HoursGraph ? true : false,
+                                  //barWidth: 1,
+                                ),
+                                LineChartBarData(
+                                  spots: generateHourlySpots_spo2(2),
+                                  isCurved: true,
+                                  colors: [Colors.deepOrangeAccent],
+                                  barWidth: 3,
+                                  isStrokeCapRound: true,
+                                  dotData: FlDotData(show: false),
+                                  show: isMinMaxOn24HoursGraph ? true : false,
+                                  //barWidth: 1,
+                                ),
+                                LineChartBarData(
+                                  spots: generateHourlySpots_spo2(3),
+                                  isCurved: true,
+                                  colors: [Colors.grey],
+                                  barWidth: 1,
+                                  isStrokeCapRound: true,
+                                  dotData: FlDotData(show: false),
+                                  show: isStdDeviationOn24HoursGraph
+                                      ? true
+                                      : false,
+                                  //barWidth: 1,
+                                ),
+                                LineChartBarData(
+                                  spots: generateHourlySpots_spo2(4),
+                                  isCurved: true,
+                                  colors: [Colors.grey],
+                                  barWidth: 1,
+                                  isStrokeCapRound: true,
+                                  dotData: FlDotData(show: false),
+                                  show: isStdDeviationOn24HoursGraph
+                                      ? true
+                                      : false,
+                                  //barWidth: 1,
+                                ),
+                              ],
+                              axisTitleData: FlAxisTitleData(
+                                bottomTitle: AxisTitle(
+                                    showTitle: true, titleText: '', margin: 5),
+                                leftTitle: AxisTitle(
+                                    showTitle: true, titleText: '', margin: 0),
+                              ),
+                              lineTouchData: LineTouchData(
+                                  getTouchedSpotIndicator:
+                                      (LineChartBarData barData,
+                                          List<int> spotIndexes) {
+                                return spotIndexes.map((spotIndex) {
+                                  final FlSpot spot = barData.spots[spotIndex];
+
+                                  _touchedIndex = spotIndex;
+                                  _touchedSpotValue = spot
+                                      .x; //double (getting the x value or y value)
+
+                                  // if (spot.x == 0 || spot.x == 30 || spot.x == 29) {
+                                  //   return null;
+                                  // }
+                                }).toList();
+                              }, touchCallback:
+                                      (LineTouchResponse touchResponse) {
+                                if (touchResponse.touchInput is FlPanEnd ||
+                                    touchResponse.touchInput
+                                        is FlLongPressEnd) {
+                                  List data_to_send = processRange(
+                                      whole_day_data_spo2.sublist(
+                                          (_touchedIndex) * 1200,
+                                          (_touchedIndex * 1200) + 1200),
+                                      20);
+                                  //goto next page for details
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => PlotDetails(
+                                        touchedIndex: _touchedIndex,
+                                        touchedScale: 'hour', //hour,min,day
+                                        data_to_plot: data_to_send,
+                                        long_data: data,
+                                        touchedVSType: 'spo2',
+                                      ),
+                                    ),
+                                  );
+                                  setState(() {
+                                    print('touched index---> $_touchedIndex');
+                                  });
+                                } else {
+                                  print('wait');
+                                }
+                              }),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Container(
+                      width: 335,
+                      //height: 300,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8),
+                        color: Colors.grey[100],
+                      ),
+                      child: Column(
+                        children: [
+                          Container(
+                            padding: EdgeInsets.only(top: 10),
+                            child: Center(
+                              child: Text("Last 7 Days Data",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: AppColors.textColor)),
+                            ),
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              SizedBox(
+                                height: 25,
+                                child: FlatButton(
+                                    onPressed: () {
+                                      if (isRangeOn3WeeksGraph) {
+                                        setState(() {
+                                          isRangeOn3WeeksGraph = false;
+                                        });
+                                      } else {
+                                        setState(() {
+                                          isRangeOn3WeeksGraph = true;
+                                        });
+                                      }
+                                    },
+                                    child: Padding(
+                                      padding: const EdgeInsets.fromLTRB(
+                                          0, 0, 20, 0),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.end,
+                                        children: [
+                                          Text(
+                                            "---- ",
+                                            style: TextStyle(
+                                                color: isRangeOn3WeeksGraph
+                                                    ? Colors.redAccent
+                                                    : Colors.grey,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 20),
+                                          ),
+                                          Text(
+                                            "Range",
+                                            style: TextStyle(
+                                                color: AppColors.textColor),
+                                          ),
+                                          Icon(
+                                            Icons.fiber_manual_record_rounded,
+                                            color: isRangeOn3WeeksGraph
+                                                ? Colors.green
+                                                : Colors.grey,
+                                            size: 10,
+                                          ),
+                                        ],
+                                      ),
+                                    )),
+                              ),
+                            ],
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              SizedBox(
+                                height: 25,
+                                child: FlatButton(
+                                    onPressed: () {
+                                      if (isMinMaxOn3WeeksGraph) {
+                                        setState(() {
+                                          isMinMaxOn3WeeksGraph = false;
+                                        });
+                                      } else {
+                                        setState(() {
+                                          isMinMaxOn3WeeksGraph = true;
+                                        });
+                                      }
+                                    },
+                                    child: Padding(
+                                      padding: const EdgeInsets.fromLTRB(
+                                          0, 0, 20, 0),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.end,
+                                        children: [
+                                          Text(
+                                            "--",
+                                            style: TextStyle(
+                                                color: isMinMaxOn3WeeksGraph
+                                                    ? Colors.orangeAccent
+                                                    : Colors.grey,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 20),
+                                          ),
+                                          Text(
+                                            "-- ",
+                                            style: TextStyle(
+                                                color: isMinMaxOn3WeeksGraph
+                                                    ? Colors.yellowAccent
+                                                    : Colors.grey,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 20),
+                                          ),
+                                          Text(
+                                            "Min Max Line",
+                                            style: TextStyle(
+                                                color: AppColors.textColor),
+                                          ),
+                                          Icon(
+                                            Icons.fiber_manual_record_rounded,
+                                            color: isMinMaxOn3WeeksGraph
+                                                ? Colors.green
+                                                : Colors.grey,
+                                            size: 10,
+                                          ),
+                                        ],
+                                      ),
+                                    )),
+                              ),
+                            ],
+                          ),
+                          LineChart(
+                            LineChartData(
+                              extraLinesData: isRangeOn3WeeksGraph
+                                  ? ExtraLinesData(horizontalLines: [
+                                      HorizontalLine(
+                                        //y: isSwitched? 75:0,
+                                        y: 95,
+                                        color: Colors.redAccent,
+                                        strokeWidth: 1,
+                                      ),
+
+                                      // HorizontalLine(
+                                      //
+                                      //   //y: isSwitched? 75:0,
+                                      //   y: 85,
+                                      //   color: Colors.redAccent,
+                                      //   strokeWidth: 1,
+                                      // ),
+                                    ])
+                                  : ExtraLinesData(),
+                              minX: 0,
+                              maxX: 6,
+                              minY: 85,
+                              maxY: 105,
+                              titlesData: FlTitlesData(
+                                bottomTitles: SideTitles(
+                                    showTitles: true,
+                                    reservedSize: 6,
+                                    getTitles: (value) {
+                                      if (value.toInt() % 1 == 0) {
+                                        return getTimes(value.toInt(), 'day');
+                                      } else {
+                                        return '';
+                                      }
+                                    }),
+                                leftTitles: SideTitles(
+                                  showTitles: true,
+                                  getTitles: (value) {
+                                    if (value.toInt() % 5 == 0 &&
+                                        value.toInt() <= 100) {
+                                      return value.toInt().toString() + '%';
+                                    } else {
+                                      return '';
+                                    }
+                                  },
+                                ),
+                              ),
+                              borderData: FlBorderData(show: false),
+                              gridData: FlGridData(show: false),
+                              lineBarsData: [
+                                //loadAsset(),
+                                LineChartBarData(
+                                  spots: [
+                                    FlSpot(0, 95),
+                                    FlSpot(1, 96),
+                                    FlSpot(2, 95),
+                                    FlSpot(3, 95),
+                                    FlSpot(4, 94),
+                                    FlSpot(5, 95),
+                                    FlSpot(6, 95)
+                                  ], // mean data, index 1 = avg
+                                  isCurved: false,
+                                  colors: gradientColors,
+                                  barWidth: 3,
+                                  isStrokeCapRound: true,
+                                  dotData: FlDotData(show: true),
+                                  //barWidth: 1,
+                                  belowBarData: BarAreaData(
+                                      show: true,
+                                      colors: gradientColors
+                                          .map((color) =>
+                                              color.withOpacity(0.15))
+                                          .toList()),
+                                ),
+
+                                LineChartBarData(
+                                  spots: [
+                                    FlSpot(0, 99),
+                                    FlSpot(1, 100),
+                                    FlSpot(2, 101),
+                                    FlSpot(3, 100),
+                                    FlSpot(4, 101),
+                                    FlSpot(5, 99),
+                                    FlSpot(6, 99)
+                                  ],
+                                  isCurved: false,
+                                  colors: [Colors.deepOrangeAccent],
+                                  barWidth: 2,
+                                  isStrokeCapRound: true,
+                                  dotData: FlDotData(show: false),
+                                  show: isMinMaxOn3WeeksGraph ? true : false,
+                                  //barWidth: 1,
+                                ),
+
+                                LineChartBarData(
+                                  spots: [
+                                    FlSpot(0, 92),
+                                    FlSpot(1, 91),
+                                    FlSpot(2, 93),
+                                    FlSpot(3, 89),
+                                    FlSpot(4, 90),
+                                    FlSpot(5, 91),
+                                    FlSpot(6, 90)
+                                  ],
+                                  isCurved: false,
+                                  colors: [Colors.yellowAccent],
+                                  barWidth: 2,
+                                  isStrokeCapRound: true,
+                                  dotData: FlDotData(show: false),
+                                  show: isMinMaxOn3WeeksGraph ? true : false,
+                                  //barWidth: 1,
+                                ),
+
+                                // LineChartBarData(
+                                //   spots: generateSpots(dataToPlot, 3),    // deviation negative
+                                //   isCurved: true,
+                                //   colors: [Colors.black54],
+                                //   barWidth: 1,
+                                //   isStrokeCapRound: true,
+                                //   show: isStdDeviationOnFirstGraph? true: false,
+                                //   dotData: FlDotData(show: false),
+                                //   //barWidth: 1,
+                                //
+                                // ),
+                                //
+                                // LineChartBarData(
+                                //   spots: generateSpots(dataToPlot, 4),    // deviation positive
+                                //   isCurved: true,
+                                //   colors: [Colors.black54],
+                                //   barWidth: 1,
+                                //   isStrokeCapRound: true,
+                                //   show: isStdDeviationOnFirstGraph? true: false,
+                                //   dotData: FlDotData(show: false),
+                                //   //barWidth: 1,
+                                //
+                                // ),
+                              ],
+                              axisTitleData: FlAxisTitleData(
+                                bottomTitle: AxisTitle(
+                                    showTitle: true, titleText: '', margin: 5),
+                                leftTitle: AxisTitle(
+                                    showTitle: true, titleText: '', margin: 0),
+                              ),
+                              // lineTouchData: LineTouchData(getTouchedSpotIndicator:
+                              //     (LineChartBarData barData,
+                              //         List<int> spotIndexes) {
+                              //   return spotIndexes.map((spotIndex) {
+                              //     final FlSpot spot = barData.spots[spotIndex];
+                              //
+                              //     _touchedIndex = spotIndex;
+                              //     _touchedSpotValue = spot
+                              //         .x; //double (getting the x value or y value)
+                              //
+                              //     // if (spot.x == 0 || spot.x == 30 || spot.x == 29) {
+                              //     //   return null;
+                              //     // }
+                              //   }).toList();
+                              // }, touchCallback: (LineTouchResponse touchResponse) {
+                              //   if (touchResponse.touchInput is FlPanEnd ||
+                              //       touchResponse.touchInput is FlLongPressEnd) {
+                              //     //goto next page for details
+                              //     Navigator.push(
+                              //       context,
+                              //       MaterialPageRoute(
+                              //         builder: (context) => PlotDetails(
+                              //           touchedIndex: _touchedIndex,
+                              //           touchedScale: 'hr',
+                              //         ),
+                              //       ),
+                              //     );
+                              //     setState(() {
+                              //       print('touched index---> $_touchedIndex');
+                              //     });
+                              //   } else {
+                              //     print('wait');
+                              //   }
+                              // }),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                   ],
                 ),
               ],
@@ -2257,8 +3102,8 @@ class _HistoryPlotElementState extends State<HistoryPlotElement> {
                         lineBarsData: [
                           //loadAsset(),
                           LineChartBarData(
-                            spots:
-                                generateSpots(dataToPlot_hr, dataIndex_to_show),
+                            spots: generateSpots(
+                                dataToPlot_temp, dataIndex_to_show),
                             colors: [Colors.orange],
                             dotData: FlDotData(show: false),
                             barWidth: 1,
@@ -2320,6 +3165,21 @@ class _HistoryPlotElementState extends State<HistoryPlotElement> {
     List<FlSpot> spots = hourlyDataToPlot_hr.asMap().entries.map((e) {
       double y =
           double.tryParse((e.value[index] + random.nextInt(6)).toString());
+      return FlSpot(e.key.toDouble(), y);
+    }).toList();
+
+    return spots;
+  }
+
+  List<FlSpot> generateHourlySpots_spo2(int index) {
+    List<FlSpot> spots = hourlyDataToPlot_spo2.asMap().entries.map((e) {
+      double y =
+          double.tryParse((e.value[index] + random.nextInt(2)).toString());
+      if (y > 100) {
+        y = 100;
+      } else if (y == 100) {
+        y = y - random.nextInt(2);
+      }
       return FlSpot(e.key.toDouble(), y);
     }).toList();
 
