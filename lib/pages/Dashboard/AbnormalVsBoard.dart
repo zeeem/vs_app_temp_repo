@@ -216,6 +216,8 @@ class _AbnormalVSListState extends State<AbnormalVSList> {
   String userName;
   List historyData;
   bool visibilityTag = false;
+  String selectedFilterTime='Recent';
+  String selectedFilterVS='All';
 
   @override
   void initState() {
@@ -245,17 +247,24 @@ class _AbnormalVSListState extends State<AbnormalVSList> {
                     Padding(
                       padding: const EdgeInsets.fromLTRB(8,0,8,0),
                       child: DropdownButton<String>(
+                        value: selectedFilterTime,
                         hint: Text('Recent', style: TextStyle(fontSize: 15),),
                         items: <String>['Recent', 'Older'].map((String value) {
+                          //selectedFilterTime=value;
                           return new DropdownMenuItem<String>(
                             value: value,
                             child: new Text(value),
                           );
                         }).toList(),
-                        onChanged: (_) {},
+                        onChanged: (String newValue) {
+                          setState(() {
+                            selectedFilterTime = newValue;
+                          });
+                        },
                       ),
                     ),
                     DropdownButton<String>(
+                      value: selectedFilterVS,
                       hint: Text('All', style: TextStyle(fontSize: 15),),
                       items: <String>['All', 'HR', 'RR', 'Spo2', 'Temp', 'BP'].map((String value) {
                         return new DropdownMenuItem<String>(
@@ -263,7 +272,11 @@ class _AbnormalVSListState extends State<AbnormalVSList> {
                           child: new Text(value),
                         );
                       }).toList(),
-                      onChanged: (_) {},
+                      onChanged: (String newValue) {
+                        setState(() {
+                          selectedFilterVS = newValue;
+                        });
+                      },
                     )
 
 
