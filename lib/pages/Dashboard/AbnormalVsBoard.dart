@@ -8,6 +8,7 @@ import 'package:vital_signs_ui_template/pages/Dashboard/vs_item.dart';
 import 'package:intl/intl.dart';
 import 'package:vital_signs_ui_template/pages/doctor_pages/HistoryPlots/HistoryPlot.dart';
 import 'package:vital_signs_ui_template/pages/doctor_pages/HistoryPlots/HistoryPlot_element.dart';
+import 'package:vital_signs_ui_template/pages/doctor_pages/HistoryPlots/HistoryPlot_sticky_element.dart';
 import 'package:vital_signs_ui_template/pages/doctor_pages/docVSPage.dart';
 
 import '../AlertHomePage.dart';
@@ -135,6 +136,11 @@ class _AbnormalVsBoardState extends State<AbnormalVsBoard> {
                           data: historyData,
                           expandedTitle: _openedHistoryVSType,
                         );
+                      } else if (_openedHistoryVSType == 'test') {
+                        return HistoryPlotStickyElement(
+                          data: historyData,
+                          expandedTitle: _openedHistoryVSType,
+                        );
                       } else {
                         return AbnormalVSList(
                           userName: _userName,
@@ -200,7 +206,6 @@ class _AbnormalVsBoardState extends State<AbnormalVsBoard> {
   }
 }
 
-
 class AbnormalVSList extends StatefulWidget {
   final String userName;
   final List historyData;
@@ -216,14 +221,14 @@ class _AbnormalVSListState extends State<AbnormalVSList> {
   String userName;
   List historyData;
   bool visibilityTag = false;
-  String selectedFilterTime='Recent';
-  String selectedFilterVS='All';
+  String selectedFilterTime = 'Recent';
+  String selectedFilterVS = 'All';
 
   @override
   void initState() {
     // TODO: implement initState
-    userName=widget.userName;
-    historyData=widget.historyData;
+    userName = widget.userName;
+    historyData = widget.historyData;
     super.initState();
   }
 
@@ -238,72 +243,88 @@ class _AbnormalVSListState extends State<AbnormalVSList> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              visibilityTag?
-              Container(
-                padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
-                child: Row(
-                  children: [
-                    Text('Filter by: ', style: TextStyle( fontSize: 15, fontWeight: FontWeight.bold)),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(8,0,8,0),
-                      child: DropdownButton<String>(
-                        value: selectedFilterTime,
-                        hint: Text('Recent', style: TextStyle(fontSize: 15),),
-                        items: <String>['Recent', 'Older'].map((String value) {
-                          //selectedFilterTime=value;
-                          return new DropdownMenuItem<String>(
-                            value: value,
-                            child: new Text(value),
-                          );
-                        }).toList(),
-                        onChanged: (String newValue) {
-                          setState(() {
-                            selectedFilterTime = newValue;
-                          });
-                        },
+              visibilityTag
+                  ? Container(
+                      padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
+                      child: Row(
+                        children: [
+                          Text('Filter by: ',
+                              style: TextStyle(
+                                  fontSize: 15, fontWeight: FontWeight.bold)),
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
+                            child: DropdownButton<String>(
+                              value: selectedFilterTime,
+                              hint: Text(
+                                'Recent',
+                                style: TextStyle(fontSize: 15),
+                              ),
+                              items: <String>['Recent', 'Older']
+                                  .map((String value) {
+                                //selectedFilterTime=value;
+                                return new DropdownMenuItem<String>(
+                                  value: value,
+                                  child: new Text(value),
+                                );
+                              }).toList(),
+                              onChanged: (String newValue) {
+                                setState(() {
+                                  selectedFilterTime = newValue;
+                                });
+                              },
+                            ),
+                          ),
+                          DropdownButton<String>(
+                            value: selectedFilterVS,
+                            hint: Text(
+                              'All',
+                              style: TextStyle(fontSize: 15),
+                            ),
+                            items: <String>[
+                              'All',
+                              'HR',
+                              'RR',
+                              'Spo2',
+                              'Temp',
+                              'BP'
+                            ].map((String value) {
+                              return new DropdownMenuItem<String>(
+                                value: value,
+                                child: new Text(value),
+                              );
+                            }).toList(),
+                            onChanged: (String newValue) {
+                              setState(() {
+                                selectedFilterVS = newValue;
+                              });
+                            },
+                          )
+                        ],
                       ),
-                    ),
-                    DropdownButton<String>(
-                      value: selectedFilterVS,
-                      hint: Text('All', style: TextStyle(fontSize: 15),),
-                      items: <String>['All', 'HR', 'RR', 'Spo2', 'Temp', 'BP'].map((String value) {
-                        return new DropdownMenuItem<String>(
-                          value: value,
-                          child: new Text(value),
-                        );
-                      }).toList(),
-                      onChanged: (String newValue) {
-                        setState(() {
-                          selectedFilterVS = newValue;
-                        });
-                      },
                     )
-
-
-                  ],
-                ),
-              ):Container(),
+                  : Container(),
               Container(
-
                 //padding: EdgeInsets.fromLTRB(0, 0, 20, 0),
                 child: FlatButton(
-                  onPressed: (){
+                  onPressed: () {
                     setState(() {
-                      if(visibilityTag == false)
-                      {
+                      if (visibilityTag == false) {
                         visibilityTag = true;
-                      }
-                      else
-                      {
+                      } else {
                         visibilityTag = false;
                       }
                     });
-
                   },
-                  child:
-                      visibilityTag?
-                  Text('Filter', style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),)
-                          :Text('Filter', style: TextStyle(fontSize: 15),),
+                  child: visibilityTag
+                      ? Text(
+                          'Filter',
+                          style: TextStyle(
+                              fontSize: 15, fontWeight: FontWeight.bold),
+                        )
+                      : Text(
+                          'Filter',
+                          style: TextStyle(fontSize: 15),
+                        ),
                 ),
               ),
               // Container(
@@ -317,32 +338,6 @@ class _AbnormalVSListState extends State<AbnormalVSList> {
               //         fontWeight: FontWeight.bold,
               //         color: Colors.black.withOpacity(.7)),
               //     // textAlign: TextAlign.left,
-              //   ),
-              // ),
-              // Container(
-              //   padding: EdgeInsets.fromLTRB(0, 5, 20, 0),
-              //   child: Row(
-              //     children: [
-              //       // Text('Sort By'),
-              //       DropdownButton<String>(
-              //         icon: Icon(Icons.sort),
-              //         isDense: true,
-              //         style: TextStyle(fontSize: 10, color: Colors.black),
-              //         items: <String>[
-              //           'Recent Abnormals',
-              //           'Abnormal HR',
-              //           'Abnormal RR',
-              //           'Abnormal TEMP',
-              //           'Abnormal SPO2'
-              //         ].map((String value) {
-              //           return DropdownMenuItem<String>(
-              //             value: value,
-              //             child: Text(value),
-              //           );
-              //         }).toList(),
-              //         onChanged: (_) {},
-              //       ),
-              //     ],
               //   ),
               // ),
             ],
@@ -396,7 +391,18 @@ class _AbnormalVSListState extends State<AbnormalVSList> {
           ),
           SizedBox(
             height: 20,
-          )
+          ),
+          FloatingActionButton(onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => AbnormalVsBoard(
+                  selectedIndexToOpen: 1,
+                  openedHistoryVSType: 'test',
+                ),
+              ),
+            );
+          })
         ],
       ),
     );
