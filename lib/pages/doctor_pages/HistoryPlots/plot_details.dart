@@ -43,6 +43,7 @@ class _PlotDetailsState extends State<PlotDetails> {
   String _touchedVSType;
   bool isRangeOnSpecificHour = false;
   bool isEmergencyDotOn = false; //false
+  bool isMinMaxOn = false;
   bool isStdDeviationOn24HoursGraph = false;
   List _long_data;
   double _currentSliderValue = 30;
@@ -318,6 +319,50 @@ class _PlotDetailsState extends State<PlotDetails> {
                             ),
                           )),
                     ),
+                    SizedBox(
+                      height: 20,
+                      child: FlatButton(
+                          onPressed: () {
+                            if (isMinMaxOn) {
+                              setState(() {
+                                isMinMaxOn = false;
+                              });
+                            } else {
+                              setState(() {
+                                isMinMaxOn = true;
+                              });
+                            }
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.fromLTRB(0, 0, 20, 0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Text(
+                                  "---- ",
+                                  style: TextStyle(
+                                      color: isMinMaxOn
+                                          ? Colors.redAccent
+                                          : Colors.grey,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20),
+                                ),
+                                Text(
+                                  "Min Max Line",
+                                  style: TextStyle(
+                                      color: AppColors.textColor, fontSize: 12),
+                                ),
+                                Icon(
+                                  Icons.fiber_manual_record_rounded,
+                                  color: isMinMaxOn
+                                      ? Colors.green
+                                      : Colors.grey,
+                                  size: 10,
+                                ),
+                              ],
+                            ),
+                          )),
+                    ),
                   ],
                 ),
                 Expanded(
@@ -434,6 +479,26 @@ class _PlotDetailsState extends State<PlotDetails> {
                               colors: gradientColors
                                   .map((color) => color.withOpacity(0.15))
                                   .toList()),
+                        ),
+                        LineChartBarData(
+                          spots: generateHourlySpots(_data_to_plot,0),
+                          isCurved: true,
+                          colors: [Colors.yellowAccent],
+                          barWidth: 3,
+                          isStrokeCapRound: true,
+                          dotData: FlDotData(show: false),
+                          show: isMinMaxOn ? true : false,
+                          //barWidth: 1,
+                        ),
+                        LineChartBarData(
+                          spots: generateHourlySpots(_data_to_plot, 2),
+                          isCurved: true,
+                          colors: [Colors.deepOrangeAccent],
+                          barWidth: 3,
+                          isStrokeCapRound: true,
+                          dotData: FlDotData(show: false),
+                          show: isMinMaxOn ? true : false,
+                          //barWidth: 1,
                         ),
                         LineChartBarData(
                           spots: generateHourlySpots(_data_to_plot, 3),
