@@ -56,6 +56,7 @@ class _PlotDetailsState extends State<PlotDetails> {
   double _emergencyDotBracket;
   DateTime now;
   String _timeOfData;
+  String _vsTitle = '';
 
   Random random = new Random();
   int randomInt = 0;
@@ -138,11 +139,13 @@ class _PlotDetailsState extends State<PlotDetails> {
         _normalRange1 = 75;
         _normalRange2 = 90;
         _emergencyDotBracket = 85;
+        _vsTitle = 'Heart Rate';
         break;
       case 'temp':
         _yMinRange = 30;
         _yMaxRange = 45;
         _emergencyDotBracket = 38;
+        _vsTitle = 'Temperature';
         break;
       case 'spo2':
         _yMinRange = 85;
@@ -151,6 +154,7 @@ class _PlotDetailsState extends State<PlotDetails> {
         _normalRange1 = 94;
         _normalRange2 = 94;
         _emergencyDotBracket = 94;
+        _vsTitle = 'Oxygen Saturation';
         break;
     }
   }
@@ -169,7 +173,7 @@ class _PlotDetailsState extends State<PlotDetails> {
           Container(
             padding: EdgeInsets.all(15),
             child: Center(
-              child: Text("Data from $_timeOfData",
+              child: Text("$_vsTitle - $_timeOfData",
                   style: TextStyle(
                       fontWeight: FontWeight.bold, color: AppColors.textColor)),
             ),
@@ -354,9 +358,8 @@ class _PlotDetailsState extends State<PlotDetails> {
                                 ),
                                 Icon(
                                   Icons.fiber_manual_record_rounded,
-                                  color: isMinMaxOn
-                                      ? Colors.green
-                                      : Colors.grey,
+                                  color:
+                                      isMinMaxOn ? Colors.green : Colors.grey,
                                   size: 10,
                                 ),
                               ],
@@ -481,7 +484,7 @@ class _PlotDetailsState extends State<PlotDetails> {
                                   .toList()),
                         ),
                         LineChartBarData(
-                          spots: generateHourlySpots(_data_to_plot,0),
+                          spots: generateHourlySpots(_data_to_plot, 0),
                           isCurved: true,
                           colors: [Colors.yellowAccent],
                           barWidth: 3,

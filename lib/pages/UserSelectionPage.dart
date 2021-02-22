@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:vital_signs_ui_template/elements/CustomAppBar.dart';
 import 'package:vital_signs_ui_template/pages/Dashboard/AbnormalVsBoard.dart';
 import 'package:vital_signs_ui_template/pages/LoginPage.dart';
+import 'package:vital_signs_ui_template/pages/SplashScreen.dart';
 
 class UserSelection extends StatelessWidget {
   @override
@@ -46,9 +47,17 @@ class UserSelection extends StatelessWidget {
                     "assets/images/Physician2.png",
                     scale: 1.2,
                   ),
-                )
+                ),
               ],
             ),
+            SizedBox(
+              height: 50,
+            ),
+            FlatButton(
+                onPressed: () {
+                  navigateTo(context, SplashScreen());
+                },
+                child: Text('.'))
           ],
         ),
       ),

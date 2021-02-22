@@ -91,11 +91,11 @@ class _SplashScreenState extends State<SplashScreen> {
             ),
             SizedBox(height: 50),
             Text(
-              "Tracker for COVID-19",
+              "Your personal healthcare network",
               style: TextStyle(
                 fontSize: 20,
-                color: Colors.black,
-                height: 1.5,
+                color: AppColors.textColor,
+                // height: 1.5,
                 fontWeight: FontWeight.bold,
               ),
               textAlign: TextAlign.center,
