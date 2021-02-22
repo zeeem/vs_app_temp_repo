@@ -11,6 +11,7 @@ import 'package:vital_signs_ui_template/pages/registration/configuration_page9.d
 import 'Processing/AlertSystem/AlertManagerPointData.dart';
 import 'pages/Backup_old/DevTestPage.dart';
 import 'pages/Dashboard/AbnormalVsBoard.dart';
+import 'pages/UserSelectionPage.dart';
 import 'pages/doctor_pages/userSelectionPage.dart';
 import 'pages/registration/configuration_page1.dart';
 import 'pages/registration/condition_page.dart';
@@ -97,7 +98,7 @@ class _MyAppState extends State<MyApp> {
         fontFamily: "OpenSans",
       ),
       home: () {
-        return LoginPage(); //change to doctors page when needed
+        return UserSelection(); //change to doctors page when needed
       }(), //docPatientListPage()LoginPage()AbnormalVsBoard
       // SplashScreen()UserSelectionPage
     );

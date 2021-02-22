@@ -55,10 +55,10 @@ class _docVsVisualizerPageState extends State<docVsVisualizerPage> {
     print(csvTable[0].last);
 
     historyData = csvTable;
+    tempStaticVals.historyplot = historyData;
 
     // print(historyData);
   }
-
 
   @override
   void initState() {
@@ -102,8 +102,6 @@ class _docVsVisualizerPageState extends State<docVsVisualizerPage> {
           ),
           body: SingleChildScrollView(
             child: SafeArea(
-
-
               child: Column(
                 children: <Widget>[
                   SizedBox(
@@ -112,7 +110,6 @@ class _docVsVisualizerPageState extends State<docVsVisualizerPage> {
 
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-
                     children: [
                       Container(
                         padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
@@ -129,16 +126,13 @@ class _docVsVisualizerPageState extends State<docVsVisualizerPage> {
                           //icons: [FontAwesomeIcons.check, FontAwesomeIcons.times],
                           onToggle: (index) {
                             print('switched to: $index');
-                              setState(() {
-                                initialIndex = index;
-                              });
-                              //changeToggle(index);
-
-
+                            setState(() {
+                              initialIndex = index;
+                            });
+                            //changeToggle(index);
                           },
                         ),
                       ),
-
                     ],
                   ),
                   // Row(
@@ -157,11 +151,13 @@ class _docVsVisualizerPageState extends State<docVsVisualizerPage> {
                   //   ],
                   // ),
 
-          initialIndex==0?doctorVSPage_element():AbnormalVSList(
-                  //userName: _userNam,
-                  userName: '',
-                  historyData: historyData,
-                ),
+                  initialIndex == 0
+                      ? doctorVSPage_element()
+                      : AbnormalVSList(
+                          //userName: _userNam,
+                          userName: '',
+                          historyData: historyData,
+                        ),
 //                   Container(
 //                     padding: EdgeInsets.only(top: 0.0, left: 20.0, right: 20.0),
 //                     child: Column(
