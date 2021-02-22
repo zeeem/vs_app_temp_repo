@@ -20,8 +20,8 @@ class _DoctorPatientHistoryState extends State<DoctorPatientHistory> {
   Future<List<User>> _getUsers() async {
     return doctorData.patientList;
   }
+
   TextEditingController editingController = TextEditingController();
-  List<String> options = ['Dipto', 'Zeem'];
   AutoCompleteTextField searchTextField;
   GlobalKey<AutoCompleteTextFieldState<User>> key = new GlobalKey();
   static List<User> users = new List<User>();
@@ -31,14 +31,13 @@ class _DoctorPatientHistoryState extends State<DoctorPatientHistory> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
         Padding(
-          padding: const EdgeInsets.fromLTRB(10.0,10,10,10),
+          padding: const EdgeInsets.fromLTRB(10.0, 10, 10, 10),
           child: Text(
             user.name,
             style: TextStyle(fontSize: 22.0, color: AppColors.textColor),
           ),
         ),
         Spacer(),
-
       ],
     );
   }
@@ -54,6 +53,7 @@ class _DoctorPatientHistoryState extends State<DoctorPatientHistory> {
       );
     } else {
       return Container(
+        height: MediaQuery.of(context).size.height,
         child: Column(
           children: [
             Container(
@@ -67,38 +67,36 @@ class _DoctorPatientHistoryState extends State<DoctorPatientHistory> {
             Container(
               //height: 55,
               //width: 380,
-              padding: EdgeInsets.fromLTRB(10,0,10,10),
+              padding: EdgeInsets.fromLTRB(10, 0, 10, 10),
               child: searchTextField = AutoCompleteTextField<User>(
-                 key: key,
-                 clearOnSubmit: false,
-                 suggestions: doctorData.patientList,
-                 style: TextStyle(color: Colors.black, fontSize: 20.0),
-                 decoration: InputDecoration(
-                   contentPadding: EdgeInsets.fromLTRB(10.0, 30.0, 10.0, 20.0),
-                   hintText: "Search Name",
-                   hintStyle: TextStyle(color: Colors.black),
-                 ),
-                 itemFilter: (item, query) {
-                   return item.name
-                       .toLowerCase()
-                       .startsWith(query.toLowerCase());
-                 },
-                 itemSorter: (a, b) {
-                   return a.name.compareTo(b.name);
-                 },
-                 itemSubmitted: (item) {
-                   setState(() {
-                     searchTextField.textField.controller.text = item.name;
-                   });
-                 },
-                 itemBuilder: (context, item) {
-                   // ui for the autocompelete row
-                   return row(item);
-                 },
-               ),
-
+                key: key,
+                clearOnSubmit: false,
+                suggestions: doctorData.patientList,
+                style: TextStyle(color: Colors.black, fontSize: 20.0),
+                decoration: InputDecoration(
+                  contentPadding: EdgeInsets.fromLTRB(10.0, 30.0, 10.0, 20.0),
+                  hintText: "Search Name",
+                  hintStyle: TextStyle(color: Colors.black),
+                ),
+                itemFilter: (item, query) {
+                  return item.name
+                      .toLowerCase()
+                      .startsWith(query.toLowerCase());
+                },
+                itemSorter: (a, b) {
+                  return a.name.compareTo(b.name);
+                },
+                itemSubmitted: (item) {
+                  setState(() {
+                    searchTextField.textField.controller.text = item.name;
+                  });
+                },
+                itemBuilder: (context, item) {
+                  // ui for the autocompelete row
+                  return row(item);
+                },
+              ),
             ),
-
             SizedBox(
               height: 10,
             ),

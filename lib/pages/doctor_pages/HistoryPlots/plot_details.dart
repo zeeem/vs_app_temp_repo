@@ -219,7 +219,7 @@ class _PlotDetailsState extends State<PlotDetails> {
                                       fontSize: 20),
                                 ),
                                 Text(
-                                  "Range",
+                                  "Normal zone",
                                   style: TextStyle(
                                     color: AppColors.textColor,
                                     fontSize: 12,
@@ -265,7 +265,7 @@ class _PlotDetailsState extends State<PlotDetails> {
                                       fontSize: 20),
                                 ),
                                 Text(
-                                  "Emergency Dot",
+                                  "Abnormal",
                                   style: TextStyle(
                                       color: AppColors.textColor, fontSize: 12),
                                 ),
@@ -309,7 +309,7 @@ class _PlotDetailsState extends State<PlotDetails> {
                                       fontSize: 20),
                                 ),
                                 Text(
-                                  "Standard Deviation",
+                                  "Variation",
                                   style: TextStyle(color: AppColors.textColor),
                                 ),
                                 Icon(
@@ -352,7 +352,7 @@ class _PlotDetailsState extends State<PlotDetails> {
                                       fontSize: 20),
                                 ),
                                 Text(
-                                  "Min Max Line",
+                                  "Min & Max",
                                   style: TextStyle(
                                       color: AppColors.textColor, fontSize: 12),
                                 ),
@@ -594,7 +594,7 @@ class _PlotDetailsState extends State<PlotDetails> {
           Container(
             padding: EdgeInsets.all(30),
             child: ButtonWidget(
-              buttonTitle: 'Goto full history',
+              buttonTitle: 'ALL CHARTS',
               buttonHeight: 50,
               onTapFunction: () {
                 Navigator.push(

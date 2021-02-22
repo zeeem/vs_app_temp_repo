@@ -11,6 +11,7 @@ String final_HR_to_show = '-';
 String final_RR_to_show = '-';
 String final_SPO2_to_show = '-';
 String final_temp_to_show = '-';
+String final_BP_to_show = '-';
 
 class VSLoadWidgetStlss extends StatelessWidget {
   const VSLoadWidgetStlss({
@@ -72,6 +73,7 @@ class _VSLoadingWidgetState extends State<VSLoadingWidget> {
           resizeToAvoidBottomPadding: false,
           appBar: CustomAppBar(
             turnOffBackButton: true,
+            turnOffSettingsButton: true,
             height: 130, //no use of this fixed height
           ),
           body: SingleChildScrollView(
@@ -81,11 +83,11 @@ class _VSLoadingWidgetState extends State<VSLoadingWidget> {
                   Row(
                     children: [
                       Container(
-                        padding: EdgeInsets.fromLTRB(20, 0, 0, 0.0),
+                        padding: EdgeInsets.fromLTRB(20, 20, 0, 0.0),
                         child: Text(
-                          'Wait a moment...',
+                          'Connecting to your vital signs...',
                           style: TextStyle(
-                              fontSize: 25.0,
+                              fontSize: 20.0,
                               fontWeight: FontWeight.bold,
                               color: Colors.black.withOpacity(.7)),
                           textAlign: TextAlign.left,
@@ -256,6 +258,64 @@ class _VSLoadingWidgetState extends State<VSLoadingWidget> {
                                           SizedBox(width: 3),
                                           Text(
                                             'rpm',
+                                            style: TextStyle(fontSize: 20),
+//                                    textAlign: TextAlign.end,
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(height: 10),
+                              ],
+                            ),
+                          ),
+                        ),
+                        Center(
+                          child: Container(
+                            padding: EdgeInsets.only(
+                                left: 0, top: 20, right: 0, bottom: 20),
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                              color: AppColors.deccolor3.withOpacity(.1),
+                              borderRadius: BorderRadius.circular(25),
+                            ),
+                            child: Row(
+                              children: <Widget>[
+                                Container(
+                                  alignment: Alignment.center,
+//                          height: 40,
+                                  width: 60,
+                                  child:
+                                      Image.asset('assets/icons/bp_icon.png'),
+                                ),
+                                SizedBox(width: 10),
+                                Padding(
+                                  padding: const EdgeInsets.all(0.0),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                      Text(
+                                        'Blood Pressure',
+                                        style: TextStyle(
+                                            color: AppColors.textColor,
+                                            fontSize: 17),
+                                      ),
+//                              SizedBox(height: 4),
+                                      Row(
+                                        children: <Widget>[
+                                          Text(
+                                            '${final_BP_to_show}', //widget.doc_bp
+                                            textAlign: TextAlign.start,
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 35,
+                                            ),
+                                          ),
+                                          SizedBox(width: 3),
+                                          Text(
+                                            'mmHg',
                                             style: TextStyle(fontSize: 20),
 //                                    textAlign: TextAlign.end,
                                           ),

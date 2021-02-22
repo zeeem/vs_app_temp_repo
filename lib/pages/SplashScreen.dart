@@ -29,7 +29,7 @@ class _SplashScreenState extends State<SplashScreen> {
           MaterialPageRoute(
             builder: (_) => ConfigurationPage8(
               connectionMessage:
-                  'Wait a moment, ${profileData.USER_FULL_NAME}! \nI am connecting the device to show your vital signs.',
+                  'Hi, ${profileData.USER_FULL_NAME}! \nConnecting to your vital signs.',
               buttonTitle: 'TRY AGAIN',
               isProfileRegistered: true,
               isButtonVisible: false,

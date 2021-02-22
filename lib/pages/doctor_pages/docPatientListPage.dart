@@ -12,6 +12,8 @@ import 'package:vital_signs_ui_template/pages/doctor_pages/docVSPage.dart';
 import 'package:vital_signs_ui_template/pages/doctor_pages/doctor_parient_history.dart';
 import 'package:vital_signs_ui_template/pages/doctor_pages/doctor_profile_page.dart';
 
+import '../AlertHomePage.dart';
+
 class docPatientListPage extends StatefulWidget {
   final selectedIndex;
 
@@ -112,7 +114,13 @@ class _docPatientListPage extends State<docPatientListPage> {
                     case 1:
                       return DoctorPatientHistory();
                     case 2:
-                      return DoctorProfilePage();
+                      return Container(
+                        height: MediaQuery.of(context).size.height,
+                        child: contactPatientPage(
+                          alert_text: "Who do you want to call?",
+                          searchPatientToCall: true,
+                        ),
+                      );
 
                     default:
                       return DoctorPatientListContainer();
@@ -133,8 +141,8 @@ class _docPatientListPage extends State<docPatientListPage> {
             title: Text('History'),
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.account_circle),
-            title: Text('Profile'),
+            icon: Icon(Icons.perm_phone_msg_rounded),
+            title: Text('Contact'),
           ),
         ],
         currentIndex: _selectedIndex,
@@ -175,6 +183,7 @@ class _DoctorPatientListContainerState
   @override
   Widget build(BuildContext context) {
     return Container(
+      height: MediaQuery.of(context).size.height,
       padding: EdgeInsets.only(top: 20.0, left: 20.0, right: 20.0),
       child: Column(
         children: <Widget>[
@@ -189,9 +198,9 @@ class _DoctorPatientListContainerState
                         labelColor: AppColors.deccolor1,
                         unselectedLabelColor: Colors.black,
                         tabs: [
-                          Tab(text: 'High Risk'),
-                          Tab(text: 'Medium Risk'),
-                          Tab(text: 'Low Risk'),
+                          Tab(text: 'Abnormal'),
+                          Tab(text: 'Borderline'),
+                          Tab(text: 'Normal'),
                         ],
                       ),
                     ),

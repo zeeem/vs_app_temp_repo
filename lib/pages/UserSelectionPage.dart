@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:vital_signs_ui_template/elements/CustomAppBar.dart';
+import 'package:vital_signs_ui_template/elements/TryAgainTemplate.dart';
+import 'package:vital_signs_ui_template/elements/VSLoadingWidget.dart';
 import 'package:vital_signs_ui_template/pages/Dashboard/AbnormalVsBoard.dart';
 import 'package:vital_signs_ui_template/pages/LoginPage.dart';
 import 'package:vital_signs_ui_template/pages/SplashScreen.dart';
+
+import 'doctor_pages/DoctorSplashScreen.dart';
 
 class UserSelection extends StatelessWidget {
   @override
@@ -53,11 +57,29 @@ class UserSelection extends StatelessWidget {
             SizedBox(
               height: 50,
             ),
-            FlatButton(
-                onPressed: () {
-                  navigateTo(context, SplashScreen());
-                },
-                child: Text('.'))
+            Row(
+              //Debug options
+              children: [
+                FlatButton(
+                  onPressed: () {
+                    navigateTo(context, SplashScreen());
+                  },
+                  child: Text('.'),
+                ),
+                FlatButton(
+                  onPressed: () {
+                    navigateTo(context, VSLoadWidgetStlss());
+                  },
+                  child: Text('..'),
+                ),
+                FlatButton(
+                  onPressed: () {
+                    navigateTo(context, DoctorSplashScreen());
+                  },
+                  child: Text('...'),
+                ),
+              ],
+            ),
           ],
         ),
       ),

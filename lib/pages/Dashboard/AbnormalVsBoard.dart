@@ -130,6 +130,7 @@ class _AbnormalVsBoardState extends State<AbnormalVsBoard> {
                     case 0:
                       _openedHistoryVSType = null;
                       return doctorVSPage_element();
+
                     case 1:
                       if (_openedHistoryVSType != null) {
                         return HistoryPlotElement(
@@ -160,22 +161,20 @@ class _AbnormalVsBoardState extends State<AbnormalVsBoard> {
                     // );
                     // break;
                     case 2:
-                      if (simulateDoctorBehavior) {
-                        return contactPatientPage(
-                          alert_text:
-                              "Do you want to call ${_userName.length > 0 ? _userName : 'Jon'}?",
-                        );
-                      } else {
-                        return AlterWindowV2(
+                      return Container(
+                        height: MediaQuery.of(context).size.height,
+                        child: AlterWindowV2(
                           alert_text: "Your trusted care-network.",
-                        );
-                      }
-                      break;
+                        ),
+                      );
 
                     default:
-                      return AbnormalVSList(
-                        userName: _userName,
-                        historyData: historyData,
+                      return Container(
+                        height: MediaQuery.of(context).size.height,
+                        child: AbnormalVSList(
+                          userName: _userName,
+                          historyData: historyData,
+                        ),
                       );
                   }
                 }()),
@@ -195,7 +194,7 @@ class _AbnormalVsBoardState extends State<AbnormalVsBoard> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.warning),
-            title: Text(simulateDoctorBehavior ? 'Contact' : 'HELP'),
+            title: Text('HELP'),
           ),
         ],
         currentIndex: _selectedIndex,
@@ -234,34 +233,62 @@ class _AbnormalVSListState extends State<AbnormalVSList> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          // SizedBox(
-          //   height: 20,
-          // ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              visibilityTag
-                  ? Container(
-                      padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
-                      child: Row(
-                        children: [
-                          Text('Filter by: ',
-                              style: TextStyle(
-                                  fontSize: 15, fontWeight: FontWeight.bold)),
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
-                            child: DropdownButton<String>(
-                              value: selectedFilterTime,
+    return Container(
+      height: MediaQuery.of(context).size.height,
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            // SizedBox(
+            //   height: 20,
+            // ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                visibilityTag
+                    ? Container(
+                        padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
+                        child: Row(
+                          children: [
+                            Text('Filter by: ',
+                                style: TextStyle(
+                                    fontSize: 15, fontWeight: FontWeight.bold)),
+                            Padding(
+                              padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
+                              child: DropdownButton<String>(
+                                value: selectedFilterTime,
+                                hint: Text(
+                                  'Recent',
+                                  style: TextStyle(fontSize: 15),
+                                ),
+                                items: <String>['Recent', 'Older']
+                                    .map((String value) {
+                                  //selectedFilterTime=value;
+                                  return new DropdownMenuItem<String>(
+                                    value: value,
+                                    child: new Text(value),
+                                  );
+                                }).toList(),
+                                onChanged: (String newValue) {
+                                  setState(() {
+                                    selectedFilterTime = newValue;
+                                  });
+                                },
+                              ),
+                            ),
+                            DropdownButton<String>(
+                              value: selectedFilterVS,
                               hint: Text(
-                                'Recent',
+                                'All',
                                 style: TextStyle(fontSize: 15),
                               ),
-                              items: <String>['Recent', 'Older']
-                                  .map((String value) {
-                                //selectedFilterTime=value;
+                              items: <String>[
+                                'All',
+                                'HR',
+                                'RR',
+                                'Spo2',
+                                'Temp',
+                                'BP'
+                              ].map((String value) {
                                 return new DropdownMenuItem<String>(
                                   value: value,
                                   child: new Text(value),
@@ -269,141 +296,116 @@ class _AbnormalVSListState extends State<AbnormalVSList> {
                               }).toList(),
                               onChanged: (String newValue) {
                                 setState(() {
-                                  selectedFilterTime = newValue;
+                                  selectedFilterVS = newValue;
                                 });
                               },
-                            ),
-                          ),
-                          DropdownButton<String>(
-                            value: selectedFilterVS,
-                            hint: Text(
-                              'All',
-                              style: TextStyle(fontSize: 15),
-                            ),
-                            items: <String>[
-                              'All',
-                              'HR',
-                              'RR',
-                              'Spo2',
-                              'Temp',
-                              'BP'
-                            ].map((String value) {
-                              return new DropdownMenuItem<String>(
-                                value: value,
-                                child: new Text(value),
-                              );
-                            }).toList(),
-                            onChanged: (String newValue) {
-                              setState(() {
-                                selectedFilterVS = newValue;
-                              });
-                            },
-                          )
-                        ],
-                      ),
-                    )
-                  : Container(),
-              Container(
-                //padding: EdgeInsets.fromLTRB(0, 0, 20, 0),
-                child: FlatButton(
-                  onPressed: () {
-                    setState(() {
-                      if (visibilityTag == false) {
-                        visibilityTag = true;
-                      } else {
-                        visibilityTag = false;
-                      }
-                    });
-                  },
-                  child: visibilityTag
-                      ? Text(
-                          'Filter',
-                          style: TextStyle(
-                              fontSize: 15, fontWeight: FontWeight.bold),
-                        )
-                      : Text(
-                          'Filter',
-                          style: TextStyle(fontSize: 15),
+                            )
+                          ],
                         ),
+                      )
+                    : Container(),
+                Container(
+                  //padding: EdgeInsets.fromLTRB(0, 0, 20, 0),
+                  child: FlatButton(
+                    onPressed: () {
+                      setState(() {
+                        if (visibilityTag == false) {
+                          visibilityTag = true;
+                        } else {
+                          visibilityTag = false;
+                        }
+                      });
+                    },
+                    child: visibilityTag
+                        ? Text(
+                            'Filter',
+                            style: TextStyle(
+                                fontSize: 15, fontWeight: FontWeight.bold),
+                          )
+                        : Text(
+                            'Filter',
+                            style: TextStyle(fontSize: 15),
+                          ),
+                  ),
                 ),
-              ),
-              // Container(
-              //   padding: EdgeInsets.fromLTRB(20, 0, 0, 0.0),
-              //   child: Text(
-              //     (userName.length > 0)
-              //         ? 'History of $userName'
-              //         : "Vital Sign History",
-              //     style: TextStyle(
-              //         fontSize: 25.0,
-              //         fontWeight: FontWeight.bold,
-              //         color: Colors.black.withOpacity(.7)),
-              //     // textAlign: TextAlign.left,
-              //   ),
-              // ),
-            ],
-          ),
-          // SizedBox(
-          //   height: 20,
-          // ),
-          alert_Card(
-            hr_val: 100,
-            spo2_alert: true,
-            temp_val: 37,
-            spo2_val: 89,
-            rr_val: 15,
-            bp_val: [125, 90],
-            time_substract_val: Duration(minutes: 0),
-            vs_data: tempStaticVals.historyplot,
-          ),
-          alert_Card(
-            hr_val: 130,
-            hr_alert: true,
-            temp_val: 37,
-            temp_alert: false,
-            spo2_val: 94,
-            rr_val: 16,
-            bp_val: [120, 85],
-            time_substract_val: Duration(hours: 5),
-            vs_data: tempStaticVals.historyplot,
-          ),
-          alert_Card(
-            hr_val: 78,
-            hr_alert: false,
-            temp_val: 39.5,
-            temp_alert: true,
-            spo2_val: 95,
-            rr_val: 17,
-            bp_val: [130, 98],
-            time_substract_val: Duration(hours: 9),
-            vs_data: tempStaticVals.historyplot,
-          ),
-          alert_Card(
-            hr_val: 84,
-            hr_alert: false,
-            temp_val: 38,
-            temp_alert: false,
-            spo2_val: 94,
-            spo2_alert: true,
-            rr_val: 15,
-            bp_val: [140, 94],
-            time_substract_val: Duration(hours: 17),
-            vs_data: tempStaticVals.historyplot,
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          FloatingActionButton(onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => AbnormalVsBoard(
-                  selectedIndexToOpen: 1,
-                  openedHistoryVSType: 'test',
+                // Container(
+                //   padding: EdgeInsets.fromLTRB(20, 0, 0, 0.0),
+                //   child: Text(
+                //     (userName.length > 0)
+                //         ? 'History of $userName'
+                //         : "Vital Sign History",
+                //     style: TextStyle(
+                //         fontSize: 25.0,
+                //         fontWeight: FontWeight.bold,
+                //         color: Colors.black.withOpacity(.7)),
+                //     // textAlign: TextAlign.left,
+                //   ),
+                // ),
+              ],
+            ),
+            // SizedBox(
+            //   height: 20,
+            // ),
+            alert_Card(
+              hr_val: 100,
+              spo2_alert: true,
+              temp_val: 37,
+              spo2_val: 89,
+              rr_val: 15,
+              bp_val: [125, 90],
+              time_substract_val: Duration(minutes: 0),
+              vs_data: tempStaticVals.historyplot,
+            ),
+            alert_Card(
+              hr_val: 130,
+              hr_alert: true,
+              temp_val: 37,
+              temp_alert: false,
+              spo2_val: 94,
+              rr_val: 16,
+              bp_val: [120, 85],
+              time_substract_val: Duration(hours: 5),
+              vs_data: tempStaticVals.historyplot,
+            ),
+            alert_Card(
+              hr_val: 78,
+              hr_alert: false,
+              temp_val: 39.5,
+              temp_alert: true,
+              spo2_val: 95,
+              rr_val: 17,
+              bp_val: [130, 98],
+              time_substract_val: Duration(hours: 9),
+              vs_data: tempStaticVals.historyplot,
+            ),
+            alert_Card(
+              hr_val: 84,
+              hr_alert: false,
+              temp_val: 38,
+              temp_alert: false,
+              spo2_val: 94,
+              spo2_alert: true,
+              rr_val: 15,
+              bp_val: [140, 94],
+              time_substract_val: Duration(hours: 17),
+              vs_data: tempStaticVals.historyplot,
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            FloatingActionButton(onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => AbnormalVsBoard(
+                    selectedIndexToOpen: 1,
+                    openedHistoryVSType: 'test',
+                  ),
                 ),
-              ),
-            );
-          })
-        ],
+              );
+            })
+          ],
+        ),
       ),
     );
   }

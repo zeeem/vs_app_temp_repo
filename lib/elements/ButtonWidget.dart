@@ -7,17 +7,25 @@ class ButtonWidget extends StatelessWidget {
   final int secondaryButtonStyle;
   final double buttonHeight;
   final double bottomButtonPadding;
+  final double buttonWidth;
   const ButtonWidget(
       {Key key,
       @required this.buttonTitle,
       @required this.onTapFunction,
       this.secondaryButtonStyle,
       this.buttonHeight = 60,
-      this.bottomButtonPadding = 10})
+      this.bottomButtonPadding = 10,
+      this.buttonWidth})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    double button_width;
+    if (buttonWidth == null) {
+      button_width = MediaQuery.of(context).size.width;
+    } else {
+      button_width = buttonWidth;
+    }
     return LayoutBuilder(builder: (context, constraints) {
       return Padding(
         padding: const EdgeInsets.fromLTRB(10, 10, 10,
@@ -44,7 +52,7 @@ class ButtonWidget extends StatelessWidget {
                 }
               }(),
               borderRadius: BorderRadius.all(
-                Radius.circular(25),
+                Radius.circular(20),
               ),
               boxShadow: [
                 BoxShadow(
@@ -55,7 +63,7 @@ class ButtonWidget extends StatelessWidget {
                 )
               ],
             ),
-            width: MediaQuery.of(context).size.width,
+            width: button_width,
             height: buttonHeight,
             child: Center(
               child: Text(

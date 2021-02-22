@@ -7,6 +7,7 @@ import 'package:vital_signs_ui_template/elements/CustomAppBar.dart';
 import 'package:flutter/material.dart';
 import 'package:vital_signs_ui_template/core/consts.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'doctor_pages/DoctorSplashScreen.dart';
 import 'registration/condition_page.dart';
 import 'doctor_pages/docPatientListPage.dart';
 import 'registration/configuration_page8.dart';
@@ -156,7 +157,7 @@ class _LoginPage extends State<LoginPage> {
           String password = userPasswordController.text;
 
           //TEST CASE ONLY
-          if (username.length < 1 && testCase == true) {
+          if (username.length < 1 || testCase == true) {
             username = 'test_u2';
             password = '123123';
           }
@@ -166,7 +167,9 @@ class _LoginPage extends State<LoginPage> {
             print('code: $statusCode');
             if (statusCode == 200) {
               Navigator.of(context).pushReplacement(
-                MaterialPageRoute(builder: (_) => docPatientListPage()
+                MaterialPageRoute(builder: (_) => DoctorSplashScreen()
+                    // docPatientListPage()
+
                     //     ConfigurationPage8(
                     //   connectionMessage:
                     //       'Wait a moment, ${profileData.USER_FULL_NAME}! \nI am connecting the device to show your vital signs.',
