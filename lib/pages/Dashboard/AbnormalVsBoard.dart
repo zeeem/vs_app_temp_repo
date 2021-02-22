@@ -200,67 +200,143 @@ class _AbnormalVsBoardState extends State<AbnormalVsBoard> {
   }
 }
 
-class AbnormalVSList extends StatelessWidget {
+
+class AbnormalVSList extends StatefulWidget {
   final String userName;
   final List historyData;
 
   const AbnormalVSList({Key key, this.userName, this.historyData})
       : super(key: key);
+
+  @override
+  _AbnormalVSListState createState() => _AbnormalVSListState();
+}
+
+class _AbnormalVSListState extends State<AbnormalVSList> {
+  String userName;
+  List historyData;
+  bool visibilityTag = false;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    userName=widget.userName;
+    historyData=widget.historyData;
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Column(
         children: [
-          SizedBox(
-            height: 20,
-          ),
+          // SizedBox(
+          //   height: 20,
+          // ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
+              visibilityTag?
               Container(
-                padding: EdgeInsets.fromLTRB(20, 0, 0, 0.0),
-                child: Text(
-                  (userName.length > 0)
-                      ? 'History of $userName'
-                      : "Vital Sign History",
-                  style: TextStyle(
-                      fontSize: 25.0,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black.withOpacity(.7)),
-                  // textAlign: TextAlign.left,
-                ),
-              ),
-              Container(
-                padding: EdgeInsets.fromLTRB(0, 5, 20, 0),
+                padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
                 child: Row(
                   children: [
-                    // Text('Sort By'),
+                    Text('Filter by: ', style: TextStyle( fontSize: 15, fontWeight: FontWeight.bold)),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(8,0,8,0),
+                      child: DropdownButton<String>(
+                        hint: Text('Recent', style: TextStyle(fontSize: 15),),
+                        items: <String>['Recent', 'Older'].map((String value) {
+                          return new DropdownMenuItem<String>(
+                            value: value,
+                            child: new Text(value),
+                          );
+                        }).toList(),
+                        onChanged: (_) {},
+                      ),
+                    ),
                     DropdownButton<String>(
-                      icon: Icon(Icons.sort),
-                      isDense: true,
-                      style: TextStyle(fontSize: 10, color: Colors.black),
-                      items: <String>[
-                        'Recent Abnormals',
-                        'Abnormal HR',
-                        'Abnormal RR',
-                        'Abnormal TEMP',
-                        'Abnormal SPO2'
-                      ].map((String value) {
-                        return DropdownMenuItem<String>(
+                      hint: Text('All', style: TextStyle(fontSize: 15),),
+                      items: <String>['All', 'HR', 'RR', 'Spo2', 'Temp', 'BP'].map((String value) {
+                        return new DropdownMenuItem<String>(
                           value: value,
-                          child: Text(value),
+                          child: new Text(value),
                         );
                       }).toList(),
                       onChanged: (_) {},
-                    ),
+                    )
+
+
                   ],
                 ),
+              ):Container(),
+              Container(
+
+                //padding: EdgeInsets.fromLTRB(0, 0, 20, 0),
+                child: FlatButton(
+                  onPressed: (){
+                    setState(() {
+                      if(visibilityTag == false)
+                      {
+                        visibilityTag = true;
+                      }
+                      else
+                      {
+                        visibilityTag = false;
+                      }
+                    });
+
+                  },
+                  child:
+                      visibilityTag?
+                  Text('Filter', style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),)
+                          :Text('Filter', style: TextStyle(fontSize: 15),),
+                ),
               ),
+              // Container(
+              //   padding: EdgeInsets.fromLTRB(20, 0, 0, 0.0),
+              //   child: Text(
+              //     (userName.length > 0)
+              //         ? 'History of $userName'
+              //         : "Vital Sign History",
+              //     style: TextStyle(
+              //         fontSize: 25.0,
+              //         fontWeight: FontWeight.bold,
+              //         color: Colors.black.withOpacity(.7)),
+              //     // textAlign: TextAlign.left,
+              //   ),
+              // ),
+              // Container(
+              //   padding: EdgeInsets.fromLTRB(0, 5, 20, 0),
+              //   child: Row(
+              //     children: [
+              //       // Text('Sort By'),
+              //       DropdownButton<String>(
+              //         icon: Icon(Icons.sort),
+              //         isDense: true,
+              //         style: TextStyle(fontSize: 10, color: Colors.black),
+              //         items: <String>[
+              //           'Recent Abnormals',
+              //           'Abnormal HR',
+              //           'Abnormal RR',
+              //           'Abnormal TEMP',
+              //           'Abnormal SPO2'
+              //         ].map((String value) {
+              //           return DropdownMenuItem<String>(
+              //             value: value,
+              //             child: Text(value),
+              //           );
+              //         }).toList(),
+              //         onChanged: (_) {},
+              //       ),
+              //     ],
+              //   ),
+              // ),
             ],
           ),
-          SizedBox(
-            height: 20,
-          ),
+          // SizedBox(
+          //   height: 20,
+          // ),
           alert_Card(
             hr_val: 100,
             spo2_alert: true,

@@ -1,7 +1,10 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:vital_signs_ui_template/core/configVS.dart';
+import 'package:vital_signs_ui_template/core/consts.dart';
 import 'package:vital_signs_ui_template/elements/User.dart';
+import 'package:autocomplete_textfield/autocomplete_textfield.dart';
 import 'package:vital_signs_ui_template/elements/patient_tiles.dart';
 import 'dart:convert';
 import 'dart:async';
@@ -16,6 +19,28 @@ class DoctorPatientHistory extends StatefulWidget {
 class _DoctorPatientHistoryState extends State<DoctorPatientHistory> {
   Future<List<User>> _getUsers() async {
     return doctorData.patientList;
+  }
+  TextEditingController editingController = TextEditingController();
+  List<String> options = ['Dipto', 'Zeem'];
+  AutoCompleteTextField searchTextField;
+  GlobalKey<AutoCompleteTextFieldState<User>> key = new GlobalKey();
+  static List<User> users = new List<User>();
+
+  Widget row(User user) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: <Widget>[
+        Padding(
+          padding: const EdgeInsets.fromLTRB(10.0,10,10,10),
+          child: Text(
+            user.name,
+            style: TextStyle(fontSize: 22.0, color: AppColors.textColor),
+          ),
+        ),
+        Spacer(),
+
+      ],
+    );
   }
 
   var data = doctorData.patientList;
@@ -32,12 +57,50 @@ class _DoctorPatientHistoryState extends State<DoctorPatientHistory> {
         child: Column(
           children: [
             Container(
-              padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
+              padding: EdgeInsets.fromLTRB(20, 10, 20, 0),
               child: Text(
                 'Patients\' history',
                 style: TextStyle(fontSize: 21.0, fontWeight: FontWeight.bold),
                 textAlign: TextAlign.left,
               ),
+            ),
+            Container(
+              //height: 55,
+              //width: 380,
+              padding: EdgeInsets.fromLTRB(10,0,10,10),
+              child: searchTextField = AutoCompleteTextField<User>(
+                 key: key,
+                 clearOnSubmit: false,
+                 suggestions: doctorData.patientList,
+                 style: TextStyle(color: Colors.black, fontSize: 20.0),
+                 decoration: InputDecoration(
+                   contentPadding: EdgeInsets.fromLTRB(10.0, 30.0, 10.0, 20.0),
+                   hintText: "Search Name",
+                   hintStyle: TextStyle(color: Colors.black),
+                 ),
+                 itemFilter: (item, query) {
+                   return item.name
+                       .toLowerCase()
+                       .startsWith(query.toLowerCase());
+                 },
+                 itemSorter: (a, b) {
+                   return a.name.compareTo(b.name);
+                 },
+                 itemSubmitted: (item) {
+                   setState(() {
+                     searchTextField.textField.controller.text = item.name;
+                   });
+                 },
+                 itemBuilder: (context, item) {
+                   // ui for the autocompelete row
+                   return row(item);
+                 },
+               ),
+
+            ),
+
+            SizedBox(
+              height: 10,
             ),
             Container(
               // padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
@@ -61,9 +124,9 @@ class _DoctorPatientHistoryState extends State<DoctorPatientHistory> {
                 },
               ),
             ),
-            // SizedBox(
-            //   height: 50,
-            // )
+            SizedBox(
+              height: 50,
+            )
           ],
         ),
       );

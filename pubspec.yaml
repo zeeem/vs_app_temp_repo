@@ -52,6 +52,9 @@ dependencies:
   linalg: ^0.3.2
   smart_arrays_peaks: ^2.1.3
   toggle_switch: ^0.1.8
+  flappy_search_bar: 1.4.1
+  dio: 1.0.0
+  autocomplete_textfield: ^1.6.4
 #  ext_storage: any
   permission_handler:  ^3.0.0
   fl_chart: ^0.10.1
