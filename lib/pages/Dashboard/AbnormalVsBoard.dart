@@ -346,6 +346,7 @@ class _AbnormalVSListState extends State<AbnormalVSList> {
             // SizedBox(
             //   height: 20,
             // ),
+            selectedFilterVS!='HR'?
             alert_Card(
               hr_val: 100,
               spo2_alert: true,
@@ -355,7 +356,7 @@ class _AbnormalVSListState extends State<AbnormalVSList> {
               bp_val: [125, 90],
               time_substract_val: Duration(minutes: 0),
               vs_data: tempStaticVals.historyplot,
-            ),
+            ): Container(),
             alert_Card(
               hr_val: 130,
               hr_alert: true,
@@ -367,6 +368,7 @@ class _AbnormalVSListState extends State<AbnormalVSList> {
               time_substract_val: Duration(hours: 5),
               vs_data: tempStaticVals.historyplot,
             ),
+            selectedFilterVS!='HR'?
             alert_Card(
               hr_val: 78,
               hr_alert: false,
@@ -377,7 +379,8 @@ class _AbnormalVSListState extends State<AbnormalVSList> {
               bp_val: [130, 98],
               time_substract_val: Duration(hours: 9),
               vs_data: tempStaticVals.historyplot,
-            ),
+            ):Container(),
+            selectedFilterVS!='HR'?
             alert_Card(
               hr_val: 84,
               hr_alert: false,
@@ -389,21 +392,44 @@ class _AbnormalVSListState extends State<AbnormalVSList> {
               bp_val: [140, 94],
               time_substract_val: Duration(hours: 17),
               vs_data: tempStaticVals.historyplot,
+            ):Container(),
+            alert_Card(
+              hr_val: 125,
+              hr_alert: true,
+              temp_val: 37.5,
+              temp_alert: false,
+              spo2_val: 97,
+              rr_val: 16,
+              bp_val: [120, 85],
+              time_substract_val: Duration(hours: 19),
+              vs_data: tempStaticVals.historyplot,
+            ),
+            alert_Card(
+              hr_val: 135,
+              hr_alert: true,
+              temp_val: 37,
+              temp_alert: false,
+              spo2_val: 96,
+              rr_val: 16,
+              bp_val: [120, 85],
+              time_substract_val: Duration(hours: 30),
+              vs_data: tempStaticVals.historyplot,
             ),
             SizedBox(
               height: 20,
             ),
-            FloatingActionButton(onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => AbnormalVsBoard(
-                    selectedIndexToOpen: 1,
-                    openedHistoryVSType: 'test',
-                  ),
-                ),
-              );
-            })
+            // FloatingActionButton(onPressed: () {
+            //   Navigator.push(
+            //     context,
+            //     MaterialPageRoute(
+            //       builder: (context) => AbnormalVsBoard(
+            //         selectedIndexToOpen: 1,
+            //         openedHistoryVSType: 'test',
+            //       ),
+            //     ),
+            //   );
+            // },
+            // ),
           ],
         ),
       ),

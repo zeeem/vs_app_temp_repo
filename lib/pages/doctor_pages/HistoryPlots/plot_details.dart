@@ -18,6 +18,7 @@ class PlotDetails extends StatefulWidget {
   final List long_data;
   final String timeOfData;
 
+
   final bool showAbnormalDots;
 
   const PlotDetails(
@@ -57,6 +58,7 @@ class _PlotDetailsState extends State<PlotDetails> {
   DateTime now;
   String _timeOfData;
   String _vsTitle = '';
+
 
   Random random = new Random();
   int randomInt = 0;
@@ -456,6 +458,7 @@ class _PlotDetailsState extends State<PlotDetails> {
                         LineChartBarData(
                           spots: generateHourlySpots(_data_to_plot, 1),
                           isCurved: true,
+
                           colors: gradientColors,
                           barWidth: 3,
                           isStrokeCapRound: true,
