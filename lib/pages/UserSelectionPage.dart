@@ -7,6 +7,7 @@ import 'package:vital_signs_ui_template/pages/LoginPage.dart';
 import 'package:vital_signs_ui_template/pages/SplashScreen.dart';
 
 import 'doctor_pages/DoctorSplashScreen.dart';
+import 'doctor_pages/HistoryPlots/StickyHeaderTest.dart';
 
 class UserSelection extends StatelessWidget {
   @override
@@ -77,6 +78,12 @@ class UserSelection extends StatelessWidget {
                     navigateTo(context, DoctorSplashScreen());
                   },
                   child: Text('...'),
+                ),
+                FlatButton(
+                  onPressed: () {
+                    navigateTo(context, VSplotExample());
+                  },
+                  child: Text('....'),
                 ),
               ],
             ),
