@@ -1,16 +1,15 @@
 import 'dart:convert';
-import 'package:toggle_switch/toggle_switch.dart';
+
+import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:vital_signs_ui_template/Processing/NetworkGateway/networkManager.dart';
 import 'package:vital_signs_ui_template/core/configVS.dart';
+import 'package:vital_signs_ui_template/core/consts.dart';
 import 'package:vital_signs_ui_template/elements/ButtonWidget.dart';
 import 'package:vital_signs_ui_template/elements/CustomAppBar.dart';
-import 'package:flutter/material.dart';
-import 'package:vital_signs_ui_template/core/consts.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+
 import 'doctor_pages/DoctorSplashScreen.dart';
 import 'registration/condition_page.dart';
-import 'doctor_pages/docPatientListPage.dart';
-import 'registration/configuration_page8.dart';
 
 bool testCase = true;
 
@@ -25,6 +24,8 @@ class _LoginPage extends State<LoginPage> {
 
   @override
   void initState() {
+    //for demo only
+    userNameController.text = 'smith229';
     super.initState();
   }
 

@@ -9,7 +9,7 @@ import 'vs_item.dart';
 class alert_Card extends StatelessWidget {
   final int hr_val, spo2_val, rr_val;
   final double temp_val;
-  final List<int> bp_val;
+  final List<int> bp_val; //[hi,low]
   final DateTime measured_time;
   final Duration time_substract_val;
   final bool hr_alert, temp_alert, spo2_alert, rr_alert, bp_alert;

@@ -2,13 +2,13 @@ import 'dart:math';
 
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:vital_signs_ui_template/elements/CustomAppBar.dart';
+import 'package:intl/intl.dart';
 import 'package:vital_signs_ui_template/elements/ButtonWidget.dart';
+import 'package:vital_signs_ui_template/elements/CustomAppBar.dart';
 import 'package:vital_signs_ui_template/pages/Dashboard/AbnormalVsBoard.dart';
 
 import '../../../core/consts.dart';
 import 'PlotDataProcessing.dart';
-import 'package:intl/intl.dart';
 
 class PlotDetails extends StatefulWidget {
   final int touchedIndex;
@@ -17,7 +17,6 @@ class PlotDetails extends StatefulWidget {
   final List data_to_plot;
   final List long_data;
   final String timeOfData;
-
 
   final bool showAbnormalDots;
 
@@ -58,10 +57,10 @@ class _PlotDetailsState extends State<PlotDetails> {
   DateTime now;
   String _timeOfData;
   String _vsTitle = '';
-
+  bool changeBottomNavBar = true;
 
   Random random = new Random();
-  int randomInt = 0;
+  int randomInt;
 
   List<Color> gradientColors = [
     const Color(0xff23b6e6),
@@ -137,11 +136,12 @@ class _PlotDetailsState extends State<PlotDetails> {
       case 'hr':
         _yMinRange = 30;
         _yMaxRange = 150;
-        randomInt = random.nextInt(3);
-        _normalRange1 = 75;
-        _normalRange2 = 90;
-        _emergencyDotBracket = 85;
+        randomInt = 15;
+        _normalRange1 = 60;
+        _normalRange2 = 100;
+        _emergencyDotBracket = 100;
         _vsTitle = 'Heart Rate';
+        changeBottomNavBar = false; //for testing only
         break;
       case 'temp':
         _yMinRange = 30;
@@ -152,10 +152,11 @@ class _PlotDetailsState extends State<PlotDetails> {
       case 'spo2':
         _yMinRange = 85;
         _yMaxRange = 105;
-        randomInt = 8;
-        _normalRange1 = 94;
-        _normalRange2 = 94;
-        _emergencyDotBracket = 94;
+        randomInt = 6;
+        _normalRange1 = 91;
+        _normalRange2 = 91;
+        _emergencyDotBracket = 91;
+        changeBottomNavBar = true; //for testing only
         _vsTitle = 'Oxygen Saturation';
         break;
     }
@@ -170,449 +171,476 @@ class _PlotDetailsState extends State<PlotDetails> {
         turnOffBackButton: false,
         turnOffSettingsButton: true,
       ),
-      body: Column(
-        children: [
-          Container(
-            padding: EdgeInsets.all(15),
-            child: Center(
-              child: Text("$_vsTitle - $_timeOfData",
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold, color: AppColors.textColor)),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Container(
+              padding: EdgeInsets.all(15),
+              child: Center(
+                child: Text("$_vsTitle - $_timeOfData",
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.textColor)),
+              ),
             ),
-          ),
-          Container(
-            width: 335,
-            height: 300,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(8),
-              color: Colors.grey[100],
-            ),
-            child: Column(
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    SizedBox(
-                      height: 20,
-                      child: FlatButton(
-                          onPressed: () {
-                            if (isRangeOnSpecificHour) {
-                              setState(() {
-                                isRangeOnSpecificHour = false;
-                              });
-                            } else {
-                              setState(() {
-                                isRangeOnSpecificHour = true;
-                              });
-                            }
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.fromLTRB(0, 0, 20, 0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                Text(
-                                  "---- ",
-                                  style: TextStyle(
-                                      color: isRangeOnSpecificHour
-                                          ? Colors.redAccent
-                                          : Colors.grey,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 20),
-                                ),
-                                Text(
-                                  "Normal zone",
-                                  style: TextStyle(
-                                    color: AppColors.textColor,
-                                    fontSize: 12,
+            Container(
+              width: 335,
+              height: 300,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8),
+                color: Colors.grey[100],
+              ),
+              child: Column(
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      SizedBox(
+                        height: 20,
+                        child: FlatButton(
+                            onPressed: () {
+                              if (isRangeOnSpecificHour) {
+                                setState(() {
+                                  isRangeOnSpecificHour = false;
+                                });
+                              } else {
+                                setState(() {
+                                  isRangeOnSpecificHour = true;
+                                });
+                              }
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.fromLTRB(0, 0, 20, 0),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  Text(
+                                    "---- ",
+                                    style: TextStyle(
+                                        color: isRangeOnSpecificHour
+                                            ? Colors.redAccent
+                                            : Colors.grey,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 20),
                                   ),
-                                ),
-                                Icon(
-                                  Icons.fiber_manual_record_rounded,
-                                  color: isRangeOnSpecificHour
-                                      ? Colors.green
-                                      : Colors.grey,
-                                  size: 10,
-                                ),
-                              ],
-                            ),
-                          )),
-                    ),
-                    SizedBox(
-                      height: 20,
-                      child: FlatButton(
-                          onPressed: () {
-                            if (isEmergencyDotOn) {
-                              setState(() {
-                                isEmergencyDotOn = false;
-                              });
-                            } else {
-                              setState(() {
-                                isEmergencyDotOn = true;
-                              });
-                            }
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.fromLTRB(0, 0, 20, 0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                Text(
-                                  "---- ",
-                                  style: TextStyle(
-                                      color: isEmergencyDotOn
-                                          ? Colors.redAccent
-                                          : Colors.grey,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 20),
-                                ),
-                                Text(
-                                  "Abnormal",
-                                  style: TextStyle(
-                                      color: AppColors.textColor, fontSize: 12),
-                                ),
-                                Icon(
-                                  Icons.fiber_manual_record_rounded,
-                                  color: isEmergencyDotOn
-                                      ? Colors.green
-                                      : Colors.grey,
-                                  size: 10,
-                                ),
-                              ],
-                            ),
-                          )),
-                    ),
-                    SizedBox(
-                      height: 25,
-                      child: FlatButton(
-                          onPressed: () {
-                            if (isStdDeviationOn24HoursGraph) {
-                              setState(() {
-                                isStdDeviationOn24HoursGraph = false;
-                              });
-                            } else {
-                              setState(() {
-                                isStdDeviationOn24HoursGraph = true;
-                              });
-                            }
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.fromLTRB(0, 0, 20, 0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                Text(
-                                  "---- ",
-                                  style: TextStyle(
-                                      color: isStdDeviationOn24HoursGraph
-                                          ? Colors.black54
-                                          : Colors.grey,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 20),
-                                ),
-                                Text(
-                                  "Variation",
-                                  style: TextStyle(color: AppColors.textColor),
-                                ),
-                                Icon(
-                                  Icons.fiber_manual_record_rounded,
-                                  color: isStdDeviationOn24HoursGraph
-                                      ? Colors.green
-                                      : Colors.grey,
-                                  size: 10,
-                                ),
-                              ],
-                            ),
-                          )),
-                    ),
-                    SizedBox(
-                      height: 20,
-                      child: FlatButton(
-                          onPressed: () {
-                            if (isMinMaxOn) {
-                              setState(() {
-                                isMinMaxOn = false;
-                              });
-                            } else {
-                              setState(() {
-                                isMinMaxOn = true;
-                              });
-                            }
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.fromLTRB(0, 0, 20, 0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                Text(
-                                  "---- ",
-                                  style: TextStyle(
-                                      color: isMinMaxOn
-                                          ? Colors.redAccent
-                                          : Colors.grey,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 20),
-                                ),
-                                Text(
-                                  "Min & Max",
-                                  style: TextStyle(
-                                      color: AppColors.textColor, fontSize: 12),
-                                ),
-                                Icon(
-                                  Icons.fiber_manual_record_rounded,
-                                  color:
-                                      isMinMaxOn ? Colors.green : Colors.grey,
-                                  size: 10,
-                                ),
-                              ],
-                            ),
-                          )),
-                    ),
-                  ],
-                ),
-                Expanded(
-                  child: LineChart(
-                    LineChartData(
-                      extraLinesData: isRangeOnSpecificHour
-                          ? ExtraLinesData(
-                              horizontalLines: [
-                                HorizontalLine(
-                                  y: _normalRange1,
-                                  color: Colors.redAccent,
-                                  strokeWidth: 1,
-                                ),
-                                HorizontalLine(
-                                  y: _normalRange2,
-                                  color: Colors.redAccent,
-                                )
-                              ],
-                            )
-                          : ExtraLinesData(),
+                                  Text(
+                                    "Normal zone",
+                                    style: TextStyle(
+                                      color: AppColors.textColor,
+                                      fontSize: 12,
+                                    ),
+                                  ),
+                                  Icon(
+                                    Icons.fiber_manual_record_rounded,
+                                    color: isRangeOnSpecificHour
+                                        ? Colors.green
+                                        : Colors.grey,
+                                    size: 10,
+                                  ),
+                                ],
+                              ),
+                            )),
+                      ),
+                      SizedBox(
+                        height: 20,
+                        child: FlatButton(
+                            onPressed: () {
+                              if (isEmergencyDotOn) {
+                                setState(() {
+                                  isEmergencyDotOn = false;
+                                });
+                              } else {
+                                setState(() {
+                                  isEmergencyDotOn = true;
+                                });
+                              }
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.fromLTRB(0, 0, 20, 0),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  Text(
+                                    "---- ",
+                                    style: TextStyle(
+                                        color: isEmergencyDotOn
+                                            ? Colors.redAccent
+                                            : Colors.grey,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 20),
+                                  ),
+                                  Text(
+                                    "Abnormal",
+                                    style: TextStyle(
+                                        color: AppColors.textColor,
+                                        fontSize: 12),
+                                  ),
+                                  Icon(
+                                    Icons.fiber_manual_record_rounded,
+                                    color: isEmergencyDotOn
+                                        ? Colors.green
+                                        : Colors.grey,
+                                    size: 10,
+                                  ),
+                                ],
+                              ),
+                            )),
+                      ),
+                      SizedBox(
+                        height: 25,
+                        child: FlatButton(
+                            onPressed: () {
+                              if (isStdDeviationOn24HoursGraph) {
+                                setState(() {
+                                  isStdDeviationOn24HoursGraph = false;
+                                });
+                              } else {
+                                setState(() {
+                                  isStdDeviationOn24HoursGraph = true;
+                                });
+                              }
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.fromLTRB(0, 0, 20, 0),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  Text(
+                                    "---- ",
+                                    style: TextStyle(
+                                        color: isStdDeviationOn24HoursGraph
+                                            ? Colors.black54
+                                            : Colors.grey,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 20),
+                                  ),
+                                  Text(
+                                    "Variation",
+                                    style:
+                                        TextStyle(color: AppColors.textColor),
+                                  ),
+                                  Icon(
+                                    Icons.fiber_manual_record_rounded,
+                                    color: isStdDeviationOn24HoursGraph
+                                        ? Colors.green
+                                        : Colors.grey,
+                                    size: 10,
+                                  ),
+                                ],
+                              ),
+                            )),
+                      ),
+                      SizedBox(
+                        height: 20,
+                        child: FlatButton(
+                            onPressed: () {
+                              if (isMinMaxOn) {
+                                setState(() {
+                                  isMinMaxOn = false;
+                                });
+                              } else {
+                                setState(() {
+                                  isMinMaxOn = true;
+                                });
+                              }
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.fromLTRB(0, 0, 20, 0),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  Text(
+                                    "---- ",
+                                    style: TextStyle(
+                                        color: isMinMaxOn
+                                            ? Colors.redAccent
+                                            : Colors.grey,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 20),
+                                  ),
+                                  Text(
+                                    "Min & Max",
+                                    style: TextStyle(
+                                        color: AppColors.textColor,
+                                        fontSize: 12),
+                                  ),
+                                  Icon(
+                                    Icons.fiber_manual_record_rounded,
+                                    color:
+                                        isMinMaxOn ? Colors.green : Colors.grey,
+                                    size: 10,
+                                  ),
+                                ],
+                              ),
+                            )),
+                      ),
+                    ],
+                  ),
+                  Expanded(
+                    child: LineChart(
+                      LineChartData(
+                        extraLinesData: isRangeOnSpecificHour
+                            ? ExtraLinesData(
+                                horizontalLines: [
+                                  HorizontalLine(
+                                    y: _normalRange1,
+                                    color: Colors.redAccent,
+                                    strokeWidth: 1,
+                                  ),
+                                  HorizontalLine(
+                                    y: _normalRange2,
+                                    color: Colors.redAccent,
+                                  )
+                                ],
+                              )
+                            : ExtraLinesData(),
 
-                      minX: 0,
-                      maxX: _maxX_range,
-                      minY: _yMinRange,
-                      maxY: _yMaxRange,
-                      titlesData: FlTitlesData(
-                        bottomTitles: SideTitles(
-                            showTitles: true,
-                            reservedSize: 6,
-                            getTitles: (value) {
-                              if (value.toInt() % (_maxX_range / 3) == 0) {
-                                return getTimes(value.toInt(), _touchedScale);
-                              } else {
-                                return '';
-                              }
-                              // switch (value.toInt()) {
-                              //   case 0:
-                              //     return '0';
-                              //   case 15:
-                              //     return '15m';
-                              //   case 30:
-                              //     return '30m';
-                              //   case 45:
-                              //     return '45m';
-                              //   case 60:
-                              //     return '1h';
-                              //   default:
-                              //     return '';
-                              // }
-                            }),
-                        leftTitles: SideTitles(
-                          showTitles: true,
-                          getTitles: (value) {
-                            if (_touchedVSType == 'spo2') {
-                              if (value.toInt() % 5 == 0 &&
-                                  value.toInt() <= 100) {
-                                return value.toInt().toString() + '%';
-                              } else {
-                                return '';
-                              }
-                            } else if (_touchedVSType == 'temp') {
-                              if (value.toInt() % 5 == 0) {
-                                return value.toString() + '°C';
-                              } else {
-                                return '';
-                              }
-                            } else {
-                              switch (value.toInt()) {
-                                case 50:
-                                  return '50';
-                                case 75:
-                                  return '75';
-                                case 100:
-                                  return '100';
-                                case 125:
-                                  return '125';
-                                default:
+                        minX: 0,
+                        maxX: _maxX_range,
+                        minY: _yMinRange,
+                        maxY: _yMaxRange,
+                        titlesData: FlTitlesData(
+                          bottomTitles: SideTitles(
+                              showTitles: true,
+                              reservedSize: 6,
+                              getTitles: (value) {
+                                if (value.toInt() % (_maxX_range / 3) == 0) {
+                                  return getTimes(value.toInt(), _touchedScale);
+                                } else {
                                   return '';
+                                }
+                                // switch (value.toInt()) {
+                                //   case 0:
+                                //     return '0';
+                                //   case 15:
+                                //     return '15m';
+                                //   case 30:
+                                //     return '30m';
+                                //   case 45:
+                                //     return '45m';
+                                //   case 60:
+                                //     return '1h';
+                                //   default:
+                                //     return '';
+                                // }
+                              }),
+                          leftTitles: SideTitles(
+                            showTitles: true,
+                            getTitles: (value) {
+                              if (_touchedVSType == 'spo2') {
+                                if (value.toInt() % 5 == 0 &&
+                                    value.toInt() <= 100) {
+                                  return value.toInt().toString() + '%';
+                                } else {
+                                  return '';
+                                }
+                              } else if (_touchedVSType == 'temp') {
+                                if (value.toInt() % 5 == 0) {
+                                  return value.toString() + '°C';
+                                } else {
+                                  return '';
+                                }
+                              } else {
+                                switch (value.toInt()) {
+                                  case 50:
+                                    return '50';
+                                  case 75:
+                                    return '75';
+                                  case 100:
+                                    return '100';
+                                  case 125:
+                                    return '125';
+                                  default:
+                                    return '';
+                                }
                               }
-                            }
-                          },
+                            },
+                          ),
                         ),
+                        borderData: FlBorderData(show: false),
+                        gridData: FlGridData(show: false),
+                        lineBarsData: [
+                          //loadAsset(),
+                          LineChartBarData(
+                            spots: generateHourlySpots(_data_to_plot, 1),
+                            isCurved: true,
+
+                            colors: gradientColors,
+                            barWidth: 3,
+                            isStrokeCapRound: true,
+
+                            dotData: isEmergencyDotOn
+                                ? FlDotData(
+                                    show: true,
+                                    checkToShowDot: (spot, belowBarData) {
+                                      return _touchedVSType == 'spo2'
+                                          ? (spot.y < _emergencyDotBracket)
+                                          : (spot.y > _emergencyDotBracket);
+                                    },
+                                    getDotPainter: (spot, percent, barData,
+                                            index) =>
+                                        //FlDotCirclePainter(radius: 5, color: Colors.red.withOpacity(0.5)),
+                                        FlDotCirclePainter(
+                                            radius: 3, color: Colors.redAccent),
+                                  )
+                                : FlDotData(show: false),
+
+                            //barWidth: 1,
+                            belowBarData: BarAreaData(
+                                show: true,
+                                colors: gradientColors
+                                    .map((color) => color.withOpacity(0.15))
+                                    .toList()),
+                          ),
+                          LineChartBarData(
+                            spots: generateHourlySpots(_data_to_plot, 0),
+                            isCurved: true,
+                            colors: [Colors.yellowAccent],
+                            barWidth: 3,
+                            isStrokeCapRound: true,
+                            dotData: FlDotData(show: false),
+                            show: isMinMaxOn ? true : false,
+                            //barWidth: 1,
+                          ),
+                          LineChartBarData(
+                            spots: generateHourlySpots(_data_to_plot, 2),
+                            isCurved: true,
+                            colors: [Colors.deepOrangeAccent],
+                            barWidth: 3,
+                            isStrokeCapRound: true,
+                            dotData: FlDotData(show: false),
+                            show: isMinMaxOn ? true : false,
+                            //barWidth: 1,
+                          ),
+                          LineChartBarData(
+                            spots: generateHourlySpots(_data_to_plot, 3),
+                            isCurved: true,
+                            colors: [Colors.grey],
+                            barWidth: 1,
+                            isStrokeCapRound: true,
+                            dotData: FlDotData(show: false),
+                            show: isStdDeviationOn24HoursGraph ? true : false,
+                            //barWidth: 1,
+                          ),
+
+                          LineChartBarData(
+                            spots: generateHourlySpots(_data_to_plot, 4),
+                            isCurved: true,
+                            colors: [Colors.grey],
+                            barWidth: 1,
+                            isStrokeCapRound: true,
+                            dotData: FlDotData(show: false),
+                            show: isStdDeviationOn24HoursGraph ? true : false,
+                            //barWidth: 1,
+                          ),
+                        ],
+                        axisTitleData: FlAxisTitleData(
+                          bottomTitle: AxisTitle(
+                              showTitle: true, titleText: '', margin: 5),
+                          leftTitle: AxisTitle(
+                              showTitle: true, titleText: '', margin: 0),
+                        ),
+                        // lineTouchData: LineTouchData(getTouchedSpotIndicator:
+                        //     (LineChartBarData barData,
+                        //         List<int> spotIndexes) {
+                        //   return spotIndexes.map((spotIndex) {
+                        //     final FlSpot spot = barData.spots[spotIndex];
+                        //
+                        //     _touchedIndex = spotIndex;
+                        //     _touchedSpotValue = spot
+                        //         .x; //double (getting the x value or y value)
+                        //
+                        //     // if (spot.x == 0 || spot.x == 30 || spot.x == 29) {
+                        //     //   return null;
+                        //     // }
+                        //   }).toList();
+                        // }, touchCallback: (LineTouchResponse touchResponse) {
+                        //   if (touchResponse.touchInput is FlPanEnd ||
+                        //       touchResponse.touchInput is FlLongPressEnd) {
+                        //     //goto next page for details
+                        //     Navigator.push(
+                        //       context,
+                        //       MaterialPageRoute(
+                        //         builder: (context) => PlotDetails(
+                        //           touchedIndex: _touchedIndex,
+                        //           touchedScale: 'hr',
+                        //         ),
+                        //       ),
+                        //     );
+                        //     setState(() {
+                        //       print('touched index---> $_touchedIndex');
+                        //     });
+                        //   } else {
+                        //     print('wait');
+                        //   }
+                        // }),
                       ),
-                      borderData: FlBorderData(show: false),
-                      gridData: FlGridData(show: false),
-                      lineBarsData: [
-                        //loadAsset(),
-                        LineChartBarData(
-                          spots: generateHourlySpots(_data_to_plot, 1),
-                          isCurved: true,
-
-                          colors: gradientColors,
-                          barWidth: 3,
-                          isStrokeCapRound: true,
-
-                          dotData: isEmergencyDotOn
-                              ? FlDotData(
-                                  show: true,
-                                  checkToShowDot: (spot, belowBarData) {
-                                    return _touchedVSType == 'spo2'
-                                        ? (spot.y < _emergencyDotBracket)
-                                        : (spot.y > _emergencyDotBracket);
-                                  },
-                                  getDotPainter: (spot, percent, barData,
-                                          index) =>
-                                      //FlDotCirclePainter(radius: 5, color: Colors.red.withOpacity(0.5)),
-                                      FlDotCirclePainter(
-                                          radius: 3, color: Colors.redAccent),
-                                )
-                              : FlDotData(show: false),
-
-                          //barWidth: 1,
-                          belowBarData: BarAreaData(
-                              show: true,
-                              colors: gradientColors
-                                  .map((color) => color.withOpacity(0.15))
-                                  .toList()),
-                        ),
-                        LineChartBarData(
-                          spots: generateHourlySpots(_data_to_plot, 0),
-                          isCurved: true,
-                          colors: [Colors.yellowAccent],
-                          barWidth: 3,
-                          isStrokeCapRound: true,
-                          dotData: FlDotData(show: false),
-                          show: isMinMaxOn ? true : false,
-                          //barWidth: 1,
-                        ),
-                        LineChartBarData(
-                          spots: generateHourlySpots(_data_to_plot, 2),
-                          isCurved: true,
-                          colors: [Colors.deepOrangeAccent],
-                          barWidth: 3,
-                          isStrokeCapRound: true,
-                          dotData: FlDotData(show: false),
-                          show: isMinMaxOn ? true : false,
-                          //barWidth: 1,
-                        ),
-                        LineChartBarData(
-                          spots: generateHourlySpots(_data_to_plot, 3),
-                          isCurved: true,
-                          colors: [Colors.grey],
-                          barWidth: 1,
-                          isStrokeCapRound: true,
-                          dotData: FlDotData(show: false),
-                          show: isStdDeviationOn24HoursGraph ? true : false,
-                          //barWidth: 1,
-                        ),
-
-                        LineChartBarData(
-                          spots: generateHourlySpots(_data_to_plot, 4),
-                          isCurved: true,
-                          colors: [Colors.grey],
-                          barWidth: 1,
-                          isStrokeCapRound: true,
-                          dotData: FlDotData(show: false),
-                          show: isStdDeviationOn24HoursGraph ? true : false,
-                          //barWidth: 1,
-                        ),
-                      ],
-                      axisTitleData: FlAxisTitleData(
-                        bottomTitle: AxisTitle(
-                            showTitle: true, titleText: '', margin: 5),
-                        leftTitle: AxisTitle(
-                            showTitle: true, titleText: '', margin: 0),
-                      ),
-                      // lineTouchData: LineTouchData(getTouchedSpotIndicator:
-                      //     (LineChartBarData barData,
-                      //         List<int> spotIndexes) {
-                      //   return spotIndexes.map((spotIndex) {
-                      //     final FlSpot spot = barData.spots[spotIndex];
-                      //
-                      //     _touchedIndex = spotIndex;
-                      //     _touchedSpotValue = spot
-                      //         .x; //double (getting the x value or y value)
-                      //
-                      //     // if (spot.x == 0 || spot.x == 30 || spot.x == 29) {
-                      //     //   return null;
-                      //     // }
-                      //   }).toList();
-                      // }, touchCallback: (LineTouchResponse touchResponse) {
-                      //   if (touchResponse.touchInput is FlPanEnd ||
-                      //       touchResponse.touchInput is FlLongPressEnd) {
-                      //     //goto next page for details
-                      //     Navigator.push(
-                      //       context,
-                      //       MaterialPageRoute(
-                      //         builder: (context) => PlotDetails(
-                      //           touchedIndex: _touchedIndex,
-                      //           touchedScale: 'hr',
-                      //         ),
-                      //       ),
-                      //     );
-                      //     setState(() {
-                      //       print('touched index---> $_touchedIndex');
-                      //     });
-                      //   } else {
-                      //     print('wait');
-                      //   }
-                      // }),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-          Container(
-            padding: EdgeInsets.fromLTRB(15, 15, 15, 0),
-            child: Slider(
-                value: _currentSliderValue,
-                min: 15,
-                max: 180,
-                divisions: 11,
-                label: _currentSliderValue.round().toString(),
-                onChanged: (double value) {
-                  updateRange(value.toInt());
-                  setState(() {
-                    _currentSliderValue = value;
-                  });
-                }),
-          ),
-          Text(
-            'Use slider to change the timeline',
-            style: TextStyle(
-                color: AppColors.textColor, fontStyle: FontStyle.italic),
-          ),
-          Container(
-            padding: EdgeInsets.all(30),
-            child: ButtonWidget(
-              buttonTitle: 'ALL CHARTS',
-              buttonHeight: 50,
-              onTapFunction: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => AbnormalVsBoard(
-                      selectedIndexToOpen: 1,
-                      openedHistoryVSType: 'spo2',
+            Container(
+              padding: EdgeInsets.fromLTRB(15, 15, 15, 0),
+              child: Slider(
+                  value: _currentSliderValue,
+                  min: 15,
+                  max: 180,
+                  divisions: 11,
+                  label: _currentSliderValue.round().toString(),
+                  onChanged: (double value) {
+                    updateRange(value.toInt());
+                    setState(() {
+                      _currentSliderValue = value;
+                    });
+                  }),
+            ),
+            Text(
+              'Use slider to change the timeline',
+              style: TextStyle(
+                  color: AppColors.textColor, fontStyle: FontStyle.italic),
+            ),
+            Container(
+              padding: EdgeInsets.all(30),
+              child: ButtonWidget(
+                buttonTitle: 'ALL CHARTS',
+                buttonHeight: 50,
+                onTapFunction: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => AbnormalVsBoard(
+                        selectedIndexToOpen: 1,
+                        openedHistoryVSType: 'spo2',
+                      ),
                     ),
-                  ),
-                );
-              },
+                  );
+                },
+              ),
             ),
+          ],
+        ),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        items: <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            title: Text('Home'),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.assessment),
+            title: Text('History'),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(changeBottomNavBar
+                ? Icons.warning
+                : Icons.perm_phone_msg_rounded),
+            title: Text(changeBottomNavBar ? 'HELP' : 'Contact'),
           ),
         ],
+        // currentIndex: _selectedIndex,
+        selectedItemColor: AppColors.deccolor1,
+        // onTap: _onItemTapped,
       ),
     );
   }

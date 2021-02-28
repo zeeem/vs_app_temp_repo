@@ -1,14 +1,13 @@
-import 'package:dio/dio.dart';
+import 'dart:async';
+
+import 'package:autocomplete_textfield/autocomplete_textfield.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:vital_signs_ui_template/core/configVS.dart';
 import 'package:vital_signs_ui_template/core/consts.dart';
 import 'package:vital_signs_ui_template/elements/User.dart';
-import 'package:autocomplete_textfield/autocomplete_textfield.dart';
 import 'package:vital_signs_ui_template/elements/patient_tiles.dart';
-import 'dart:convert';
-import 'dart:async';
-import 'package:http/http.dart' as http;
+
 import 'docVSPage.dart';
 
 class DoctorPatientHistory extends StatefulWidget {
@@ -34,7 +33,7 @@ class _DoctorPatientHistoryState extends State<DoctorPatientHistory> {
           padding: const EdgeInsets.fromLTRB(10.0, 10, 10, 10),
           child: Text(
             user.name,
-            style: TextStyle(fontSize: 22.0, color: AppColors.textColor),
+            style: TextStyle(fontSize: 20.0, color: AppColors.textColor),
           ),
         ),
         Spacer(),
@@ -72,11 +71,11 @@ class _DoctorPatientHistoryState extends State<DoctorPatientHistory> {
                 key: key,
                 clearOnSubmit: false,
                 suggestions: doctorData.patientList,
-                style: TextStyle(color: Colors.black, fontSize: 20.0),
+                style: TextStyle(color: Colors.black, fontSize: 18.0),
                 decoration: InputDecoration(
-                  contentPadding: EdgeInsets.fromLTRB(10.0, 30.0, 10.0, 20.0),
+                  contentPadding: EdgeInsets.fromLTRB(10.0, 30.0, 10.0, 15),
                   hintText: "Search Name",
-                  hintStyle: TextStyle(color: Colors.black),
+                  hintStyle: TextStyle(color: AppColors.textColor),
                 ),
                 itemFilter: (item, query) {
                   return item.name

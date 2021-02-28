@@ -193,7 +193,8 @@ class AlterWindowV2 extends StatelessWidget {
                   ),
                   ButtonWidget(
                     buttonTitle:
-                        'CALL ${profileData.EMERGENCY_CONTACT_1_NAME ?? 'Daughter: Alison'} - Son ',
+                        // 'CALL ${profileData.EMERGENCY_CONTACT_1_NAME ?? 'Daughter: Alison'}',
+                        'CALL Daughter: Alison',
                     buttonHeight: btn_height,
                     onTapFunction: () {
                       _callNumber(profileData.EMERGENCY_CONTACT_1_PHONE);
@@ -201,7 +202,8 @@ class AlterWindowV2 extends StatelessWidget {
                   ),
                   ButtonWidget(
                     buttonTitle:
-                        'CALL ${profileData.EMERGENCY_CONTACT_2_NAME ?? 'Son: Brandon'} - Son',
+                        // 'CALL ${profileData.EMERGENCY_CONTACT_2_NAME ?? 'Son: Brandon'}',
+                        'CALL Son: Brandon',
                     buttonHeight: btn_height,
                     onTapFunction: () {
                       _callNumber(profileData.EMERGENCY_CONTACT_2_PHONE);
@@ -209,7 +211,8 @@ class AlterWindowV2 extends StatelessWidget {
                   ),
                   ButtonWidget(
                     buttonTitle:
-                        'CALL ${profileData.EMERGENCY_CONTACT_3_NAME ?? 'Steve'} - Friend',
+                        // 'CALL ${profileData.EMERGENCY_CONTACT_3_NAME ?? 'Friend: Steve'}',
+                        'CALL Friend: Steve',
                     buttonHeight: btn_height,
                     onTapFunction: () {
                       _callNumber(profileData.EMERGENCY_CONTACT_3_PHONE);
@@ -275,7 +278,7 @@ class contactPatientPage extends StatelessWidget {
               child: Column(
                 children: <Widget>[
                   Container(
-                    padding: EdgeInsets.fromLTRB(50, 40, 50, 0.0),
+                    padding: EdgeInsets.fromLTRB(50, 20, 40, 0.0),
                     child: Align(
                       child: Image.asset(
                         "assets/images/vs_avatar_01.png",
@@ -302,18 +305,44 @@ class contactPatientPage extends StatelessWidget {
                     child: Column(
                       children: <Widget>[
                         ButtonWidget(
-                          buttonTitle: 'Call Now',
+                          buttonTitle: 'Call Home',
                           buttonHeight: btn_height,
-                          secondaryButtonStyle: 2,
+                          secondaryButtonStyle: 5,
+                          buttonIconData: Icons.call,
                           onTapFunction: () {
                             _callNumber('7804445140');
                           },
                         ),
                         ButtonWidget(
-                          buttonTitle: backButtonType <= 1
-                              ? 'CANCEL'
-                              : 'I\'M OK! CHECK AGAIN IN 1H',
-                          secondaryButtonStyle: 4,
+                          buttonTitle: 'Call Mobile',
+                          buttonHeight: btn_height,
+                          secondaryButtonStyle: 5,
+                          buttonIconData: Icons.phone_android,
+                          onTapFunction: () {
+                            _callNumber('7804445140');
+                          },
+                        ),
+                        ButtonWidget(
+                          buttonTitle: 'Text Message',
+                          buttonHeight: btn_height,
+                          secondaryButtonStyle: 5,
+                          buttonIconData: Icons.sms,
+                          onTapFunction: () {
+                            _callNumber('7804445140');
+                          },
+                        ),
+                        ButtonWidget(
+                          buttonTitle: 'Email',
+                          buttonHeight: btn_height,
+                          secondaryButtonStyle: 5,
+                          buttonIconData: Icons.email,
+                          onTapFunction: () {
+                            _callNumber('7804445140');
+                          },
+                        ),
+                        ButtonWidget(
+                          buttonTitle: 'CANCEL',
+                          secondaryButtonStyle: 2,
                           buttonHeight: 50,
                           onTapFunction: () {
                             if (backButtonType <= 1) {

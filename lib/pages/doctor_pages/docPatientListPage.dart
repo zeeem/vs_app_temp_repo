@@ -1,16 +1,15 @@
-import 'package:vital_signs_ui_template/core/configVS.dart';
-import 'package:vital_signs_ui_template/elements/ButtonWidget.dart';
-import 'package:vital_signs_ui_template/elements/CustomAppBar.dart';
+import 'dart:async';
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:vital_signs_ui_template/core/configVS.dart';
 import 'package:vital_signs_ui_template/core/consts.dart';
+import 'package:vital_signs_ui_template/elements/CustomAppBar.dart';
 import 'package:vital_signs_ui_template/elements/User.dart';
 import 'package:vital_signs_ui_template/elements/patient_tiles.dart';
-import 'dart:convert';
-import 'dart:async';
-import 'package:http/http.dart' as http;
 import 'package:vital_signs_ui_template/pages/doctor_pages/docVSPage.dart';
 import 'package:vital_signs_ui_template/pages/doctor_pages/doctor_parient_history.dart';
-import 'package:vital_signs_ui_template/pages/doctor_pages/doctor_profile_page.dart';
 
 import '../AlertHomePage.dart';
 
@@ -285,6 +284,7 @@ class _DoctorPatientListContainerState
                                         1) {
                                       return PatientTiles(
                                         title: snapshot.data[index].name,
+                                        priorityLevel: 1,
                                         networkProfilePicture:
                                             snapshot.data[index].picture,
                                         onPress: () {
@@ -306,6 +306,7 @@ class _DoctorPatientListContainerState
                             },
                           )),
                           Container(
+                              // height: MediaQuery.of(context).size.height,
                               //tab 3
                               child: FutureBuilder(
                             future: _getUsers(),
@@ -324,13 +325,18 @@ class _DoctorPatientListContainerState
                                       (BuildContext context, int index) {
                                     //checking if priority is 0 (0=low, 1=medium, 2=high)
                                     if (int.tryParse(snapshot
-                                            .data[index].priority
-                                            .toString()) ==
-                                        0) {
+                                                .data[index].priority
+                                                .toString()) ==
+                                            0 ||
+                                        int.tryParse(snapshot
+                                                .data[index].priority
+                                                .toString()) ==
+                                            1) {
                                       return PatientTiles(
                                         title: snapshot.data[index].name,
                                         networkProfilePicture:
                                             snapshot.data[index].picture,
+                                        priorityLevel: 0,
                                         onPress: () {
                                           Navigator.push(
                                               context,

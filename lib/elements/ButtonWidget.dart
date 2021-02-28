@@ -1,5 +1,5 @@
-import 'package:vital_signs_ui_template/core/consts.dart';
 import 'package:flutter/material.dart';
+import 'package:vital_signs_ui_template/core/consts.dart';
 
 class ButtonWidget extends StatelessWidget {
   final String buttonTitle;
@@ -8,6 +8,7 @@ class ButtonWidget extends StatelessWidget {
   final double buttonHeight;
   final double bottomButtonPadding;
   final double buttonWidth;
+  final IconData buttonIconData;
   const ButtonWidget(
       {Key key,
       @required this.buttonTitle,
@@ -15,7 +16,8 @@ class ButtonWidget extends StatelessWidget {
       this.secondaryButtonStyle,
       this.buttonHeight = 60,
       this.bottomButtonPadding = 10,
-      this.buttonWidth})
+      this.buttonWidth,
+      this.buttonIconData})
       : super(key: key);
 
   @override
@@ -26,6 +28,7 @@ class ButtonWidget extends StatelessWidget {
     } else {
       button_width = buttonWidth;
     }
+
     return LayoutBuilder(builder: (context, constraints) {
       return Padding(
         padding: const EdgeInsets.fromLTRB(10, 10, 10,
@@ -66,13 +69,27 @@ class ButtonWidget extends StatelessWidget {
             width: button_width,
             height: buttonHeight,
             child: Center(
-              child: Text(
-                "$buttonTitle",
-                style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20,
-                ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  buttonIconData != null
+                      ? Container(
+                          padding: EdgeInsets.only(right: 10),
+                          child: Icon(
+                            buttonIconData,
+                            color: Colors.white,
+                          ),
+                        )
+                      : Container(),
+                  Text(
+                    "$buttonTitle",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20,
+                    ),
+                  ),
+                ],
               ),
             ),
           ),

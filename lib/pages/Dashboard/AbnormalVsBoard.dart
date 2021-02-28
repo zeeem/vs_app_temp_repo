@@ -4,9 +4,6 @@ import 'package:flutter/services.dart';
 import 'package:vital_signs_ui_template/core/consts.dart';
 import 'package:vital_signs_ui_template/elements/CustomAppBar.dart';
 import 'package:vital_signs_ui_template/elements/User.dart';
-import 'package:vital_signs_ui_template/pages/Dashboard/vs_item.dart';
-import 'package:intl/intl.dart';
-import 'package:vital_signs_ui_template/pages/doctor_pages/HistoryPlots/HistoryPlot.dart';
 import 'package:vital_signs_ui_template/pages/doctor_pages/HistoryPlots/HistoryPlot_element.dart';
 import 'package:vital_signs_ui_template/pages/doctor_pages/HistoryPlots/HistoryPlot_sticky_element.dart';
 import 'package:vital_signs_ui_template/pages/doctor_pages/docVSPage.dart';
@@ -95,7 +92,7 @@ class _AbnormalVsBoardState extends State<AbnormalVsBoard> {
       appBar: CustomAppBar(
         height: 120,
         turnOffBackButton: true,
-        turnOffSettingsButton: true,
+        turnOffSettingsButton: false,
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -238,9 +235,6 @@ class _AbnormalVSListState extends State<AbnormalVSList> {
       child: SingleChildScrollView(
         child: Column(
           children: [
-            // SizedBox(
-            //   height: 20,
-            // ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -346,55 +340,58 @@ class _AbnormalVSListState extends State<AbnormalVSList> {
             // SizedBox(
             //   height: 20,
             // ),
-            selectedFilterVS!='HR'?
+            selectedFilterVS != 'HR'
+                ? alert_Card(
+                    hr_val: 89,
+                    spo2_alert: true,
+                    temp_val: 37,
+                    spo2_val: 89,
+                    rr_val: 15,
+                    bp_val: [125, 90],
+                    time_substract_val: Duration(minutes: 0),
+                    vs_data: tempStaticVals.historyplot,
+                  )
+                : Container(),
             alert_Card(
-              hr_val: 100,
-              spo2_alert: true,
-              temp_val: 37,
-              spo2_val: 89,
-              rr_val: 15,
-              bp_val: [125, 90],
-              time_substract_val: Duration(minutes: 0),
-              vs_data: tempStaticVals.historyplot,
-            ): Container(),
-            alert_Card(
-              hr_val: 130,
+              hr_val: 107,
               hr_alert: true,
               temp_val: 37,
               temp_alert: false,
               spo2_val: 94,
               rr_val: 16,
               bp_val: [120, 85],
-              time_substract_val: Duration(hours: 5),
+              time_substract_val: Duration(minutes: 10),
               vs_data: tempStaticVals.historyplot,
             ),
-            selectedFilterVS!='HR'?
+            selectedFilterVS != 'HR'
+                ? alert_Card(
+                    hr_val: 82,
+                    hr_alert: false,
+                    temp_val: 39.5,
+                    temp_alert: true,
+                    spo2_val: 95,
+                    rr_val: 17,
+                    bp_val: [130, 98],
+                    time_substract_val: Duration(hours: 9),
+                    vs_data: tempStaticVals.historyplot,
+                  )
+                : Container(),
+            selectedFilterVS != 'HR'
+                ? alert_Card(
+                    hr_val: 84,
+                    hr_alert: false,
+                    temp_val: 38,
+                    temp_alert: false,
+                    spo2_val: 90,
+                    spo2_alert: true,
+                    rr_val: 15,
+                    bp_val: [140, 94],
+                    time_substract_val: Duration(hours: 17),
+                    vs_data: tempStaticVals.historyplot,
+                  )
+                : Container(),
             alert_Card(
-              hr_val: 78,
-              hr_alert: false,
-              temp_val: 39.5,
-              temp_alert: true,
-              spo2_val: 95,
-              rr_val: 17,
-              bp_val: [130, 98],
-              time_substract_val: Duration(hours: 9),
-              vs_data: tempStaticVals.historyplot,
-            ):Container(),
-            selectedFilterVS!='HR'?
-            alert_Card(
-              hr_val: 84,
-              hr_alert: false,
-              temp_val: 38,
-              temp_alert: false,
-              spo2_val: 94,
-              spo2_alert: true,
-              rr_val: 15,
-              bp_val: [140, 94],
-              time_substract_val: Duration(hours: 17),
-              vs_data: tempStaticVals.historyplot,
-            ):Container(),
-            alert_Card(
-              hr_val: 125,
+              hr_val: 109,
               hr_alert: true,
               temp_val: 37.5,
               temp_alert: false,
@@ -405,7 +402,7 @@ class _AbnormalVSListState extends State<AbnormalVSList> {
               vs_data: tempStaticVals.historyplot,
             ),
             alert_Card(
-              hr_val: 135,
+              hr_val: 106,
               hr_alert: true,
               temp_val: 37,
               temp_alert: false,
@@ -416,7 +413,7 @@ class _AbnormalVSListState extends State<AbnormalVSList> {
               vs_data: tempStaticVals.historyplot,
             ),
             SizedBox(
-              height: 20,
+              height: 250,
             ),
             // FloatingActionButton(onPressed: () {
             //   Navigator.push(

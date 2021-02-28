@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
-import 'package:vital_signs_ui_template/core/consts.dart';
 import 'package:flutter/material.dart';
+import 'package:vital_signs_ui_template/core/consts.dart';
 
 class PatientTiles extends StatelessWidget {
   final String title;
@@ -12,7 +12,7 @@ class PatientTiles extends StatelessWidget {
     this.title,
     this.networkProfilePicture = '',
     this.onPress,
-    this.priorityLevel = 0,
+    this.priorityLevel = -1,
   }) : super(key: key);
 
   @override
@@ -67,12 +67,43 @@ class PatientTiles extends StatelessWidget {
                                   ),
                                 ),
                               ),
-                              priorityLevel == 2
-                                  ? Container(
+                              (() {
+                                switch (priorityLevel) {
+                                  case 0:
+                                    return Container(
                                       child: Image.asset(
-                                          'assets/icons/alert 1.png'),
-                                    )
-                                  : Container(),
+                                        'assets/icons/alert_normal.png',
+                                        scale: 1.4,
+                                      ),
+                                    );
+                                  case 1:
+                                    return Container(
+                                      child: Image.asset(
+                                        'assets/icons/alert_borderline.png',
+                                        scale: 1.4,
+                                      ),
+                                    );
+                                  case 2:
+                                    return Container(
+                                      child: Image.asset(
+                                        'assets/icons/alert 1.png',
+                                        scale: 1.2,
+                                      ),
+                                    );
+
+                                  default:
+                                    return Container();
+                                }
+                              }()),
+                              // priorityLevel == 2
+                              //     ? Container(
+                              //         child: Image.asset(
+                              //             'assets/icons/alert 1.png'),
+                              //       )
+                              //     : Container(
+                              //         child: Image.asset(
+                              //             'assets/icons/alert_borderline.png'),
+                              //       ),
                             ],
                           ),
                           SizedBox(width: 10),
