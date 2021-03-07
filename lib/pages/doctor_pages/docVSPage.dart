@@ -129,7 +129,8 @@ class _docVsVisualizerPageState extends State<docVsVisualizerPage> {
     return LayoutBuilder(
       builder: (context, constraints) {
         return Scaffold(
-          resizeToAvoidBottomPadding: false,
+          // resizeToAvoidBottomPadding: false,
+          resizeToAvoidBottomInset: true,
           appBar: CustomAppBar(
             turnOffBackButton: false,
             turnOffSettingsButton: false,
@@ -232,7 +233,7 @@ class _docVsVisualizerPageState extends State<docVsVisualizerPage> {
                         case 2:
                           return contactPatientPage(
                             alert_text:
-                                "Do you want to call ${_userName.length > 0 ? _userName : 'Jon'}?",
+                                "Do you want to contact ${_userName.length > 0 ? _userName : 'Jon'}?",
                           );
 
                         default:

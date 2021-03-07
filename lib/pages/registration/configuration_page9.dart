@@ -1,12 +1,8 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_blue/flutter_blue.dart';
 import 'package:vital_signs_ui_template/elements/ButtonWidget.dart';
 import 'package:vital_signs_ui_template/elements/CustomAppBar.dart';
-import 'package:vital_signs_ui_template/pages/Backup_old/testPage.dart';
 import 'package:vital_signs_ui_template/pages/VS_Viz_New.dart';
-
-import 'configuration_page10.dart';
-import 'package:flutter/material.dart';
-import 'package:vital_signs_ui_template/core/consts.dart';
 
 bool _isTestModeOn = false;
 
@@ -17,7 +13,7 @@ class ConfigurationPage9 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomPadding: false,
+      // resizeToAvoidBottomPadding: false,
       resizeToAvoidBottomInset: true,
       appBar: CustomAppBar(
         height: 130, //no use of this fixed height

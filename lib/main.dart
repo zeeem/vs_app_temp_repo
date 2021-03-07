@@ -1,23 +1,11 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:package_info/package_info.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vital_signs_ui_template/core/configVS.dart';
-import 'package:vital_signs_ui_template/pages/Backup_old/intro_page.dart';
-import 'package:vital_signs_ui_template/pages/Backup_old/testPage.dart';
-import 'package:vital_signs_ui_template/pages/LoginPage.dart';
-import 'package:vital_signs_ui_template/pages/SplashScreen.dart';
-import 'package:vital_signs_ui_template/pages/doctor_pages/docPatientListPage.dart';
-import 'package:vital_signs_ui_template/pages/registration/configuration_page9.dart';
+
 import 'Processing/AlertSystem/AlertManagerPointData.dart';
-import 'pages/Backup_old/DevTestPage.dart';
-import 'pages/Dashboard/AbnormalVsBoard.dart';
+import 'Processing/NetworkGateway/networkManager.dart';
 import 'pages/UserSelectionPage.dart';
-import 'pages/doctor_pages/userSelectionPage.dart';
-import 'pages/registration/configuration_page1.dart';
-import 'pages/registration/condition_page.dart';
-import 'pages/connectDevice.dart';
-import 'pages/registration/configuration_page8.dart';
-import 'package:package_info/package_info.dart';
 
 void main() {
   runApp(MyApp());
@@ -37,6 +25,8 @@ class _MyAppState extends State<MyApp> {
     _readSharedPreference(); //reading from shared pref
     getAppInfo(); // getting app info (version, build number)
     initAlertManager(); //init the alert manager
+    GLOBALS.API_NETWORK_MANAGER =
+        NetworkManager(apiData.baseAPIurl, nursingHome: false);
     super.initState();
   }
 

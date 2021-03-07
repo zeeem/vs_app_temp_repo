@@ -1,19 +1,13 @@
+import 'dart:math';
+
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:vital_signs_ui_template/core/consts.dart';
-import 'dart:async' show Future;
-import 'dart:math';
-import 'package:flutter/services.dart' show rootBundle;
-import 'package:csv/csv.dart';
-import 'package:scidart/numdart.dart';
-import 'package:vital_signs_ui_template/elements/CustomAppBar.dart';
-import 'package:vital_signs_ui_template/pages/doctor_pages/HistoryPlots/plot_details.dart';
-import 'PlotDataProcessing.dart';
 import 'package:intl/intl.dart';
+import 'package:vital_signs_ui_template/core/consts.dart';
+import 'package:vital_signs_ui_template/pages/doctor_pages/HistoryPlots/plot_details.dart';
 
 import '../docPatientListPage.dart';
-import '../doctor_parient_history.dart';
-import '../doctor_profile_page.dart';
+import 'PlotDataProcessing.dart';
 
 class HistoryPlotElement extends StatefulWidget {
   final String expandedTitle;
@@ -3185,17 +3179,17 @@ class _HistoryPlotElementState extends State<HistoryPlotElement> {
     return BarChartGroupData(barsSpace: 4, x: x, barRods: [
       BarChartRodData(
         y: y1,
-        color: Color(0xff01579b),
+        colors: [Color(0xff01579b)],
         width: width,
       ),
       BarChartRodData(
         y: y2,
-        color: Color(0xffff5182),
+        colors: [Color(0xffff5182)],
         width: width,
       ),
       BarChartRodData(
         y: y3,
-        color: Color(0xffff5182),
+        colors: [Color(0xffff5182)],
         width: width,
       ),
     ]);

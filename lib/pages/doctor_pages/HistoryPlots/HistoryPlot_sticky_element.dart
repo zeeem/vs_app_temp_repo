@@ -3122,17 +3122,17 @@ class _HistoryPlotStickyElementState extends State<HistoryPlotStickyElement> {
     return BarChartGroupData(barsSpace: 4, x: x, barRods: [
       BarChartRodData(
         y: y1,
-        color: Color(0xff01579b),
+        colors: [Color(0xff01579b)],
         width: width,
       ),
       BarChartRodData(
         y: y2,
-        color: Color(0xffff5182),
+        colors: [Color(0xffff5182)],
         width: width,
       ),
       BarChartRodData(
         y: y3,
-        color: Color(0xffff5182),
+        colors: [Color(0xffff5182)],
         width: width,
       ),
     ]);

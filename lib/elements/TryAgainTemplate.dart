@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:loading/indicator/ball_spin_fade_loader_indicator.dart';
 import 'package:loading/loading.dart';
 import 'package:vital_signs_ui_template/core/consts.dart';
+
 import 'ButtonWidget.dart';
 import 'CustomAppBar.dart';
 
@@ -32,7 +33,7 @@ class TryAgainPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return !userAsElement
         ? Scaffold(
-            resizeToAvoidBottomPadding: false,
+            // resizeToAvoidBottomPadding: false,
             resizeToAvoidBottomInset: true,
             appBar: CustomAppBar(
               turnOffBackButton: true,

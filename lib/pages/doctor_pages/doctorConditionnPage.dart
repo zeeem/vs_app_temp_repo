@@ -1,12 +1,11 @@
+//import 'package:vital_signs_ui_template/pages/home_page.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart' show rootBundle;
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:vital_signs_ui_template/core/consts.dart';
 import 'package:vital_signs_ui_template/elements/ButtonWidget.dart';
 import 'package:vital_signs_ui_template/elements/CustomAppBar.dart';
-import '../Backup_old/testPage.dart';
-import 'package:flutter/services.dart' show rootBundle;
-//import 'package:vital_signs_ui_template/pages/home_page.dart';
-import 'package:flutter/gestures.dart';
 
 import 'docPatientListPage.dart';
 
@@ -37,7 +36,7 @@ class _DoctorConditionPageState extends State<DoctorConditionPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomPadding: false,
+      // resizeToAvoidBottomPadding: false,
       appBar: CustomAppBar(
         height: 130, //no use of this fixed height
         turnOffBackButton: true,
@@ -52,7 +51,7 @@ class _DoctorConditionPageState extends State<DoctorConditionPage> {
                   child: Text(
                     'Terms & Conditions',
                     style:
-                    TextStyle(fontSize: 25.0, fontWeight: FontWeight.bold),
+                        TextStyle(fontSize: 25.0, fontWeight: FontWeight.bold),
                     textAlign: TextAlign.center,
                   ),
                 )

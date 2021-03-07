@@ -1,17 +1,15 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:vital_signs_ui_template/core/configVS.dart';
-import 'package:vital_signs_ui_template/pages/VS_Viz_New.dart';
-import 'package:vital_signs_ui_template/pages/vital_signs_viz.dart';
-import 'package:vital_signs_ui_template/Processing/widgets.dart';
 import 'package:flutter_blue/flutter_blue.dart';
+import 'package:vital_signs_ui_template/core/configVS.dart';
 import 'package:vital_signs_ui_template/core/consts.dart';
+import 'package:vital_signs_ui_template/pages/VS_Viz_New.dart';
 
 class ConnectDevice extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        resizeToAvoidBottomPadding: false,
+        // resizeToAvoidBottomPadding: false,
+        resizeToAvoidBottomInset: true,
         body: StreamBuilder<BluetoothState>(
             stream: FlutterBlue.instance.state,
             initialData: BluetoothState.unknown,
@@ -69,7 +67,8 @@ class _StartBTScanAndAutoConnectState extends State<StartBTScanAndAutoConnect> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        resizeToAvoidBottomPadding: false,
+        resizeToAvoidBottomInset: true,
+        // resizeToAvoidBottomPadding: false,
         body: Column(
           children: <Widget>[
             Container(

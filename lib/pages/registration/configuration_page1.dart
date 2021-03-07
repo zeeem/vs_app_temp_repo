@@ -1,9 +1,8 @@
+import 'package:flutter/material.dart';
 import 'package:vital_signs_ui_template/elements/ButtonWidget.dart';
 import 'package:vital_signs_ui_template/elements/CustomAppBar.dart';
 
 import 'configuration_page2_doctor_info.dart';
-import 'package:flutter/material.dart';
-import 'package:vital_signs_ui_template/core/consts.dart';
 
 class ConfigurationPage1 extends StatefulWidget {
   @override
@@ -20,7 +19,9 @@ class _ConfigurationPage1 extends State<ConfigurationPage1> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomPadding: false,
+      // resizeToAvoidBottomPadding: false,
+      resizeToAvoidBottomInset: true,
+
       appBar: CustomAppBar(
         height: 130, //no use of this fixed height
       ),

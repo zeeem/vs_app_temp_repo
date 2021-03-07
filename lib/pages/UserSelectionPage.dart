@@ -5,8 +5,8 @@ import 'package:vital_signs_ui_template/elements/TryAgainTemplate.dart';
 import 'package:vital_signs_ui_template/elements/VSLoadingWidget.dart';
 import 'package:vital_signs_ui_template/pages/Dashboard/AbnormalVsBoard.dart';
 import 'package:vital_signs_ui_template/pages/LoginPage.dart';
-import 'package:vital_signs_ui_template/pages/SplashScreen.dart';
 
+import 'TestApi.dart';
 import 'doctor_pages/HistoryPlots/StickyHeaderTest.dart';
 
 class UserSelection extends StatelessWidget {
@@ -89,12 +89,12 @@ class UserSelection extends StatelessWidget {
             padding: const EdgeInsets.only(top: 20),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-
               //Debug options
               children: [
                 FlatButton(
                   onPressed: () {
-                    navigateTo(context, SplashScreen());
+                    // navigateTo(context, SplashScreen());
+                    navigateTo(context, TestAPI());
                   },
                   child: Text(
                     '.',

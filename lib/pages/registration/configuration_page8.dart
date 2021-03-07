@@ -1,21 +1,18 @@
 import 'dart:async';
 
+import 'package:flutter/material.dart';
 import 'package:flutter_blue/flutter_blue.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:loading/indicator/ball_pulse_indicator.dart';
 import 'package:loading/indicator/ball_spin_fade_loader_indicator.dart';
+import 'package:loading/loading.dart';
+import 'package:vital_signs_ui_template/core/configVS.dart';
+import 'package:vital_signs_ui_template/core/consts.dart';
 import 'package:vital_signs_ui_template/elements/BluetoothOffAlert.dart';
 import 'package:vital_signs_ui_template/elements/ButtonWidget.dart';
 import 'package:vital_signs_ui_template/elements/CustomAppBar.dart';
 import 'package:vital_signs_ui_template/pages/VS_Viz_New.dart';
-import 'package:vital_signs_ui_template/pages/registration/profile_page.dart';
-import 'package:vital_signs_ui_template/pages/vital_signs_viz.dart';
 
 import 'configuration_page9.dart';
-import 'package:flutter/material.dart';
-import 'package:vital_signs_ui_template/core/consts.dart';
-import 'package:vital_signs_ui_template/core/configVS.dart';
-import 'package:loading/loading.dart';
 
 bool needToTryAgain = false;
 String _connectionMessage;
@@ -68,7 +65,8 @@ class _ConfigurationPage8 extends State<ConfigurationPage8> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomPadding: false,
+      // resizeToAvoidBottomPadding: false,
+      resizeToAvoidBottomInset: true,
       body: StreamBuilder<BluetoothState>(
         stream: FlutterBlue.instance.state,
         initialData: BluetoothState.unknown,
@@ -119,7 +117,7 @@ class _StartBTScanAndAutoConnectState extends State<StartBTScanAndAutoConnect> {
     }
 
     return Scaffold(
-      resizeToAvoidBottomPadding: false,
+      // resizeToAvoidBottomPadding: false,
       resizeToAvoidBottomInset: true,
       appBar: CustomAppBar(
         height: 130, //no use of this fixed height

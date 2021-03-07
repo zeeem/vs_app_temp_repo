@@ -25,7 +25,7 @@ class docPatientListPage extends StatefulWidget {
 class _docPatientListPage extends State<docPatientListPage> {
   Future<List<User>> getPatientList() async {
     var data = await http
-        .get("http://www.json-generator.com/api/json/get/cetNcbZIuq?indent=2");
+        .get("https://www.json-generator.com/api/json/get/cetNcbZIuq?indent=2");
     var jsonData = json.decode(data.body);
 
     List<User> users = [];
@@ -71,7 +71,7 @@ class _docPatientListPage extends State<docPatientListPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomPadding: false,
+      // resizeToAvoidBottomPadding: false,
       resizeToAvoidBottomInset: true,
       appBar: CustomAppBar(
         height: 130, //no use of this fixed height
@@ -163,7 +163,7 @@ class _DoctorPatientListContainerState
   Future<List<User>> _getUsers() async {
     if (doctorData.patientList.length < 1) {
       var data = await http.get(
-          "http://www.json-generator.com/api/json/get/cetNcbZIuq?indent=2");
+          "https://www.json-generator.com/api/json/get/cetNcbZIuq?indent=2");
       var jsonData = json.decode(data.body);
       List<User> users = [];
       for (var u in jsonData) {

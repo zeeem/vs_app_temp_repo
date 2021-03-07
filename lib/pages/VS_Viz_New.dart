@@ -1,38 +1,27 @@
 import 'dart:async';
 import 'dart:convert' show utf8;
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_blue/flutter_blue.dart';
-import 'package:loading/indicator/ball_pulse_indicator.dart';
-import 'package:loading/indicator/ball_scale_multiple_indicator.dart';
-import 'package:loading/indicator/line_scale_indicator.dart';
-import 'package:loading/loading.dart';
-import 'package:vital_signs_ui_template/Processing/AlertSystem/AlertManagerPointData.dart';
-
-import 'dart:collection';
-import 'dart:math';
-
-import 'package:vital_signs_ui_template/core/configVS.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_blue/flutter_blue.dart';
-import 'package:vital_signs_ui_template/Processing/widgets.dart';
+//import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
+import 'package:loading/indicator/line_scale_indicator.dart';
+import 'package:loading/loading.dart';
+import 'package:scidart/numdart.dart';
+import 'package:soundpool/soundpool.dart';
+import 'package:vital_signs_ui_template/Processing/AlertSystem/AlertManagerPointData.dart';
+// import 'package:vital_signs_ui_template/Processing/DataProcessing_backup.dart';
+import 'package:vital_signs_ui_template/Processing/ProcessingAlgorithm/DataProcessing_new_v2.dart'; // use DataProcessing_backup.dart for previous stable version
+//import 'package:scidart/scidart.dart';
+import 'package:vital_signs_ui_template/Processing/fileManager.dart';
+import 'package:vital_signs_ui_template/core/configVS.dart';
 import 'package:vital_signs_ui_template/core/consts.dart';
 import 'package:vital_signs_ui_template/elements/ButtonWidget.dart';
 import 'package:vital_signs_ui_template/elements/CustomAppBar.dart';
 import 'package:vital_signs_ui_template/elements/info_card.dart';
-// import 'package:vital_signs_ui_template/Processing/DataProcessing_backup.dart';
-import 'package:vital_signs_ui_template/Processing/ProcessingAlgorithm/DataProcessing_new_v2.dart'; // use DataProcessing_backup.dart for previous stable version
-import 'package:scidart/numdart.dart';
-//import 'package:scidart/scidart.dart';
-import 'package:vital_signs_ui_template/Processing/fileManager.dart';
-import 'package:rflutter_alert/rflutter_alert.dart';
-//import 'package:url_launcher/url_launcher.dart';
-import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
-import 'package:soundpool/soundpool.dart';
-import 'package:vital_signs_ui_template/elements/VSLoadingWidget.dart';
 import 'package:vital_signs_ui_template/pages/AlertHomePage.dart';
-
-import 'registration/configuration_page7.dart';
 
 Array IR_raw_500 = Array.empty();
 Array RED_raw_500 = Array.empty();
@@ -324,7 +313,8 @@ class _VisualizeVSnewState extends State<VisualizeVSnew> {
       Future.delayed(Duration.zero, () => _issueWarningAlertBox(context));
     }
     return Scaffold(
-        resizeToAvoidBottomPadding: false,
+        // resizeToAvoidBottomPadding: false,
+        resizeToAvoidBottomInset: true,
         appBar: CustomAppBar(
           turnOffBackButton: true,
           height: 130, //no use of this fixed height

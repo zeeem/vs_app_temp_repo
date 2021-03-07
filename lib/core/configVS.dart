@@ -1,3 +1,4 @@
+import 'package:vital_signs_ui_template/Processing/NetworkGateway/networkManager.dart';
 import 'package:vital_signs_ui_template/elements/User.dart';
 
 class localConfigVS {
@@ -66,4 +67,10 @@ class doctorData {
 
 class apiData {
   static String baseAPIurl = "yizhouzhao.dev";
+}
+
+class GLOBALS {
+  static UserProfile USER_PROFILE;
+  static NetworkManager API_NETWORK_MANAGER =
+      NetworkManager(apiData.baseAPIurl, nursingHome: false);
 }

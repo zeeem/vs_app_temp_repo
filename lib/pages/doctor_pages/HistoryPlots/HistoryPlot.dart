@@ -1,19 +1,14 @@
+import 'dart:math';
+
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:vital_signs_ui_template/core/consts.dart';
-import 'dart:async' show Future;
-import 'dart:math';
-import 'package:flutter/services.dart' show rootBundle;
-import 'package:csv/csv.dart';
-import 'package:scidart/numdart.dart';
 import 'package:vital_signs_ui_template/elements/CustomAppBar.dart';
 import 'package:vital_signs_ui_template/pages/doctor_pages/HistoryPlots/plot_details.dart';
-import 'PlotDataProcessing.dart';
-import 'package:intl/intl.dart';
 
 import '../docPatientListPage.dart';
-import '../doctor_parient_history.dart';
-import '../doctor_profile_page.dart';
+import 'PlotDataProcessing.dart';
 
 class HistoryPlot extends StatefulWidget {
   final String expandedTitle;
@@ -275,7 +270,8 @@ class _HistoryPlotState extends State<HistoryPlot> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomPadding: false,
+      // resizeToAvoidBottomPadding: false,
+      resizeToAvoidBottomInset: true,
       appBar: CustomAppBar(
         height: 130, //no use of this fixed height
         turnOffBackButton: false,
@@ -2243,7 +2239,7 @@ class _HistoryPlotState extends State<HistoryPlot> {
                                             0, 0, 20, 0),
                                         child: Row(
                                           mainAxisAlignment:
-                                          MainAxisAlignment.end,
+                                              MainAxisAlignment.end,
                                           children: [
                                             Text(
                                               "---- ",
@@ -2294,15 +2290,15 @@ class _HistoryPlotState extends State<HistoryPlot> {
                                             0, 0, 20, 0),
                                         child: Row(
                                           mainAxisAlignment:
-                                          MainAxisAlignment.end,
+                                              MainAxisAlignment.end,
                                           children: [
                                             Text(
                                               "---- ",
                                               style: TextStyle(
                                                   color:
-                                                  isStdDeviationOn1HourGraph
-                                                      ? Colors.black54
-                                                      : Colors.grey,
+                                                      isStdDeviationOn1HourGraph
+                                                          ? Colors.black54
+                                                          : Colors.grey,
                                                   fontWeight: FontWeight.bold,
                                                   fontSize: 20),
                                             ),
@@ -2328,21 +2324,21 @@ class _HistoryPlotState extends State<HistoryPlot> {
                               LineChartData(
                                 extraLinesData: isRangeOn1HourGraph
                                     ? ExtraLinesData(horizontalLines: [
-                                  HorizontalLine(
-                                    //y: isSwitched? 75:0,
-                                    y: 95,
-                                    color: Colors.redAccent,
-                                    strokeWidth: 1,
-                                  ),
+                                        HorizontalLine(
+                                          //y: isSwitched? 75:0,
+                                          y: 95,
+                                          color: Colors.redAccent,
+                                          strokeWidth: 1,
+                                        ),
 
-                                  // HorizontalLine(
-                                  //
-                                  //   //y: isSwitched? 75:0,
-                                  //   y: 85,
-                                  //   color: Colors.redAccent,
-                                  //   strokeWidth: 1,
-                                  // ),
-                                ])
+                                        // HorizontalLine(
+                                        //
+                                        //   //y: isSwitched? 75:0,
+                                        //   y: 85,
+                                        //   color: Colors.redAccent,
+                                        //   strokeWidth: 1,
+                                        // ),
+                                      ])
                                     : ExtraLinesData(),
                                 minX: 0,
                                 maxX: maxX_range_spo2,
@@ -2358,12 +2354,12 @@ class _HistoryPlotState extends State<HistoryPlot> {
                                         } else {
                                           return '';
                                         }
-
                                       }),
                                   leftTitles: SideTitles(
                                     showTitles: true,
                                     getTitles: (value) {
-                                      if (value.toInt() % 5 == 0 && value.toInt()<=100) {
+                                      if (value.toInt() % 5 == 0 &&
+                                          value.toInt() <= 100) {
                                         return value.toInt().toString() + '%';
                                       } else {
                                         return '';
@@ -2388,7 +2384,7 @@ class _HistoryPlotState extends State<HistoryPlot> {
                                         show: true,
                                         colors: gradientColors
                                             .map((color) =>
-                                            color.withOpacity(0.15))
+                                                color.withOpacity(0.15))
                                             .toList()),
                                   ),
 
@@ -2430,7 +2426,6 @@ class _HistoryPlotState extends State<HistoryPlot> {
                                       titleText: '',
                                       margin: 0),
                                 ),
-
                               ),
                             ),
                           ],
@@ -2439,7 +2434,6 @@ class _HistoryPlotState extends State<HistoryPlot> {
                       SizedBox(
                         height: 20,
                       ),
-
                       Container(
                         width: 335,
                         //height: 300,
@@ -2481,7 +2475,7 @@ class _HistoryPlotState extends State<HistoryPlot> {
                                             0, 0, 20, 0),
                                         child: Row(
                                           mainAxisAlignment:
-                                          MainAxisAlignment.end,
+                                              MainAxisAlignment.end,
                                           children: [
                                             Text(
                                               "---- ",
@@ -2520,7 +2514,7 @@ class _HistoryPlotState extends State<HistoryPlot> {
                                         if (isStdDeviationOn24HoursGraph) {
                                           setState(() {
                                             isStdDeviationOn24HoursGraph =
-                                            false;
+                                                false;
                                           });
                                         } else {
                                           setState(() {
@@ -2533,15 +2527,15 @@ class _HistoryPlotState extends State<HistoryPlot> {
                                             0, 0, 20, 0),
                                         child: Row(
                                           mainAxisAlignment:
-                                          MainAxisAlignment.end,
+                                              MainAxisAlignment.end,
                                           children: [
                                             Text(
                                               "---- ",
                                               style: TextStyle(
                                                   color:
-                                                  isStdDeviationOn24HoursGraph
-                                                      ? Colors.black54
-                                                      : Colors.grey,
+                                                      isStdDeviationOn24HoursGraph
+                                                          ? Colors.black54
+                                                          : Colors.grey,
                                                   fontWeight: FontWeight.bold,
                                                   fontSize: 20),
                                             ),
@@ -2553,9 +2547,9 @@ class _HistoryPlotState extends State<HistoryPlot> {
                                             Icon(
                                               Icons.fiber_manual_record_rounded,
                                               color:
-                                              isStdDeviationOn24HoursGraph
-                                                  ? Colors.green
-                                                  : Colors.grey,
+                                                  isStdDeviationOn24HoursGraph
+                                                      ? Colors.green
+                                                      : Colors.grey,
                                               size: 10,
                                             ),
                                           ],
@@ -2586,7 +2580,7 @@ class _HistoryPlotState extends State<HistoryPlot> {
                                             0, 0, 20, 0),
                                         child: Row(
                                           mainAxisAlignment:
-                                          MainAxisAlignment.end,
+                                              MainAxisAlignment.end,
                                           children: [
                                             Text(
                                               "--",
@@ -2628,12 +2622,12 @@ class _HistoryPlotState extends State<HistoryPlot> {
                               LineChartData(
                                 extraLinesData: isRangeOn24HoursGraph
                                     ? ExtraLinesData(horizontalLines: [
-                                  HorizontalLine(
-                                    y: 95,
-                                    color: Colors.green,
-                                    strokeWidth: 1,
-                                  ),
-                                ])
+                                        HorizontalLine(
+                                          y: 95,
+                                          color: Colors.green,
+                                          strokeWidth: 1,
+                                        ),
+                                      ])
                                     : ExtraLinesData(),
                                 minX: 0,
                                 maxX: maxX_range_hourly_spo2,
@@ -2653,7 +2647,8 @@ class _HistoryPlotState extends State<HistoryPlot> {
                                   leftTitles: SideTitles(
                                     showTitles: true,
                                     getTitles: (value) {
-                                      if (value.toInt() % 5 == 0 && value.toInt()<=100) {
+                                      if (value.toInt() % 5 == 0 &&
+                                          value.toInt() <= 100) {
                                         return value.toInt().toString() + '%';
                                       } else {
                                         return '';
@@ -2676,7 +2671,7 @@ class _HistoryPlotState extends State<HistoryPlot> {
                                         show: true,
                                         colors: gradientColors
                                             .map((color) =>
-                                            color.withOpacity(0.15))
+                                                color.withOpacity(0.15))
                                             .toList()),
                                   ),
                                   LineChartBarData(
@@ -2737,24 +2732,24 @@ class _HistoryPlotState extends State<HistoryPlot> {
                                 lineTouchData: LineTouchData(
                                     getTouchedSpotIndicator:
                                         (LineChartBarData barData,
-                                        List<int> spotIndexes) {
-                                      return spotIndexes.map((spotIndex) {
-                                        final FlSpot spot =
+                                            List<int> spotIndexes) {
+                                  return spotIndexes.map((spotIndex) {
+                                    final FlSpot spot =
                                         barData.spots[spotIndex];
 
-                                        _touchedIndex = spotIndex;
-                                        _touchedSpotValue = spot
-                                            .x; //double (getting the x value or y value)
+                                    _touchedIndex = spotIndex;
+                                    _touchedSpotValue = spot
+                                        .x; //double (getting the x value or y value)
 
-                                        // if (spot.x == 0 || spot.x == 30 || spot.x == 29) {
-                                        //   return null;
-                                        // }
-                                      }).toList();
-                                    }, touchCallback:
-                                    (LineTouchResponse touchResponse) {
+                                    // if (spot.x == 0 || spot.x == 30 || spot.x == 29) {
+                                    //   return null;
+                                    // }
+                                  }).toList();
+                                }, touchCallback:
+                                        (LineTouchResponse touchResponse) {
                                   if (touchResponse.touchInput is FlPanEnd ||
                                       touchResponse.touchInput
-                                      is FlLongPressEnd) {
+                                          is FlLongPressEnd) {
                                     List data_to_send = processRange(
                                         whole_day_data_spo2.sublist(
                                             (_touchedIndex) * 1200,
@@ -2788,9 +2783,6 @@ class _HistoryPlotState extends State<HistoryPlot> {
                       SizedBox(
                         height: 20,
                       ),
-
-
-
                       Container(
                         width: 335,
                         //height: 300,
@@ -2831,7 +2823,7 @@ class _HistoryPlotState extends State<HistoryPlot> {
                                             0, 0, 20, 0),
                                         child: Row(
                                           mainAxisAlignment:
-                                          MainAxisAlignment.end,
+                                              MainAxisAlignment.end,
                                           children: [
                                             Text(
                                               "---- ",
@@ -2882,7 +2874,7 @@ class _HistoryPlotState extends State<HistoryPlot> {
                                             0, 0, 20, 0),
                                         child: Row(
                                           mainAxisAlignment:
-                                          MainAxisAlignment.end,
+                                              MainAxisAlignment.end,
                                           children: [
                                             Text(
                                               "--",
@@ -2924,21 +2916,21 @@ class _HistoryPlotState extends State<HistoryPlot> {
                               LineChartData(
                                 extraLinesData: isRangeOn3WeeksGraph
                                     ? ExtraLinesData(horizontalLines: [
-                                  HorizontalLine(
-                                    //y: isSwitched? 75:0,
-                                    y: 95,
-                                    color: Colors.redAccent,
-                                    strokeWidth: 1,
-                                  ),
+                                        HorizontalLine(
+                                          //y: isSwitched? 75:0,
+                                          y: 95,
+                                          color: Colors.redAccent,
+                                          strokeWidth: 1,
+                                        ),
 
-                                  // HorizontalLine(
-                                  //
-                                  //   //y: isSwitched? 75:0,
-                                  //   y: 85,
-                                  //   color: Colors.redAccent,
-                                  //   strokeWidth: 1,
-                                  // ),
-                                ])
+                                        // HorizontalLine(
+                                        //
+                                        //   //y: isSwitched? 75:0,
+                                        //   y: 85,
+                                        //   color: Colors.redAccent,
+                                        //   strokeWidth: 1,
+                                        // ),
+                                      ])
                                     : ExtraLinesData(),
                                 minX: 0,
                                 maxX: 6,
@@ -2958,7 +2950,8 @@ class _HistoryPlotState extends State<HistoryPlot> {
                                   leftTitles: SideTitles(
                                     showTitles: true,
                                     getTitles: (value) {
-                                      if (value.toInt() % 5 == 0 && value.toInt()<=100) {
+                                      if (value.toInt() % 5 == 0 &&
+                                          value.toInt() <= 100) {
                                         return value.toInt().toString() + '%';
                                       } else {
                                         return '';
@@ -2990,7 +2983,7 @@ class _HistoryPlotState extends State<HistoryPlot> {
                                         show: true,
                                         colors: gradientColors
                                             .map((color) =>
-                                            color.withOpacity(0.15))
+                                                color.withOpacity(0.15))
                                             .toList()),
                                   ),
 
@@ -3107,7 +3100,6 @@ class _HistoryPlotState extends State<HistoryPlot> {
                       ),
                     ],
                   ),
-
                 ],
               ),
             ),
@@ -3212,17 +3204,17 @@ class _HistoryPlotState extends State<HistoryPlot> {
     return BarChartGroupData(barsSpace: 4, x: x, barRods: [
       BarChartRodData(
         y: y1,
-        color: Color(0xff01579b),
+        colors: [Color(0xff01579b)],
         width: width,
       ),
       BarChartRodData(
         y: y2,
-        color: Color(0xffff5182),
+        colors: [Color(0xffff5182)],
         width: width,
       ),
       BarChartRodData(
         y: y3,
-        color: Color(0xffff5182),
+        colors: [Color(0xffff5182)],
         width: width,
       ),
     ]);
@@ -3239,7 +3231,8 @@ class _HistoryPlotState extends State<HistoryPlot> {
 
   List<FlSpot> generateHourlySpots(int index) {
     List<FlSpot> spots = hourlyDataToPlot_hr.asMap().entries.map((e) {
-      double y = double.tryParse((e.value[index] + random.nextInt(7)).toString());
+      double y =
+          double.tryParse((e.value[index] + random.nextInt(7)).toString());
       return FlSpot(e.key.toDouble(), y);
     }).toList();
 
@@ -3248,7 +3241,8 @@ class _HistoryPlotState extends State<HistoryPlot> {
 
   List<FlSpot> generateHourlySpots_spo2(int index) {
     List<FlSpot> spots = hourlyDataToPlot_spo2.asMap().entries.map((e) {
-      double y = double.tryParse((e.value[index] + random.nextInt(2)).toString());
+      double y =
+          double.tryParse((e.value[index] + random.nextInt(2)).toString());
       return FlSpot(e.key.toDouble(), y);
     }).toList();
 

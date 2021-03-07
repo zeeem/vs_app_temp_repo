@@ -32,7 +32,7 @@ class _LoginPage extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomPadding: false,
+      // resizeToAvoidBottomPadding: false,
       resizeToAvoidBottomInset: true,
       appBar: CustomAppBar(
         height: 130, //no use of this fixed height
@@ -159,8 +159,11 @@ class _LoginPage extends State<LoginPage> {
 
           //TEST CASE ONLY
           if (username.length < 1 || testCase == true) {
-            username = 'test_u2';
-            password = '123123';
+            // username = 'test_u2';
+            // password = '123123';
+
+            username = 'testuservs';
+            password = 'Apple';
           }
 
           if (username.length > 1 && password.length > 1) {
@@ -193,8 +196,7 @@ class _LoginPage extends State<LoginPage> {
   }
 
   Future<int> logIntoAccount(String username, String password) async {
-    NetworkManager apiNetworkManager =
-        NetworkManager(apiData.baseAPIurl, nursingHome: false);
+    NetworkManager apiNetworkManager = GLOBALS.API_NETWORK_MANAGER;
     Map<String, dynamic> loginMap = {
       "username": "$username",
       "password": "$password"

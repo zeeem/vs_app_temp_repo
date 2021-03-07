@@ -26,7 +26,7 @@ class AlertHomePage extends StatelessWidget {
     double btn_height = 45;
 
     return Scaffold(
-      resizeToAvoidBottomPadding: false,
+      // resizeToAvoidBottomPadding: false,
       resizeToAvoidBottomInset: true,
       appBar: CustomAppBar(
         height: 130, //no use of this fixed height

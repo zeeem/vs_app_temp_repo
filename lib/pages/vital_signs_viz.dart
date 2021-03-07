@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:vital_signs_ui_template/Processing/BTconnection.dart';
-import 'package:vital_signs_ui_template/Processing/widgets.dart';
 import 'package:vital_signs_ui_template/core/configVS.dart';
 import 'package:vital_signs_ui_template/core/consts.dart';
 import 'package:vital_signs_ui_template/elements/ButtonWidget.dart';
 import 'package:vital_signs_ui_template/elements/info_card.dart';
-import 'package:flutter_blue/flutter_blue.dart';
 
 //import 'package:vital_signs_ui_template/pages/home_page.dart';
 
@@ -88,7 +86,8 @@ class _VitalSignsVizState extends State<VitalSignsViz> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        resizeToAvoidBottomPadding: false,
+        // resizeToAvoidBottomPadding: false,
+        resizeToAvoidBottomInset: true,
         body: SingleChildScrollView(
           child: Column(
             children: <Widget>[

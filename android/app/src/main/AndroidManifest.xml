@@ -16,9 +16,10 @@
 
     <application
         android:name="io.flutter.app.FlutterApplication"
+        android:usesCleartextTraffic="true"
         android:label="Vital Signs Demo v2"
         android:icon="@mipmap/ic_launcher">
-        <activity
+       <activity
             android:name=".MainActivity"
             android:screenOrientation="portrait"
             android:launchMode="singleTop"

@@ -25,18 +25,18 @@ dependencies:
     sdk: flutter
 
   #storage
-  shared_preferences: ^0.5.12+4
+  shared_preferences: ^2.0.3
   contacts_service: ^0.4.6
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^0.1.3
-  typicons_flutter: ^0.2.1
+  cupertino_icons: ^1.0.2
+  typicons_flutter: ^0.4.2
   flutter_blue: ^0.7.3
 #  flutter_svg: ^0.17.4
 #  fl_chart: ^0.9.3
   scidart: ^0.0.1-dev.6
   scidart_io: ^0.0.1-dev.3
-  path_provider: ^1.6.14
+  path_provider: ^2.0.1
 #  toast: ^0.1.5
   rflutter_alert: ^1.1.0
   #  url_launcher: ^5.7.2
@@ -47,19 +47,21 @@ dependencies:
   fluttertoast: ^7.1.1
   system_setting: ^0.1.3
   stats: ^1.0.0
-  package_info: ^0.4.3+2
+  package_info: ^2.0.0
   http: ^0.12.2
   linalg: ^0.3.2
   smart_arrays_peaks: ^2.1.3
   toggle_switch: ^0.1.8
-  flappy_search_bar: 1.4.1
-  dio: 1.0.0
+  flappy_search_bar: ^1.7.2
+  dio: ^3.0.10
   autocomplete_textfield: ^1.6.4
 #  ext_storage: any
-  permission_handler:  ^3.0.0
-  fl_chart: ^0.10.1
+  permission_handler: ^5.1.0+2
+  fl_chart: ^0.20.1
   csv: ^4.1.0
   flutter_sticky_header: ^0.5.0
+  intl: ^0.17.0
+
 
 
 dev_dependencies:

@@ -1,13 +1,10 @@
-import 'dart:convert';
-
+import 'package:flutter/material.dart';
 import 'package:vital_signs_ui_template/Processing/NetworkGateway/networkManager.dart';
 import 'package:vital_signs_ui_template/core/configVS.dart';
 import 'package:vital_signs_ui_template/elements/ButtonWidget.dart';
 import 'package:vital_signs_ui_template/elements/CustomAppBar.dart';
 
 import 'configuration_page3_user_info.dart';
-import 'package:flutter/material.dart';
-import 'package:vital_signs_ui_template/core/consts.dart';
 
 class ConfigurationPage2 extends StatefulWidget {
   @override
@@ -34,7 +31,7 @@ class _ConfigurationPage2 extends State<ConfigurationPage2> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomPadding: false,
+      // resizeToAvoidBottomPadding: false,
       resizeToAvoidBottomInset: true,
       appBar: CustomAppBar(
         height: 130, //no use of this fixed height
@@ -120,7 +117,7 @@ class _ConfigurationPage2 extends State<ConfigurationPage2> {
 
   // getDoctorsInfo() async{
   //
-  //   NetworkManager apiNetworkManager = NetworkManager(apiData.baseAPIurl, nursingHome: false);
+  //   NetworkManager apiNetworkManager = GLOBALS.API_NETWORK_MANAGER;
   //   var response = await apiNetworkManager.request('GET', '/api/shortdoctors/');
   //   var mappedResponse = jsonDecode(response.body);
   //
@@ -146,8 +143,7 @@ _saveInCloudDatabase() async {
 
   print('body====>> $map');
 
-  NetworkManager apiNetworkManager =
-      NetworkManager(apiData.baseAPIurl, nursingHome: false);
+  NetworkManager apiNetworkManager = GLOBALS.API_NETWORK_MANAGER;
   var response =
       await apiNetworkManager.request('POST', '/api/register/', body: map);
   print('responses body');

@@ -1,20 +1,17 @@
-import 'dart:async';
-import 'dart:collection';
-
+import 'package:flutter/material.dart';
 //import 'package:flutter_blue/flutter_blue.dart';
 //import 'package:fluttertoast/fluttertoast.dart';
 //import 'package:rflutter_alert/rflutter_alert.dart';
 //import 'package:vital_signs_ui_template/elements/BluetoothOffAlert.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vital_signs_ui_template/Processing/NetworkGateway/networkManager.dart';
+import 'package:vital_signs_ui_template/core/configVS.dart';
 import 'package:vital_signs_ui_template/elements/ButtonWidget.dart';
 import 'package:vital_signs_ui_template/elements/CustomAppBar.dart';
+
 //import 'package:vital_signs_ui_template/pages/VS_Viz_New.dart';
 
 import 'configuration_page8.dart';
-import 'package:flutter/material.dart';
-import 'package:vital_signs_ui_template/core/consts.dart';
-import 'package:vital_signs_ui_template/core/configVS.dart';
 
 bool needToTryAgain = false;
 
@@ -65,9 +62,8 @@ class _ConfigurationPage7 extends State<ConfigurationPage7> {
 
     _saveInCloudDatabase();
   }
-  
-  _saveInCloudDatabase() async{
 
+  _saveInCloudDatabase() async {
     Map<String, dynamic> map = {
       "username": "temp_username2",
       "email": "temp_email2@email.com",
@@ -85,15 +81,16 @@ class _ConfigurationPage7 extends State<ConfigurationPage7> {
 
     print('body====>> $map');
 
-    NetworkManager apiNetworkManager = NetworkManager(apiData.baseAPIurl, nursingHome: false);
-    var response = apiNetworkManager.request('POST', '/api/register/' , body: map);
+    NetworkManager apiNetworkManager = GLOBALS.API_NETWORK_MANAGER;
+    var response =
+        apiNetworkManager.request('POST', '/api/register/', body: map);
     print(response);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomPadding: false,
+      // resizeToAvoidBottomPadding: false,
       resizeToAvoidBottomInset: true,
       appBar: CustomAppBar(
         height: 130, //no use of this fixed height
