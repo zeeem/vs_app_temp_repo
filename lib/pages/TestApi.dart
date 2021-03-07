@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:date_time_picker/date_time_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -15,8 +16,20 @@ class TestAPI extends StatefulWidget {
 class _TestAPIState extends State<TestAPI> {
   String username = 'testuservs';
   String password = 'Apple';
-
   DateTime now;
+
+  DateTime selected_FromTime, selected_ToTime;
+  String selectedPlotScale = 'min';
+
+  String _selectedRadioButton = 'min';
+
+  _radioButtonhandler(String selectedScale) {
+    setState(() {
+      selectedPlotScale = selectedScale;
+      print('selected scale ==> $selectedPlotScale');
+      _selectedRadioButton = selectedScale;
+    });
+  }
 
   @override
   Future<void> initState() {
@@ -57,21 +70,120 @@ class _TestAPIState extends State<TestAPI> {
                     ),
                   ],
                 ),
+                Column(children: [
+                  // Text('FORM',
+                  //     style:
+                  //         TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                  Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: DateTimePicker(
+                      type: DateTimePickerType.dateTime,
+                      use24HourFormat: false,
+                      icon: Icon(Icons.event),
+                      initialValue: DateTime.now().toString(),
+                      firstDate: DateTime(2020),
+                      lastDate: DateTime(2100),
+                      dateLabelText: 'From',
+                      timeLabelText: "Hour",
+                      onChanged: (val) {
+                        DateTime selectedFromTime = DateTime.parse(val).toUtc();
+                        setState(() {
+                          selected_FromTime = selectedFromTime;
+                        });
+                        print('selected from---------> $selected_FromTime');
+                      },
+                      validator: (val) {
+                        print(val);
+                        return null;
+                      },
+                      onSaved: (val) => print(val),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: DateTimePicker(
+                      enabled: selected_FromTime != null ? true : false,
+                      type: DateTimePickerType.dateTime,
+                      use24HourFormat: false,
+                      icon: Icon(Icons.event),
+                      initialValue: DateTime.now().toString(),
+                      firstDate: selected_FromTime ?? DateTime.now(),
+                      lastDate: DateTime(2100),
+                      dateLabelText: 'To',
+                      timeLabelText: "Hour",
+                      onChanged: (val) {
+                        DateTime selectedToTime = DateTime.parse(val).toUtc();
+                        setState(() {
+                          selected_ToTime = selectedToTime;
+                        });
+
+                        print('selected from---------> $selected_ToTime');
+                      },
+                      validator: (val) {
+                        print(val);
+                        return null;
+                      },
+                      onSaved: (val) => print(val),
+                    ),
+                  ),
+                ]),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Radio(
+                      value: 'min',
+                      groupValue: _selectedRadioButton,
+                      onChanged: _radioButtonhandler,
+                    ),
+                    Text(
+                      'minute',
+                      style: new TextStyle(fontSize: 16.0),
+                    ),
+                    Radio(
+                      value: 'hr',
+                      groupValue: _selectedRadioButton,
+                      onChanged: _radioButtonhandler,
+                    ),
+                    Text(
+                      'hour',
+                      style: new TextStyle(fontSize: 16.0),
+                    ),
+                    Radio(
+                      value: 'day',
+                      groupValue: _selectedRadioButton,
+                      onChanged: _radioButtonhandler,
+                    ),
+                    Text(
+                      'day',
+                      style: new TextStyle(fontSize: 16.0),
+                    ),
+                    Radio(
+                      value: 'month',
+                      groupValue: _selectedRadioButton,
+                      onChanged: _radioButtonhandler,
+                    ),
+                    Text(
+                      'month',
+                      style: new TextStyle(fontSize: 16.0),
+                    ),
+                  ],
+                ),
                 RaisedButton(
                     onPressed: () {
                       setState(() {
                         now = DateTime.now();
-                        DateTime timeFrom =
-                            DateTime.now().subtract(Duration(days: 2)).toUtc();
-                        DateTime timeTo =
-                            DateTime.now().subtract(Duration(days: 1)).toUtc();
+                        // DateTime timeFrom =
+                        //     DateTime.now().subtract(Duration(days: 2)).toUtc();
+                        // DateTime timeTo =
+                        //     DateTime.now().subtract(Duration(days: 1)).toUtc();
 
-                        fetchVSData(timeFrom, timeTo, 'day');
-                        print("TIME_FROM = $timeFrom");
-                        print("TIME_TO = $timeTo");
+                        fetchVSData(selected_FromTime, selected_ToTime,
+                            selectedPlotScale);
+                        print("TIME_FROM = $selected_FromTime");
+                        print("TIME_TO = $selected_ToTime");
                       });
                     },
-                    child: Text('TEST')),
+                    child: Text('TEST FETCH')),
               ],
             ),
             SizedBox(
@@ -146,7 +258,8 @@ Future<String> fetchVSData(
   var response = await apiNetworkManager.request('GET', api_target);
   if (response.statusCode == 200) {
     var mappedResponse = jsonDecode(response.body);
-    print(mappedResponse);
+    List a = mappedResponse;
+    print(a.length);
   }
   print(response.body);
 }

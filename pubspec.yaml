@@ -60,7 +60,8 @@ dependencies:
   fl_chart: ^0.20.1
   csv: ^4.1.0
   flutter_sticky_header: ^0.5.0
-  intl: ^0.17.0
+  intl: ^0.16.1
+  date_time_picker: ^1.1.1
 
 
 
