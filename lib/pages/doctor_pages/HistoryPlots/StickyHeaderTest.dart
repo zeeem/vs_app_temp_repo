@@ -1,11 +1,31 @@
-import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sticky_header/flutter_sticky_header.dart';
-import 'package:vital_signs_ui_template/core/consts.dart';
-import 'package:vital_signs_ui_template/elements/stickyHeader_common.dart';
 import 'package:intl/intl.dart';
+import 'package:vital_signs_ui_template/elements/API_services.dart';
+import 'package:vital_signs_ui_template/elements/base_plot_element.dart';
+import 'package:vital_signs_ui_template/elements/stickyHeader_common.dart';
+
+import '../../../core/configVS.dart';
 
 class StickyHeadertest extends StatefulWidget {
+  final int touchedIndex;
+  final String touchedScale;
+  final String touchedVSType;
+  final List data_to_plot;
+  final List long_data;
+  final String timeOfData;
+
+  const StickyHeadertest(
+      {Key key,
+      this.touchedIndex,
+      this.touchedScale,
+      this.data_to_plot,
+      this.long_data,
+      //this.showAbnormalDots = false,
+      this.touchedVSType = '',
+      this.timeOfData})
+      : super(key: key);
+
   @override
   _StickyHeadertestState createState() => _StickyHeadertestState();
 }
@@ -17,11 +37,27 @@ class _StickyHeadertestState extends State<StickyHeadertest> {
   }
 }
 
-class VSplotExample extends StatelessWidget {
-  const VSplotExample({
-    Key key,
-  }) : super(key: key);
+bool isRangeOnSpecificHourSpo2 = false;
+bool isEmergencyDotOnSpo2 = false; //false
+bool isMinMaxOnSpo2 = false;
+bool isStdDeviationOn24HoursGraphSpo2 = false;
 
+bool isRangeOnSpecificHourHr = false;
+bool isEmergencyDotOnHr = false; //false
+bool isMinMaxOnHr = false;
+bool isStdDeviationOn24HoursGraphHr = false;
+
+bool isRangeOnSpecificHourTemp = false;
+bool isEmergencyDotOnTemp = false; //false
+bool isMinMaxOnTemp = false;
+bool isStdDeviationOn24HoursGraphTemp = false;
+
+bool isRangeOnSpecificHourRR = false;
+bool isEmergencyDotOnRR = false; //false
+bool isMinMaxOnRR = false;
+bool isStdDeviationOn24HoursGraphRR = false;
+
+class VSplotExample extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
@@ -29,16 +65,16 @@ class VSplotExample extends StatelessWidget {
       slivers: [
         _StickyHeaderGridSPO2(index: 0),
         _StickyHeaderGridHR(index: 1),
-        _StickyHeaderGridHR(index: 2),
-        _StickyHeaderGridHR(index: 3),
-        _StickyHeaderGridHR(index: 4),
+        _StickyHeaderGridTemp(index: 2),
+        _StickyHeaderGridRR(index: 3),
+        //_StickyHeaderGridHR(index: 4),
       ],
     );
   }
 }
 
 //----------SPO2 section---------------------------
-class _StickyHeaderGridSPO2 extends StatelessWidget {
+class _StickyHeaderGridSPO2 extends StatefulWidget {
   const _StickyHeaderGridSPO2({
     Key key,
     this.index,
@@ -47,10 +83,26 @@ class _StickyHeaderGridSPO2 extends StatelessWidget {
   final int index;
 
   @override
+  __StickyHeaderGridSPO2State createState() => __StickyHeaderGridSPO2State();
+}
+
+class __StickyHeaderGridSPO2State extends State<_StickyHeaderGridSPO2> {
+  @override
+  void initState() {
+    DateTime timeFrom = DateTime.parse("2021-03-05 20:00:00.000Z");
+    DateTime timeTo;
+    timeTo = timeFrom.add(Duration(hours: 1));
+
+    API_SERVICES.fetchVSData(timeFrom, timeTo, "min");
+
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return SliverStickyHeader(
       header: VSHeader(
-        index: index,
+        index: widget.index,
         icon_location: "assets/icons/spo2_icon.png",
         title:
             "Oxygen Saturation", // change header title here eg. SPO2 HR RR BP
@@ -60,11 +112,15 @@ class _StickyHeaderGridSPO2 extends StatelessWidget {
             crossAxisCount: 1, crossAxisSpacing: 4.0, mainAxisSpacing: 4.0),
         delegate: SliverChildBuilderDelegate(
           (context, i) => GridTile(
-            child: Card(
-              child: Container(
-                //------------------------------------the container to contain plots---------------------------------
-                color: Colors.green,
-              ),
+            child: base_plot_element(
+              normalZone: [91, 100],
+              vsType: "spo2",
+              vsDefaultType: "mean",
+              vsScaleTimeType: "min",
+              vsYAxisRange: [85, 100],
+              vsYAxisUnit: "%",
+              plotData: GLOBALS.FETCHED_RESPONSE,
+              plotTitle: "",
             ),
           ),
           childCount:
@@ -77,7 +133,7 @@ class _StickyHeaderGridSPO2 extends StatelessWidget {
 
 //------------------HR Section--------------
 
-class _StickyHeaderGridHR extends StatelessWidget {
+class _StickyHeaderGridHR extends StatefulWidget {
   const _StickyHeaderGridHR({
     Key key,
     this.index,
@@ -86,10 +142,15 @@ class _StickyHeaderGridHR extends StatelessWidget {
   final int index;
 
   @override
+  __StickyHeaderGridHRState createState() => __StickyHeaderGridHRState();
+}
+
+class __StickyHeaderGridHRState extends State<_StickyHeaderGridHR> {
+  @override
   Widget build(BuildContext context) {
     return SliverStickyHeader(
       header: VSHeader(
-          index: index,
+          index: widget.index,
           icon_location: "assets/icons/hr_icon.png",
           title: "Heart Rate"), // change header title here eg. SPO2 HR RR BP
       sliver: SliverGrid(
@@ -97,186 +158,15 @@ class _StickyHeaderGridHR extends StatelessWidget {
             crossAxisCount: 1, crossAxisSpacing: 4.0, mainAxisSpacing: 4.0),
         delegate: SliverChildBuilderDelegate(
           (context, i) => GridTile(
-            child: Container(
-              width: 335,
-              height: 300,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8),
-                color: Colors.grey[100],
-              ),
-              child: Column(
-                children: [
-                  Container(
-                    width: 335,
-                    //height: 300,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8),
-                      color: Colors.grey[100],
-                    ),
-                    child: Column(
-                      children: [
-                        Container(
-                          padding: EdgeInsets.only(top: 10),
-                          child: Center(
-                            child: Text("Last 7 Days Data",
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: AppColors.textColor)),
-                          ),
-                        ),
-                        LineChart(
-                          LineChartData(
-                            extraLinesData: false
-                                ? ExtraLinesData(horizontalLines: [
-                                    HorizontalLine(
-                                      //y: isSwitched? 75:0,
-                                      y: 75,
-                                      color: Colors.redAccent,
-                                      strokeWidth: 1,
-                                    ),
-                                    HorizontalLine(
-                                      //y: isSwitched? 75:0,
-                                      y: 85,
-                                      color: Colors.redAccent,
-                                      strokeWidth: 1,
-                                    ),
-                                  ])
-                                : ExtraLinesData(),
-                            minX: 0,
-                            maxX: 6,
-                            minY: 30,
-                            maxY: 150,
-                            titlesData: FlTitlesData(
-                              bottomTitles: SideTitles(
-                                  showTitles: true,
-                                  reservedSize: 6,
-                                  getTitles: (value) {
-                                    if (value.toInt() % 1 == 0) {
-                                      return getTimes(value.toInt(), 'day');
-                                    } else {
-                                      return '';
-                                    }
-                                  }),
-                              leftTitles: SideTitles(
-                                showTitles: true,
-                                getTitles: (value) {
-                                  switch (value.toInt()) {
-                                    case 50:
-                                      return '50';
-                                    case 75:
-                                      return '75';
-                                    case 100:
-                                      return '100';
-                                    case 125:
-                                      return '125';
-                                    default:
-                                      return '';
-                                  }
-                                },
-                              ),
-                            ),
-                            borderData: FlBorderData(show: false),
-                            gridData: FlGridData(show: false),
-                            lineBarsData: [
-                              //loadAsset(),
-                              LineChartBarData(
-                                spots: [
-                                  FlSpot(0, 75),
-                                  FlSpot(1, 85),
-                                  FlSpot(2, 81),
-                                  FlSpot(3, 75),
-                                  FlSpot(4, 85),
-                                  FlSpot(5, 81),
-                                  FlSpot(6, 81)
-                                ], // mean data, index 1 = avg
-                                isCurved: false,
-                                colors: gradientColors,
-                                barWidth: 3,
-                                isStrokeCapRound: true,
-                                dotData: FlDotData(show: true),
-                                //barWidth: 1,
-                                belowBarData: BarAreaData(
-                                    show: true,
-                                    colors: gradientColors
-                                        .map((color) => color.withOpacity(0.15))
-                                        .toList()),
-                              ),
-
-                              LineChartBarData(
-                                spots: [
-                                  FlSpot(0, 95),
-                                  FlSpot(1, 110),
-                                  FlSpot(2, 99),
-                                  FlSpot(3, 95),
-                                  FlSpot(4, 110),
-                                  FlSpot(5, 99),
-                                  FlSpot(6, 110)
-                                ],
-                                isCurved: false,
-                                colors: [Colors.deepOrangeAccent],
-                                barWidth: 2,
-                                isStrokeCapRound: true,
-                                dotData: FlDotData(show: false),
-                                show: false ? true : false,
-                                //barWidth: 1,
-                              ),
-
-                              LineChartBarData(
-                                spots: [
-                                  FlSpot(0, 70),
-                                  FlSpot(1, 77),
-                                  FlSpot(2, 69),
-                                  FlSpot(3, 65),
-                                  FlSpot(4, 77),
-                                  FlSpot(5, 69),
-                                  FlSpot(6, 69)
-                                ],
-                                isCurved: false,
-                                colors: [Colors.yellowAccent],
-                                barWidth: 2,
-                                isStrokeCapRound: true,
-                                dotData: FlDotData(show: false),
-                                show: false ? true : false,
-                                //barWidth: 1,
-                              ),
-
-                              // LineChartBarData(
-                              //   spots: generateSpots(dataToPlot, 3),    // deviation negative
-                              //   isCurved: true,
-                              //   colors: [Colors.black54],
-                              //   barWidth: 1,
-                              //   isStrokeCapRound: true,
-                              //   show: isStdDeviationOnFirstGraph? true: false,
-                              //   dotData: FlDotData(show: false),
-                              //   //barWidth: 1,
-                              //
-                              // ),
-                              //
-                              // LineChartBarData(
-                              //   spots: generateSpots(dataToPlot, 4),    // deviation positive
-                              //   isCurved: true,
-                              //   colors: [Colors.black54],
-                              //   barWidth: 1,
-                              //   isStrokeCapRound: true,
-                              //   show: isStdDeviationOnFirstGraph? true: false,
-                              //   dotData: FlDotData(show: false),
-                              //   //barWidth: 1,
-                              //
-                              // ),
-                            ],
-                            axisTitleData: FlAxisTitleData(
-                              bottomTitle: AxisTitle(
-                                  showTitle: true, titleText: '', margin: 5),
-                              leftTitle: AxisTitle(
-                                  showTitle: true, titleText: '', margin: 0),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
+            child: base_plot_element(
+              normalZone: [60, 100],
+              vsType: "hr",
+              vsDefaultType: "mean",
+              vsScaleTimeType: "min",
+              vsYAxisRange: [50, 120],
+              vsYAxisUnit: "",
+              plotData: GLOBALS.FETCHED_RESPONSE,
+              plotTitle: "",
             ),
           ),
           childCount:
@@ -287,27 +177,125 @@ class _StickyHeaderGridHR extends StatelessWidget {
   }
 }
 
-String getTimes(int timeToAdd, String typeOfTime) {
-  final DateTime now = DateTime.now();
-  //String formattedDate = DateFormat().add_jm().format(now);
-  //print(formattedDate);
+//------------------------------------------Temp Section-------------------------------------------
 
-  switch (typeOfTime) {
+class _StickyHeaderGridTemp extends StatefulWidget {
+  const _StickyHeaderGridTemp({
+    Key key,
+    this.index,
+  }) : super(key: key);
+
+  final int index;
+
+  @override
+  __StickyHeaderGridTempState createState() => __StickyHeaderGridTempState();
+}
+
+class __StickyHeaderGridTempState extends State<_StickyHeaderGridTemp> {
+  @override
+  Widget build(BuildContext context) {
+    return SliverStickyHeader(
+      header: VSHeader(
+          index: widget.index,
+          icon_location: "assets/icons/temp_icon.png",
+          title: "Temperature"), // change header title here eg. SPO2 HR RR BP
+      sliver: SliverGrid(
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 1, crossAxisSpacing: 4.0, mainAxisSpacing: 4.0),
+        delegate: SliverChildBuilderDelegate(
+          (context, i) => GridTile(
+            child: base_plot_element(
+              normalZone: [37, 37],
+              vsType: "temp",
+              vsDefaultType: "mean",
+              vsScaleTimeType: "min",
+              vsYAxisRange: [35, 40],
+              vsYAxisUnit: "°C",
+              plotData: GLOBALS.FETCHED_RESPONSE,
+              plotTitle: "",
+            ),
+          ),
+          childCount:
+              1, //change this to display multiple plots under one header
+        ),
+      ),
+    );
+  }
+}
+
+//--------------------------------------RR Section------------------------------------------------
+
+class _StickyHeaderGridRR extends StatefulWidget {
+  const _StickyHeaderGridRR({
+    Key key,
+    this.index,
+  }) : super(key: key);
+
+  final int index;
+
+  @override
+  __StickyHeaderGridRRState createState() => __StickyHeaderGridRRState();
+}
+
+class __StickyHeaderGridRRState extends State<_StickyHeaderGridRR> {
+  @override
+  Widget build(BuildContext context) {
+    return SliverStickyHeader(
+      header: VSHeader(
+          index: widget.index,
+          icon_location: "assets/icons/rr_icon.png",
+          title:
+              "Respiratory Rate"), // change header title here eg. SPO2 HR RR BP
+      sliver: SliverGrid(
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 1, crossAxisSpacing: 4.0, mainAxisSpacing: 4.0),
+        delegate: SliverChildBuilderDelegate(
+          (context, i) => GridTile(
+            child: base_plot_element(
+              normalZone: [12, 16],
+              vsType: "rr",
+              vsDefaultType: "mean",
+              vsScaleTimeType: "min",
+              vsYAxisRange: [8, 25],
+              vsYAxisUnit: "",
+              plotData: GLOBALS.FETCHED_RESPONSE,
+              plotTitle: "",
+            ),
+          ),
+          childCount:
+              1, //change this to display multiple plots under one header
+        ),
+      ),
+    );
+  }
+}
+
+String getLocalTime_XValue(String dateTimeString, String vsResponseType) {
+  switch (vsResponseType) {
     case 'min':
-      DateTime add15Minutes = now.subtract(new Duration(minutes: timeToAdd));
-      String formattedDate = DateFormat().add_jm().format(add15Minutes);
+      String formattedDate = DateFormat()
+          .add_jm()
+          .format(DateTime.parse(dateTimeString).toLocal());
       return formattedDate;
-    case 'hour':
-      DateTime add1Hour = now.subtract(new Duration(hours: timeToAdd));
-      String formattedDate = DateFormat().add_jm().format(add1Hour);
+    case 'hr':
+      String formattedDate = DateFormat()
+          .add_jm()
+          .format(DateTime.parse(dateTimeString).toLocal());
       return formattedDate;
     case 'day':
-      DateTime add1Day = now.subtract(new Duration(days: timeToAdd));
-      String formattedDate = DateFormat().add_Md().format(add1Day);
+      String formattedDate = DateFormat()
+          .add_Md()
+          .format(DateTime.parse(dateTimeString).toLocal());
+      return formattedDate;
+    case 'month':
+      String formattedDate = DateFormat()
+          .add_Md()
+          .format(DateTime.parse(dateTimeString).toLocal());
       return formattedDate;
     default:
-      DateTime add15Minutes = now.subtract(new Duration(minutes: timeToAdd));
-      String formattedDate = DateFormat().add_jm().format(add15Minutes);
+      String formattedDate = DateFormat()
+          .add_jm()
+          .format(DateTime.parse(dateTimeString).toLocal());
       return formattedDate;
   }
 }

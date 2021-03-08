@@ -73,4 +73,5 @@ class GLOBALS {
   static UserProfile USER_PROFILE;
   static NetworkManager API_NETWORK_MANAGER =
       NetworkManager(apiData.baseAPIurl, nursingHome: false);
+  static List FETCHED_RESPONSE;
 }
