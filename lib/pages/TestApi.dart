@@ -8,6 +8,8 @@ import 'package:vital_signs_ui_template/Processing/NetworkGateway/networkManager
 import 'package:vital_signs_ui_template/core/configVS.dart';
 import 'package:vital_signs_ui_template/elements/User.dart';
 
+import '../core/configVS.dart';
+
 class TestAPI extends StatefulWidget {
   @override
   _TestAPIState createState() => _TestAPIState();
@@ -259,6 +261,7 @@ Future<String> fetchVSData(
   if (response.statusCode == 200) {
     var mappedResponse = jsonDecode(response.body);
     List a = mappedResponse;
+    GLOBALS.FETCHED_RESPONSE = a;
     print(a.length);
   }
   print(response.body);
