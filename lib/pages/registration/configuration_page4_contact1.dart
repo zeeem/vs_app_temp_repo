@@ -7,6 +7,9 @@ import 'package:vital_signs_ui_template/elements/CustomAppBar.dart';
 
 import 'configuration_page5_contact2.dart';
 
+import 'package:permission_handler/permission_handler.dart';
+import 'package:flutter/services.dart';
+
 class ConfigurationPage4 extends StatefulWidget {
   @override
   _ConfigurationPage4 createState() => _ConfigurationPage4();
@@ -22,62 +25,32 @@ class _ConfigurationPage4 extends State<ConfigurationPage4> {
     super.initState();
   }
 
-  // // ------------------------------------------------------------------------------
-  //
-  // Future<void> _askPermissions() async {
-  //   PermissionStatus permissionStatus = await _getContactPermission();
-  //   if (permissionStatus != PermissionStatus.granted) {
-  //     _handleInvalidPermissions(permissionStatus);
-  //   }
-  // }
+  // ------------------------------------------------------------------------------
 
-  // Future<PermissionStatus> _getContactPermission() async {
-  //   PermissionStatus permission = await PermissionHandler()
-  //       .checkPermissionStatus(PermissionGroup.contacts);
-  //   if (permission != PermissionStatus.granted &&
-  //       permission != PermissionStatus.disabled) {
-  //     Map<PermissionGroup, PermissionStatus> permissionStatus =
-  //         await PermissionHandler()
-  //             .requestPermissions([PermissionGroup.contacts]);
-  //     return permissionStatus[PermissionGroup.contacts] ??
-  //         PermissionStatus.unknown;
-  //   } else {
-  //     return permission;
-  //   }
-  // }
-  //
-  // void _handleInvalidPermissions(PermissionStatus permissionStatus) {
-  //   if (permissionStatus == PermissionStatus.denied) {
-  //     throw PlatformException(
-  //         code: "PERMISSION_DENIED",
-  //         message: "Access to location data denied",
-  //         details: null);
-  //   } else if (permissionStatus == PermissionStatus.disabled) {
-  //     throw PlatformException(
-  //         code: "PERMISSION_DISABLED",
-  //         message: "Location data is not available on device",
-  //         details: null);
-  //   }
-  // }
-  //
-  // Future<void> _pickContact() async {
-  //   _askPermissions();
-  //   try {
-  //     final Contact contact = await ContactsService.openDeviceContactPicker(
-  //         iOSLocalizedLabels: iOSLocalizedLabels);
-  //     setState(() {
-  //       _contact1 = contact;
-  //       if (_contact1 != null) {
-  //         contact1NameController.text = _contact1.displayName;
-  //         contact1PhoneController.text = _contact1.phones.first.value;
-  //       }
-  //     });
-  //   } catch (e) {
-  //     print(e.toString());
-  //   }
-  // }
+  Future<void> _askPermissions() async {
+    if (await Permission.contacts.request().isGranted) {
+      print('Contact permission is granted');
+    }
+  }
 
-  // // ------------------------------------------------------------------------------
+  Future<void> _pickContact() async {
+    _askPermissions();
+    try {
+      final Contact contact = await ContactsService.openDeviceContactPicker(
+          iOSLocalizedLabels: iOSLocalizedLabels);
+      setState(() {
+        _contact1 = contact;
+        if (_contact1 != null) {
+          contact1NameController.text = _contact1.displayName;
+          contact1PhoneController.text = _contact1.phones.first.value;
+        }
+      });
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  // ------------------------------------------------------------------------------
 
   @override
   Widget build(BuildContext context) {
@@ -155,7 +128,7 @@ class _ConfigurationPage4 extends State<ConfigurationPage4> {
                     decoration: TextDecoration.underline),
               ),
               // // ------------------------------------------------------------------------------
-              // onPressed: _pickContact,
+              onPressed: _pickContact,
             ),
 
             //_contact1.displayName
