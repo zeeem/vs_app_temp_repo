@@ -108,19 +108,26 @@ class __StickyHeaderGridSPO2State extends State<_StickyHeaderGridSPO2> {
             "Oxygen Saturation", // change header title here eg. SPO2 HR RR BP
       ),
       sliver: SliverGrid(
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 1, crossAxisSpacing: 4.0, mainAxisSpacing: 4.0),
+        gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+          maxCrossAxisExtent: MediaQuery.of(context).size.height,
+          crossAxisSpacing: 4.0,
+          mainAxisSpacing: 4.0,
+          childAspectRatio: .6,
+        ),
         delegate: SliverChildBuilderDelegate(
           (context, i) => GridTile(
-            child: base_plot_element(
-              normalZone: [91, 100],
-              vsType: "spo2",
-              vsDefaultType: "mean",
-              vsScaleTimeType: "min",
-              vsYAxisRange: [85, 100],
-              vsYAxisUnit: "%",
-              plotData: GLOBALS.FETCHED_RESPONSE,
-              plotTitle: "",
+            child: Container(
+              padding: EdgeInsets.fromLTRB(0, 0, 0, 100),
+              child: base_plot_element(
+                normalZone: [91, 100],
+                vsType: "spo2",
+                vsDefaultType: "mean",
+                vsScaleTimeType: "min",
+                vsYAxisRange: [85, 100],
+                vsYAxisUnit: "%",
+                plotData: GLOBALS.FETCHED_RESPONSE,
+                plotTitle: "",
+              ),
             ),
           ),
           childCount:
@@ -154,19 +161,26 @@ class __StickyHeaderGridHRState extends State<_StickyHeaderGridHR> {
           icon_location: "assets/icons/hr_icon.png",
           title: "Heart Rate"), // change header title here eg. SPO2 HR RR BP
       sliver: SliverGrid(
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 1, crossAxisSpacing: 4.0, mainAxisSpacing: 4.0),
+        gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+          maxCrossAxisExtent: MediaQuery.of(context).size.height,
+          crossAxisSpacing: 4.0,
+          mainAxisSpacing: 4.0,
+          childAspectRatio: .6,
+        ),
         delegate: SliverChildBuilderDelegate(
           (context, i) => GridTile(
-            child: base_plot_element(
-              normalZone: [60, 100],
-              vsType: "hr",
-              vsDefaultType: "mean",
-              vsScaleTimeType: "min",
-              vsYAxisRange: [50, 120],
-              vsYAxisUnit: "",
-              plotData: GLOBALS.FETCHED_RESPONSE,
-              plotTitle: "",
+            child: Container(
+              padding: EdgeInsets.fromLTRB(0, 0, 0, 100),
+              child: base_plot_element(
+                normalZone: [60, 100],
+                vsType: "hr",
+                vsDefaultType: "mean",
+                vsScaleTimeType: "min",
+                vsYAxisRange: [50, 120],
+                vsYAxisUnit: "",
+                plotData: GLOBALS.FETCHED_RESPONSE,
+                plotTitle: "",
+              ),
             ),
           ),
           childCount:
@@ -200,19 +214,26 @@ class __StickyHeaderGridTempState extends State<_StickyHeaderGridTemp> {
           icon_location: "assets/icons/temp_icon.png",
           title: "Temperature"), // change header title here eg. SPO2 HR RR BP
       sliver: SliverGrid(
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 1, crossAxisSpacing: 4.0, mainAxisSpacing: 4.0),
+        gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+          maxCrossAxisExtent: MediaQuery.of(context).size.height,
+          crossAxisSpacing: 4.0,
+          mainAxisSpacing: 4.0,
+          childAspectRatio: .6,
+        ),
         delegate: SliverChildBuilderDelegate(
           (context, i) => GridTile(
-            child: base_plot_element(
-              normalZone: [37, 37],
-              vsType: "temp",
-              vsDefaultType: "mean",
-              vsScaleTimeType: "min",
-              vsYAxisRange: [35, 40],
-              vsYAxisUnit: "°C",
-              plotData: GLOBALS.FETCHED_RESPONSE,
-              plotTitle: "",
+            child: Container(
+              padding: EdgeInsets.fromLTRB(0, 0, 0, 100),
+              child: base_plot_element(
+                normalZone: [37, 37],
+                vsType: "temp",
+                vsDefaultType: "mean",
+                vsScaleTimeType: "min",
+                vsYAxisRange: [35, 40],
+                vsYAxisUnit: "°C",
+                plotData: GLOBALS.FETCHED_RESPONSE,
+                plotTitle: "",
+              ),
             ),
           ),
           childCount:
@@ -247,19 +268,26 @@ class __StickyHeaderGridRRState extends State<_StickyHeaderGridRR> {
           title:
               "Respiratory Rate"), // change header title here eg. SPO2 HR RR BP
       sliver: SliverGrid(
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 1, crossAxisSpacing: 4.0, mainAxisSpacing: 4.0),
+        gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+          maxCrossAxisExtent: MediaQuery.of(context).size.height,
+          crossAxisSpacing: 4.0,
+          mainAxisSpacing: 4.0,
+          childAspectRatio: .6,
+        ),
         delegate: SliverChildBuilderDelegate(
           (context, i) => GridTile(
-            child: base_plot_element(
-              normalZone: [12, 16],
-              vsType: "rr",
-              vsDefaultType: "mean",
-              vsScaleTimeType: "min",
-              vsYAxisRange: [8, 25],
-              vsYAxisUnit: "",
-              plotData: GLOBALS.FETCHED_RESPONSE,
-              plotTitle: "",
+            child: Container(
+              padding: EdgeInsets.fromLTRB(0, 0, 0, 100),
+              child: base_plot_element(
+                normalZone: [12, 16],
+                vsType: "rr",
+                vsDefaultType: "mean",
+                vsScaleTimeType: "min",
+                vsYAxisRange: [8, 25],
+                vsYAxisUnit: "",
+                plotData: GLOBALS.FETCHED_RESPONSE,
+                plotTitle: "",
+              ),
             ),
           ),
           childCount:

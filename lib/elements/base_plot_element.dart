@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:date_time_picker/date_time_picker.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -54,6 +55,11 @@ class _base_plot_elementState extends State<base_plot_element> {
 
   bool _isLoading = true;
 
+  bool showDateTime = false;
+
+  DateTime now;
+  DateTime selected_FromTime, selected_ToTime;
+
   _radioButtonhandler(String selectedScale) async {
     DateTime timeFrom = DateTime.parse("2021-03-05 23:01:00.000Z");
     DateTime timeTo;
@@ -79,16 +85,16 @@ class _base_plot_elementState extends State<base_plot_element> {
         break;
     }
     _isLoading = true;
-    _plotData = await API_SERVICES.fetchVSData(timeFrom, timeTo, selectedScale);
-    Timer(Duration(seconds: 2), () {
-      setState(() {
-        selectedPlotScale = selectedScale;
-        print('selected scale ==> $selectedPlotScale');
-        _selectedRadioButton = selectedScale;
-        _vsScaleTimeType = selectedScale;
-        _isLoading = false;
-      });
+    //_plotData = await API_SERVICES.fetchVSData(timeFrom, timeTo, selectedScale);
+    //Timer(Duration(seconds: 2), () {
+    setState(() {
+      selectedPlotScale = selectedScale;
+      print('selected scale ==> $selectedPlotScale');
+      _selectedRadioButton = selectedScale;
+      _vsScaleTimeType = selectedScale;
+      _isLoading = false;
     });
+    //});
   }
 
   @override
@@ -463,50 +469,152 @@ class _base_plot_elementState extends State<base_plot_element> {
             ],
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.fromLTRB(5, 20, 5, 10),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Radio(
-                value: 'min',
-                groupValue: _selectedRadioButton,
-                onChanged: _radioButtonhandler,
-              ),
-              Text(
-                'minute',
-                style: new TextStyle(fontSize: 12.0),
-              ),
-              Radio(
-                value: 'hr',
-                groupValue: _selectedRadioButton,
-                onChanged: _radioButtonhandler,
-              ),
-              Text(
-                'hour',
-                style: new TextStyle(fontSize: 12.0),
-              ),
-              Radio(
-                value: 'day',
-                groupValue: _selectedRadioButton,
-                onChanged: _radioButtonhandler,
-              ),
-              Text(
-                'day',
-                style: new TextStyle(fontSize: 12.0),
-              ),
-              Radio(
-                value: 'month',
-                groupValue: _selectedRadioButton,
-                onChanged: _radioButtonhandler,
-              ),
-              Text(
-                'month',
-                style: new TextStyle(fontSize: 12.0),
-              ),
-            ],
+        RaisedButton(
+          onPressed: () {
+            setState(() {
+              if (showDateTime == false) {
+                showDateTime = true;
+              } else {
+                showDateTime = false;
+              }
+            });
+          },
+          textColor: Colors.black,
+          //color: Colors.red,
+          padding: const EdgeInsets.all(8.0),
+          child: new Text(
+            "Custom Range",
           ),
         ),
+        showDateTime
+            ? Column(
+                children: [
+                  Column(children: [
+                    // Text('FORM',
+                    //     style:
+                    //         TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(50, 10, 50, 0),
+                      child: DateTimePicker(
+                        type: DateTimePickerType.dateTime,
+                        use24HourFormat: false,
+                        icon: Icon(Icons.event),
+                        initialValue: DateTime.now().toString(),
+                        firstDate: DateTime(2020),
+                        lastDate: DateTime(2100),
+                        dateLabelText: 'From',
+                        timeLabelText: "Hour",
+                        onChanged: (val) {
+                          DateTime selectedFromTime =
+                              DateTime.parse(val).toUtc();
+                          setState(() {
+                            selected_FromTime = selectedFromTime;
+                          });
+                          print('selected from---------> $selected_FromTime');
+                        },
+                        validator: (val) {
+                          print(val);
+                          return null;
+                        },
+                        onSaved: (val) => print(val),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(50, 5, 50, 10),
+                      child: DateTimePicker(
+                        enabled: selected_FromTime != null ? true : false,
+                        type: DateTimePickerType.dateTime,
+                        use24HourFormat: false,
+                        icon: Icon(Icons.event),
+                        initialValue: DateTime.now().toString(),
+                        firstDate: selected_FromTime ?? DateTime.now(),
+                        lastDate: DateTime(2100),
+                        dateLabelText: 'To',
+                        timeLabelText: "Hour",
+                        onChanged: (val) {
+                          DateTime selectedToTime = DateTime.parse(val).toUtc();
+                          setState(() {
+                            selected_ToTime = selectedToTime;
+                          });
+
+                          print('selected from---------> $selected_ToTime');
+                        },
+                        validator: (val) {
+                          print(val);
+                          return null;
+                        },
+                        onSaved: (val) => print(val),
+                      ),
+                    ),
+                  ]),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(5, 10, 5, 10),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Radio(
+                          value: 'min',
+                          groupValue: _selectedRadioButton,
+                          onChanged: _radioButtonhandler,
+                        ),
+                        Text(
+                          'minute',
+                          style: new TextStyle(fontSize: 12.0),
+                        ),
+                        Radio(
+                          value: 'hr',
+                          groupValue: _selectedRadioButton,
+                          onChanged: _radioButtonhandler,
+                        ),
+                        Text(
+                          'hour',
+                          style: new TextStyle(fontSize: 12.0),
+                        ),
+                        Radio(
+                          value: 'day',
+                          groupValue: _selectedRadioButton,
+                          onChanged: _radioButtonhandler,
+                        ),
+                        Text(
+                          'day',
+                          style: new TextStyle(fontSize: 12.0),
+                        ),
+                        Radio(
+                          value: 'month',
+                          groupValue: _selectedRadioButton,
+                          onChanged: _radioButtonhandler,
+                        ),
+                        Text(
+                          'month',
+                          style: new TextStyle(fontSize: 12.0),
+                        ),
+                      ],
+                    ),
+                  ),
+                  RaisedButton(
+                      onPressed: () async {
+                        _plotData = await API_SERVICES.fetchVSData(
+                            selected_FromTime,
+                            selected_ToTime,
+                            selectedPlotScale);
+                        Timer(Duration(seconds: 1), () {
+                          setState(() {
+                            print(_plotData);
+                            _isLoading = false;
+                          });
+                        });
+                        // setState(() {
+                        //   API_SERVICES.fetchVSData(timeFrom, timeTo, selectedScale);
+                        //   fetchVSData(selected_FromTime, selected_ToTime,
+                        //       selectedPlotScale);
+                        //   print("TIME_FROM = $selected_FromTime");
+                        //   print("TIME_TO = $selected_ToTime");
+                        // });
+                      },
+                      child: Text('Filter')),
+                ],
+              )
+            : Container(),
       ],
     );
   }
