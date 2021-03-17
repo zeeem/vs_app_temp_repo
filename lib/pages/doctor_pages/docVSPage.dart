@@ -10,6 +10,7 @@ import 'package:vital_signs_ui_template/elements/CustomAppBar.dart';
 import 'package:vital_signs_ui_template/elements/User.dart';
 import 'package:vital_signs_ui_template/elements/info_card.dart';
 import 'package:vital_signs_ui_template/pages/Dashboard/AbnormalVsBoard.dart';
+import 'package:vital_signs_ui_template/pages/Dashboard/vs_item.dart';
 
 import '../AlertHomePage.dart';
 import 'HistoryPlots/HistoryPlot.dart';
@@ -293,6 +294,8 @@ class doctorVSPage_element extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    List<int> bp_val = [130, 90];
+
     List historyData = tempStaticVals.historyplot;
     User _clicked_user = clicked_user;
     String userName;
@@ -458,158 +461,127 @@ class doctorVSPage_element extends StatelessWidget {
                         ),
                       ),
                     ),
-//                     SizedBox(height: 0),
-//                     Center(
-//                       child: Container(
-//                         padding: EdgeInsets.only(
-//                             left: 0, top: 10, right: 0, bottom: 20),
-//                         width: double.infinity,
-//                         decoration: BoxDecoration(
-//                           color: AppColors.deccolor3.withOpacity(.1),
-//                           borderRadius: BorderRadius.circular(25),
-//                         ),
-//                         child: Row(
-//                           children: <Widget>[
-//                             Container(
-//                               alignment: Alignment.center,
-// //                          height: 40,
-//                               width: 60,
-//                               child: Image.asset('assets/icons/spo2_icon.png'),
-//                             ),
-//                             SizedBox(width: 10),
-//                             GestureDetector(
-//                               onTap: () {
-//                                 if (historyData.length > 0) {
-//                                   Navigator.of(context).push(MaterialPageRoute(
-//                                       builder: (BuildContext context) =>
-//                                           HistoryPlot(
-//                                             data: historyData,
-//                                             expandedTitle: 'spo2',
-//                                           )));
-//                                 }
-//                               },
-//                               child: Padding(
-//                                 padding: const EdgeInsets.all(0.0),
-//                                 child: Column(
-//                                   crossAxisAlignment: CrossAxisAlignment.start,
-//                                   children: <Widget>[
-//                                     Text(
-//                                       'Oxygen Saturation',
-//                                       style: TextStyle(
-//                                           color: AppColors.textColor,
-//                                           fontSize: 17),
-//                                     ),
-// //                              SizedBox(height: 4),
-//                                     Row(
-//                                       children: <Widget>[
-//                                         Text(
-//                                           '${_doc_spo2}',
-//                                           textAlign: TextAlign.start,
-//                                           style: TextStyle(
-//                                             fontWeight: FontWeight.bold,
-//                                             fontSize: 35,
-//                                           ),
-//                                         ),
-//                                         SizedBox(width: 3),
-//                                         Text(
-//                                           '%',
-//                                           style: TextStyle(fontSize: 20),
-// //                                    textAlign: TextAlign.end,
-//                                         ),
-//                                       ],
-//                                     ),
-//                                   ],
-//                                 ),
-//                               ),
-//                             ),
-//                           ],
-//                         ),
-//                       ),
-//                     ),
-//                     SizedBox(height: 10),
-
-//                     Center(
-//                       child: Container(
-//                         padding: EdgeInsets.only(
-//                             left: 0, top: 20, right: 0, bottom: 20),
-//                         width: double.infinity,
-//                         decoration: BoxDecoration(
-//                           color: AppColors.deccolor3.withOpacity(.1),
-//                           borderRadius: BorderRadius.circular(25),
-// //                      boxShadow: [
-// //                        BoxShadow(
-// //                          color: Colors.grey.withOpacity(0.05),
-// //                          spreadRadius: 1,
-// //                          blurRadius: 1,
-// //                          offset: Offset(1, 2), // changes position of shadow
-// //                        ),
-// //                      ],
-//                         ),
-//                         child: Row(
-//                           children: <Widget>[
-//                             Container(
-//                               alignment: Alignment.center,
-// //                          height: 40,
-//                               width: 60,
-//                               child: Image.asset('assets/icons/rr_icon.png'),
-//                             ),
-//                             SizedBox(width: 10),
-//                             Padding(
-//                               padding: const EdgeInsets.all(0.0),
-//                               child: Column(
-//                                 crossAxisAlignment: CrossAxisAlignment.start,
-//                                 children: <Widget>[
-//                                   Text(
-//                                     'Respiration Rate',
-//                                     style: TextStyle(
-//                                         color: AppColors.textColor,
-//                                         fontSize: 17),
-//                                   ),
-// //                              SizedBox(height: 4),
-//                                   Row(
-//                                     children: <Widget>[
-//                                       Text(
-//                                         '${_doc_rr}',
-//                                         textAlign: TextAlign.start,
-//                                         style: TextStyle(
-//                                           fontWeight: FontWeight.bold,
-//                                           fontSize: 35,
-//                                         ),
-//                                       ),
-//                                       SizedBox(width: 3),
-//                                       Text(
-//                                         'rpm',
-//                                         style: TextStyle(fontSize: 20),
-// //                                    textAlign: TextAlign.end,
-//                                       ),
-//                                     ],
-//                                   ),
-//                                 ],
-//                               ),
-//                             ),
-//                           ],
-//                         ),
-//                       ),
-//                     ),
-//                     SizedBox(height: 10),
-                    vs_horizontal_card(
-                      vs_name: 'Oxygen Saturation',
-                      vs_value: _doc_spo2,
-                      vs_unit: '%',
-                      vs_icon_path: 'assets/icons/spo2_icon.png',
+                    Center(
+                      child: Container(
+                        padding: EdgeInsets.only(
+                            left: 0, top: 15, right: 0, bottom: 15),
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+//                      color: AppColors.mainColor.withOpacity(0.03),
+                          borderRadius: BorderRadius.only(
+                            bottomLeft: Radius.circular(50),
+                            bottomRight: Radius.circular(50),
+                          ),
+                        ),
+                        child: Center(
+                          child: Center(
+                            child: Wrap(
+                              runSpacing: 20,
+                              spacing: 20,
+                              children: <Widget>[
+                                InfoCard(
+                                  title: "SPO2",
+                                  iconPath: 'assets/icons/spo2_icon.png',
+                                  valueUnit: '%',
+                                  valueToShow: '${_doc_spo2}',
+                                  press: () {
+                                    if (historyData.length > 0) {
+                                      Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                              builder: (BuildContext context) =>
+                                                  HistoryPlot(
+                                                    data: historyData,
+                                                    expandedTitle: 'spo2',
+                                                  )));
+                                    } else {
+                                      return AlertDialog(
+                                        title: Text('No history found'),
+                                        content:
+                                            Text('Do you want to try again?'),
+                                        actions: <Widget>[
+                                          FlatButton(
+                                              onPressed: () {
+                                                print('ignored');
+                                              },
+                                              child: Text('No')),
+                                          new FlatButton(
+                                              onPressed: () {
+                                                tempStaticVals.loadAsset();
+                                              },
+                                              child: new Text('Yes')),
+                                        ],
+                                      );
+                                    }
+                                  },
+                                ),
+                                InfoCard(
+                                  title: "RR",
+                                  iconPath: 'assets/icons/rr_icon.png',
+                                  valueUnit: '°C',
+                                  valueToShow: '${_doc_rr}',
+                                  press: () {
+                                    if (historyData.length > 0) {
+                                      Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                              builder: (BuildContext context) =>
+                                                  HistoryPlot(
+                                                    data: historyData,
+                                                    expandedTitle: 'rr',
+                                                  )));
+                                    } else {
+                                      return AlertDialog(
+                                        title: Text('No history found'),
+                                        content:
+                                            Text('Do you want to try again?'),
+                                        actions: <Widget>[
+                                          FlatButton(
+                                              onPressed: () {
+                                                print('ignored');
+                                              },
+                                              child: Text('No')),
+                                          new FlatButton(
+                                              onPressed: () {
+                                                tempStaticVals.loadAsset();
+                                              },
+                                              child: new Text('Yes')),
+                                        ],
+                                      );
+                                    }
+                                  },
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
                     ),
-                    vs_horizontal_card(
-                      vs_name: 'Respiration Rate',
-                      vs_value: _doc_rr,
-                      vs_unit: 'rpm',
-                      vs_icon_path: 'assets/icons/rr_icon.png',
+                    // vs_horizontal_card(
+                    //   vs_name: 'Oxygen Saturation',
+                    //   vs_value: _doc_spo2,
+                    //   vs_unit: '%',
+                    //   vs_icon_path: 'assets/icons/spo2_icon.png',
+                    // ),
+                    // vs_horizontal_card(
+                    //   vs_name: 'Respiration Rate',
+                    //   vs_value: _doc_rr,
+                    //   vs_unit: 'rpm',
+                    //   vs_icon_path: 'assets/icons/rr_icon.png',
+                    // ),
+                    vsLive_item_bp(
+                      title: 'Blood Pressure',
+                      valueToShow: '${bp_val[0]}/${bp_val[1]}',
+                      valueUnit: 'mmHg',
+                      iconPath: 'assets/icons/bp_icon.png',
+                      press: () {},
+                      maxWidth: 400,
+                      bp_MAP_value: bp_MAP.toString(),
                     ),
-                    vs_horizontal_card(
-                      vs_name: 'Blood Pressure',
-                      vs_value: _doc_bp,
-                      vs_unit: 'mmHg',
-                      vs_icon_path: 'assets/icons/bp_icon.png',
-                    ),
+                    // vs_horizontal_card(
+                    //   vs_name: 'Blood Pressure',
+                    //   vs_value: _doc_bp,
+                    //   vs_unit: 'mmHg',
+                    //   vs_icon_path: 'assets/icons/bp_icon.png',
+                    // ),
 //                     Center(
 //                       child: Container(
 //                         padding: EdgeInsets.only(
@@ -747,6 +719,145 @@ class vs_horizontal_card extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+}
+
+class vsLive_item_bp extends StatelessWidget {
+  final String title;
+  final String valueToShow;
+  final String valueUnit;
+  final String iconPath;
+  final Function press;
+  final double maxWidth;
+  final bool isAbnormal;
+  final String bp_MAP_value;
+
+  const vsLive_item_bp({
+    Key key,
+    this.title,
+    this.valueToShow,
+    this.valueUnit,
+    this.iconPath,
+    this.press,
+    this.maxWidth = 0,
+    this.isAbnormal = false,
+    this.bp_MAP_value = '100',
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        return GestureDetector(
+          onTap: press,
+          child: Container(
+            width: maxWidth == 0 ? constraints.maxWidth / 3 - 20 : maxWidth,
+            height: constraints.maxWidth / 2 - 50,
+            // Here constraints.maxWidth provide us the available width for the widget
+            decoration: BoxDecoration(
+              color: !isAbnormal ? Colors.white : Color(0xFFFFD2D2),
+              borderRadius: BorderRadius.circular(10),
+              border: !isAbnormal
+                  ? Border.all(width: 0, color: Color(0xFFFFFFFF))
+                  : Border.all(width: 2.0, color: Color(0xFFE01A1A)),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.4),
+                  spreadRadius: 1,
+                  blurRadius: 10,
+                  offset: Offset(1, 2), // changes position of shadow
+                ),
+              ],
+            ),
+            child: Column(
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+                  child: Row(
+                    children: <Widget>[
+                      // wrapped within an expanded widget to allow for small density device
+                      Container(
+                        alignment: Alignment.topLeft,
+                        height: 40,
+//                            width: 30,
+                        child: Image.asset(iconPath),
+                      ),
+                      SizedBox(width: 5),
+                      Flexible(
+                        child: Text(
+                          title,
+                          style: TextStyle(
+                            fontWeight: FontWeight.normal,
+                            fontSize: 16,
+                            color: AppColors.textColor,
+                          ),
+                          maxLines: 1,
+                          textAlign: TextAlign.left,
+                          overflow: TextOverflow.clip,
+                        ),
+                      ),
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                              // bottom: 10,
+                              right: 10,
+                              left: 5),
+                          child: Text(
+                            '($bp_MAP_value)',
+                            textAlign: TextAlign.end,
+                            maxLines: 1,
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: AppColors.mainColor,
+                                fontSize: 22),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 5, bottom: 0),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(0, 0, 5, 0),
+                        child: Text(
+                          '$valueToShow',
+                          maxLines: 1,
+                          overflow: TextOverflow.clip,
+                          style: TextStyle(
+                              fontSize: 36,
+                              fontWeight: FontWeight.bold,
+                              color: AppColors.mainColor),
+                        ),
+                      ),
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                            bottom: 10,
+                            right: 10,
+                          ),
+                          child: Text(
+                            '$valueUnit',
+                            textAlign: TextAlign.end,
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: AppColors.mainColor,
+                                fontSize: 10),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                )
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 }

@@ -60,15 +60,21 @@ bool isStdDeviationOn24HoursGraphRR = false;
 class VSplotExample extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return AppScaffold(
-      title: 'ALL CHARTS',
-      slivers: [
-        _StickyHeaderGridSPO2(index: 0),
-        _StickyHeaderGridHR(index: 1),
-        _StickyHeaderGridTemp(index: 2),
-        _StickyHeaderGridRR(index: 3),
-        //_StickyHeaderGridHR(index: 4),
-      ],
+    return GestureDetector(
+      // onVerticalDragDown: (var i) {
+      //   print('dragged');
+      //   print(i);
+      // },
+      child: AppScaffold(
+        title: 'ALL CHARTS',
+        slivers: [
+          _StickyHeaderGridSPO2(index: 0),
+          _StickyHeaderGridHR(index: 1),
+          _StickyHeaderGridTemp(index: 2),
+          _StickyHeaderGridRR(index: 3),
+          //_StickyHeaderGridHR(index: 4),
+        ],
+      ),
     );
   }
 }

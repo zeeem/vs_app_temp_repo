@@ -52,38 +52,44 @@ class _base_plot_elementState extends State<base_plot_element> {
 
   String _selectedRadioButton;
   String selectedPlotScale;
+  String selectedPlotScale_rangeSelector;
+
+  String _selectedRadioButton_rangeSelector;
 
   bool _isLoading = true;
 
-  bool showDateTime = false;
+  bool _showCustomRange = false;
 
   DateTime now;
   DateTime selected_FromTime, selected_ToTime;
 
   _radioButtonhandler(String selectedScale) async {
-    DateTime timeFrom = DateTime.parse("2021-03-05 23:01:00.000Z");
-    DateTime timeTo;
+    // DateTime timeFrom = DateTime.parse("2021-03-05 23:01:00.000Z");
+    // DateTime timeTo;
+    //
+    // switch (selectedScale) {
+    //   case 'min':
+    //     timeTo = timeFrom.add(Duration(hours: 1));
+    //     break;
+    //   case 'hr':
+    //     timeTo = timeFrom.add(Duration(hours: 24));
+    //     _vsDefaultType = 'med';
+    //     break;
+    //   case 'day':
+    //     timeTo = timeFrom.add(Duration(days: 4));
+    //     _vsDefaultType = 'med';
+    //     break;
+    //   case 'month':
+    //     timeTo = timeFrom.add(Duration(days: 30));
+    //     _vsDefaultType = 'med';
+    //     break;
+    //   default:
+    //     timeTo = timeFrom.add(Duration(hours: 1));
+    //     break;
+    // }
 
-    switch (selectedScale) {
-      case 'min':
-        timeTo = timeFrom.add(Duration(hours: 1));
-        break;
-      case 'hr':
-        timeTo = timeFrom.add(Duration(hours: 24));
-        _vsDefaultType = 'med';
-        break;
-      case 'day':
-        timeTo = timeFrom.add(Duration(days: 4));
-        _vsDefaultType = 'med';
-        break;
-      case 'month':
-        timeTo = timeFrom.add(Duration(days: 30));
-        _vsDefaultType = 'med';
-        break;
-      default:
-        timeTo = timeFrom.add(Duration(hours: 1));
-        break;
-    }
+    _vsDefaultType = 'mean'; // added new
+
     _isLoading = true;
     //_plotData = await API_SERVICES.fetchVSData(timeFrom, timeTo, selectedScale);
     //Timer(Duration(seconds: 2), () {
@@ -95,6 +101,62 @@ class _base_plot_elementState extends State<base_plot_element> {
       _isLoading = false;
     });
     //});
+  }
+
+  _radioButtonhandler_RangeSelector(String selectedScale) async {
+    DateTime timeFrom = DateTime.parse("2021-03-05 23:01:00.000Z");
+    DateTime timeTo;
+    String selectedScale_toFetch = '';
+
+    switch (selectedScale) {
+      case '1h':
+        timeTo = timeFrom.add(Duration(hours: 1));
+        selectedScale_toFetch = 'min';
+        break;
+      case '3h':
+        timeTo = timeFrom.add(Duration(hours: 3));
+        selectedScale_toFetch = 'min';
+        break;
+      case '6h':
+        timeTo = timeFrom.add(Duration(hours: 6));
+        selectedScale_toFetch = 'min';
+        break;
+      case '1d':
+        timeTo = timeFrom.add(Duration(days: 1));
+        selectedScale_toFetch = 'hr';
+        _vsDefaultType = 'med';
+        break;
+      case 'Custom':
+        setState(() {
+          selectedPlotScale_rangeSelector = selectedScale_toFetch;
+          _selectedRadioButton_rangeSelector = selectedScale;
+          _vsScaleTimeType = selectedScale_toFetch;
+          _isLoading = false;
+          if (_showCustomRange == false) {
+            _showCustomRange = true;
+          } else {
+            _showCustomRange = false;
+          }
+        });
+        return;
+      default:
+        timeTo = timeFrom.add(Duration(hours: 1));
+        selectedScale_toFetch = 'min';
+        break;
+    }
+    _isLoading = true;
+    _plotData =
+        await API_SERVICES.fetchVSData(timeFrom, timeTo, selectedScale_toFetch);
+    Timer(Duration(seconds: 1), () {
+      setState(() {
+        selectedPlotScale_rangeSelector = selectedScale_toFetch;
+        print('selected scale ==> $selectedPlotScale_rangeSelector');
+        _selectedRadioButton_rangeSelector = selectedScale;
+        _vsScaleTimeType = selectedScale_toFetch;
+        _showCustomRange = false;
+        _isLoading = false;
+      });
+    });
   }
 
   @override
@@ -109,7 +171,9 @@ class _base_plot_elementState extends State<base_plot_element> {
     _plotData = widget.plotData;
 
     _selectedRadioButton = 'min';
+    _selectedRadioButton_rangeSelector = 'min';
     selectedPlotScale = 'min';
+    selectedPlotScale_rangeSelector = 'min';
 
     _plotData =
         widget.plotData == null ? GLOBALS.FETCHED_RESPONSE : widget.plotData;
@@ -469,24 +533,77 @@ class _base_plot_elementState extends State<base_plot_element> {
             ],
           ),
         ),
-        RaisedButton(
-          onPressed: () {
-            setState(() {
-              if (showDateTime == false) {
-                showDateTime = true;
-              } else {
-                showDateTime = false;
-              }
-            });
-          },
-          textColor: Colors.black,
-          //color: Colors.red,
-          padding: const EdgeInsets.all(8.0),
-          child: new Text(
-            "Custom Range",
+        // RaisedButton(
+        //   onPressed: () {
+        //     setState(() {
+        //       if (_showCustomRange == false) {
+        //         _showCustomRange = true;
+        //       } else {
+        //         _showCustomRange = false;
+        //       }
+        //     });
+        //   },
+        //   textColor: Colors.black,
+        //   //color: Colors.red,
+        //   padding: const EdgeInsets.all(8.0),
+        //   child: new Text(
+        //     "Custom Range",
+        //   ),
+        // ),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(10, 10, 10, 20),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Radio(
+                value: '1h',
+                groupValue: _selectedRadioButton_rangeSelector,
+                onChanged: _radioButtonhandler_RangeSelector,
+              ),
+              Text(
+                '1h',
+                style: new TextStyle(fontSize: 12.0),
+              ),
+              Radio(
+                value: '3h',
+                groupValue: _selectedRadioButton_rangeSelector,
+                onChanged: _radioButtonhandler_RangeSelector,
+              ),
+              Text(
+                '3h',
+                style: new TextStyle(fontSize: 12.0),
+              ),
+              Radio(
+                value: '6h',
+                groupValue: _selectedRadioButton_rangeSelector,
+                onChanged: _radioButtonhandler_RangeSelector,
+              ),
+              Text(
+                '6h',
+                style: new TextStyle(fontSize: 12.0),
+              ),
+              Radio(
+                value: '1d',
+                groupValue: _selectedRadioButton_rangeSelector,
+                onChanged: _radioButtonhandler_RangeSelector,
+              ),
+              Text(
+                '1d',
+                style: new TextStyle(fontSize: 12.0),
+              ),
+              Radio(
+                value: 'Custom',
+                groupValue: _selectedRadioButton_rangeSelector,
+                onChanged: _radioButtonhandler_RangeSelector,
+              ),
+              Text(
+                'Custom',
+                style: new TextStyle(fontSize: 12.0),
+              ),
+            ],
           ),
         ),
-        showDateTime
+        _showCustomRange
             ? Column(
                 children: [
                   Column(children: [
@@ -600,16 +717,10 @@ class _base_plot_elementState extends State<base_plot_element> {
                         Timer(Duration(seconds: 1), () {
                           setState(() {
                             print(_plotData);
+                            _showCustomRange = false;
                             _isLoading = false;
                           });
                         });
-                        // setState(() {
-                        //   API_SERVICES.fetchVSData(timeFrom, timeTo, selectedScale);
-                        //   fetchVSData(selected_FromTime, selected_ToTime,
-                        //       selectedPlotScale);
-                        //   print("TIME_FROM = $selected_FromTime");
-                        //   print("TIME_TO = $selected_ToTime");
-                        // });
                       },
                       child: Text('Filter')),
                 ],

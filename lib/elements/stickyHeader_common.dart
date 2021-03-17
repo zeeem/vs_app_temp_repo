@@ -24,9 +24,14 @@ class AppScaffold extends StatelessWidget {
           height: 130, //no use of this fixed height
           turnOffSettingsButton: true,
         ),
-        body: CustomScrollView(
-          slivers: slivers,
-          reverse: reverse,
+        body: GestureDetector(
+          onPanDown: (i) {
+            print(i);
+          },
+          child: CustomScrollView(
+            slivers: slivers,
+            reverse: reverse,
+          ),
         ),
         floatingActionButton: const _FloatingActionButton(),
       ),
