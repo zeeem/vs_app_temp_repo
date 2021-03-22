@@ -5,7 +5,7 @@ import 'package:vital_signs_ui_template/elements/TryAgainTemplate.dart';
 import 'package:vital_signs_ui_template/pages/Dashboard/AbnormalVsBoard.dart';
 import 'package:vital_signs_ui_template/pages/LoginPage.dart';
 
-import 'Dashboard/FilteredCharts/FilteredChartsScreen.dart';
+import 'Dashboard/FilteredCharts/FragmentChart.dart';
 import 'TestApi.dart';
 import 'doctor_pages/HistoryPlots/StickyHeaderTest.dart';
 
@@ -104,7 +104,8 @@ class UserSelection extends StatelessWidget {
                 FlatButton(
                   onPressed: () {
                     //navigateTo(context, VSLoadWidgetStlss());
-                    navigateTo(context, FilteredCharts());
+                    //navigateTo(context, FilteredCharts());
+                    navigateTo(context, Test());
                   },
                   child: Text(
                     '.',
