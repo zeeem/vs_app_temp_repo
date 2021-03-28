@@ -35,6 +35,7 @@ class base_plot_element extends StatefulWidget {
 }
 
 class _base_plot_elementState extends State<base_plot_element> {
+  final GlobalKey<FormState> _keyDialogForm = new GlobalKey<FormState>();
   List _normalZone;
   String _vsType;
   String _vsScaleTimeType; //min,hr,day,month
@@ -137,6 +138,7 @@ class _base_plot_elementState extends State<base_plot_element> {
           } else {
             _showCustomRange = false;
           }
+          showTitleDialog();
         });
         return;
       default:
@@ -551,7 +553,7 @@ class _base_plot_elementState extends State<base_plot_element> {
         //   ),
         // ),
         Padding(
-          padding: const EdgeInsets.fromLTRB(10, 10, 10, 20),
+          padding: const EdgeInsets.fromLTRB(10, 10, 10, 5),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
@@ -591,141 +593,30 @@ class _base_plot_elementState extends State<base_plot_element> {
                 '1d',
                 style: new TextStyle(fontSize: 12.0),
               ),
-              Radio(
-                value: 'Custom',
-                groupValue: _selectedRadioButton_rangeSelector,
-                onChanged: _radioButtonhandler_RangeSelector,
-              ),
-              Text(
-                'Custom',
-                style: new TextStyle(fontSize: 12.0),
-              ),
+              // Radio(
+              //   value: 'Custom',
+              //   groupValue: _selectedRadioButton_rangeSelector,
+              //   onChanged: _radioButtonhandler_RangeSelector,
+              // ),
+              // Text(
+              //   'Custom',
+              //   style: new TextStyle(fontSize: 12.0),
+              // ),
             ],
           ),
         ),
-        _showCustomRange
-            ? Column(
-                children: [
-                  Column(children: [
-                    // Text('FORM',
-                    //     style:
-                    //         TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(50, 10, 50, 0),
-                      child: DateTimePicker(
-                        type: DateTimePickerType.dateTime,
-                        use24HourFormat: false,
-                        icon: Icon(Icons.event),
-                        initialValue: DateTime.now().toString(),
-                        firstDate: DateTime(2020),
-                        lastDate: DateTime(2100),
-                        dateLabelText: 'From',
-                        timeLabelText: "Hour",
-                        onChanged: (val) {
-                          DateTime selectedFromTime =
-                              DateTime.parse(val).toUtc();
-                          setState(() {
-                            selected_FromTime = selectedFromTime;
-                          });
-                          print('selected from---------> $selected_FromTime');
-                        },
-                        validator: (val) {
-                          print(val);
-                          return null;
-                        },
-                        onSaved: (val) => print(val),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(50, 5, 50, 10),
-                      child: DateTimePicker(
-                        enabled: selected_FromTime != null ? true : false,
-                        type: DateTimePickerType.dateTime,
-                        use24HourFormat: false,
-                        icon: Icon(Icons.event),
-                        initialValue: DateTime.now().toString(),
-                        firstDate: selected_FromTime ?? DateTime.now(),
-                        lastDate: DateTime(2100),
-                        dateLabelText: 'To',
-                        timeLabelText: "Hour",
-                        onChanged: (val) {
-                          DateTime selectedToTime = DateTime.parse(val).toUtc();
-                          setState(() {
-                            selected_ToTime = selectedToTime;
-                          });
-
-                          print('selected from---------> $selected_ToTime');
-                        },
-                        validator: (val) {
-                          print(val);
-                          return null;
-                        },
-                        onSaved: (val) => print(val),
-                      ),
-                    ),
-                  ]),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(5, 10, 5, 10),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Radio(
-                          value: 'min',
-                          groupValue: _selectedRadioButton,
-                          onChanged: _radioButtonhandler,
-                        ),
-                        Text(
-                          'minute',
-                          style: new TextStyle(fontSize: 12.0),
-                        ),
-                        Radio(
-                          value: 'hr',
-                          groupValue: _selectedRadioButton,
-                          onChanged: _radioButtonhandler,
-                        ),
-                        Text(
-                          'hour',
-                          style: new TextStyle(fontSize: 12.0),
-                        ),
-                        Radio(
-                          value: 'day',
-                          groupValue: _selectedRadioButton,
-                          onChanged: _radioButtonhandler,
-                        ),
-                        Text(
-                          'day',
-                          style: new TextStyle(fontSize: 12.0),
-                        ),
-                        Radio(
-                          value: 'month',
-                          groupValue: _selectedRadioButton,
-                          onChanged: _radioButtonhandler,
-                        ),
-                        Text(
-                          'month',
-                          style: new TextStyle(fontSize: 12.0),
-                        ),
-                      ],
-                    ),
-                  ),
-                  RaisedButton(
-                      onPressed: () async {
-                        _plotData = await API_SERVICES.fetchVSData(
-                            selected_FromTime,
-                            selected_ToTime,
-                            selectedPlotScale);
-                        Timer(Duration(seconds: 1), () {
-                          setState(() {
-                            print(_plotData);
-                            _showCustomRange = false;
-                            _isLoading = false;
-                          });
-                        });
-                      },
-                      child: Text('Filter')),
-                ],
-              )
-            : Container(),
+        TextButton(
+          onPressed: showTitleDialog,
+          child: Text(
+            'Custom',
+            style: TextStyle(
+                color: AppColors.deccolor1,
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                decoration: TextDecoration.underline),
+          ),
+        ),
+        // _showCustomRange ? showTitleDialog() : Container(),
       ],
     );
   }
@@ -788,4 +679,156 @@ class _base_plot_elementState extends State<base_plot_element> {
     const Color(0xff23b6e6),
     //const Color(0xff02d39a),
   ];
+
+  Future showTitleDialog() {
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Form(
+              key: _keyDialogForm,
+              child: Column(
+                children: [
+                  Column(children: [
+                    // Text('FORM',
+                    //     style:
+                    //         TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                    Padding(
+                      // padding: const EdgeInsets.fromLTRB(50, 10, 50, 0),
+                      padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+
+                      child: DateTimePicker(
+                        type: DateTimePickerType.dateTime,
+                        use24HourFormat: false,
+                        icon: Icon(Icons.event),
+                        initialValue: DateTime.now().toString(),
+                        firstDate: DateTime(2020),
+                        lastDate: DateTime(2100),
+                        dateLabelText: 'From',
+                        timeLabelText: "Hour",
+                        onChanged: (val) {
+                          DateTime selectedFromTime =
+                              DateTime.parse(val).toUtc();
+                          setState(() {
+                            selected_FromTime = selectedFromTime;
+                          });
+                          print('selected from---------> $selected_FromTime');
+                        },
+                        validator: (val) {
+                          print(val);
+                          return null;
+                        },
+                        onSaved: (val) => print(val),
+                      ),
+                    ),
+                    Padding(
+                      // padding: const EdgeInsets.fromLTRB(50, 5, 50, 10),
+                      padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                      child: DateTimePicker(
+                        enabled: selected_FromTime != null ? true : false,
+                        type: DateTimePickerType.dateTime,
+                        use24HourFormat: false,
+                        icon: Icon(Icons.event),
+                        initialValue: DateTime.now().toString(),
+                        firstDate: selected_FromTime ?? DateTime.now(),
+                        lastDate: DateTime(2100),
+                        dateLabelText: 'To',
+                        timeLabelText: "Hour",
+                        onChanged: (val) {
+                          DateTime selectedToTime = DateTime.parse(val).toUtc();
+                          setState(() {
+                            selected_ToTime = selectedToTime;
+                          });
+
+                          print('selected from---------> $selected_ToTime');
+                        },
+                        validator: (val) {
+                          print(val);
+                          return null;
+                        },
+                        onSaved: (val) => print(val),
+                      ),
+                    ),
+                  ]),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Row(
+                        children: [
+                          Radio(
+                            value: 'min',
+                            groupValue: _selectedRadioButton,
+                            onChanged: _radioButtonhandler,
+                          ),
+                          Text(
+                            'minute',
+                            style: new TextStyle(fontSize: 12.0),
+                          ),
+                          Radio(
+                            value: 'hr',
+                            groupValue: _selectedRadioButton,
+                            onChanged: _radioButtonhandler,
+                          ),
+                          Text(
+                            'hour',
+                            style: new TextStyle(fontSize: 12.0),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Radio(
+                            value: 'day',
+                            groupValue: _selectedRadioButton,
+                            onChanged: _radioButtonhandler,
+                          ),
+                          Text(
+                            'day',
+                            style: new TextStyle(fontSize: 12.0),
+                          ),
+                          Radio(
+                            value: 'month',
+                            groupValue: _selectedRadioButton,
+                            onChanged: _radioButtonhandler,
+                          ),
+                          Text(
+                            'month',
+                            style: new TextStyle(fontSize: 12.0),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            actions: <Widget>[
+              FlatButton(
+                onPressed: () async {
+                  if (_keyDialogForm.currentState.validate()) {
+                    _plotData = await API_SERVICES.fetchVSData(
+                        selected_FromTime, selected_ToTime, selectedPlotScale);
+                    Timer(Duration(seconds: 1), () {
+                      setState(() {
+                        print(_plotData);
+                        _showCustomRange = false;
+                        _isLoading = false;
+                      });
+                    });
+                    _keyDialogForm.currentState.save();
+                    Navigator.pop(context);
+                  }
+                },
+                child: Text('Filter'),
+                color: Colors.blue,
+              ),
+              FlatButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: Text('Cancel')),
+            ],
+          );
+        });
+  }
 }
