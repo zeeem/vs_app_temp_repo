@@ -8,6 +8,7 @@ import 'package:vital_signs_ui_template/core/consts.dart';
 import 'package:vital_signs_ui_template/elements/CustomAppBar.dart';
 import 'package:vital_signs_ui_template/elements/User.dart';
 import 'package:vital_signs_ui_template/elements/patient_tiles.dart';
+import 'package:vital_signs_ui_template/pages/Dashboard/FilteredCharts/PatientInfo.dart';
 import 'package:vital_signs_ui_template/pages/doctor_pages/docVSPage.dart';
 import 'package:vital_signs_ui_template/pages/doctor_pages/doctor_parient_history.dart';
 
@@ -241,13 +242,36 @@ class _DoctorPatientListContainerState
                                             snapshot.data[index].picture,
                                         priorityLevel: 2,
                                         onPress: () {
+                                          // Navigator.push(
+                                          //   context,
+                                          //   MaterialPageRoute(
+                                          //     builder: (context) =>
+                                          //         docVsVisualizerPage(
+                                          //             clicked_user:
+                                          //                 snapshot.data[index]),
+                                          //   ),
+                                          // );
                                           Navigator.push(
                                             context,
                                             MaterialPageRoute(
                                               builder: (context) =>
-                                                  docVsVisualizerPage(
-                                                      clicked_user:
-                                                          snapshot.data[index]),
+                                                  PatientInfoForm_Element(
+                                                clickedUser:
+                                                    snapshot.data[index],
+                                                patient_gender: "Male",
+                                                patient_DOB:
+                                                    new DateTime(1980, 12, 15),
+                                                patient_diagnosis: [
+                                                  "HBP",
+                                                  "OCD",
+                                                  "CCD"
+                                                ],
+                                                patient_medications: [
+                                                  "Med1",
+                                                  "Med2",
+                                                  "Med3"
+                                                ],
+                                              ),
                                             ),
                                           );
                                         },
