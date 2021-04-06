@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:vital_signs_ui_template/core/consts.dart';
-import 'package:flutter/material.dart';
 //import 'package:flutter_svg/flutter_svg.dart';
 
 class vs_item extends StatelessWidget {
@@ -12,6 +12,7 @@ class vs_item extends StatelessWidget {
   final Function press;
   final double maxWidth;
   final bool isAbnormal;
+  final double valueFontSize;
   const vs_item({
     Key key,
     this.title,
@@ -21,6 +22,7 @@ class vs_item extends StatelessWidget {
     this.press,
     this.maxWidth = 0,
     this.isAbnormal = false,
+    this.valueFontSize = 36,
   }) : super(key: key);
 
   @override
@@ -91,7 +93,7 @@ class vs_item extends StatelessWidget {
                           maxLines: 1,
                           overflow: TextOverflow.clip,
                           style: TextStyle(
-                              fontSize: 36,
+                              fontSize: valueFontSize,
                               fontWeight: FontWeight.bold,
                               color: AppColors.mainColor),
                         ),
@@ -141,6 +143,8 @@ class vs_item_bp extends StatelessWidget {
   final double maxWidth;
   final bool isAbnormal;
   final String bp_MAP_value;
+  final double valueFontSize;
+  final double maxHeight;
 
   const vs_item_bp({
     Key key,
@@ -152,6 +156,8 @@ class vs_item_bp extends StatelessWidget {
     this.maxWidth = 0,
     this.isAbnormal = false,
     this.bp_MAP_value = '100',
+    this.valueFontSize = 36,
+    this.maxHeight = 0,
   }) : super(key: key);
 
   @override
@@ -162,7 +168,7 @@ class vs_item_bp extends StatelessWidget {
           onTap: press,
           child: Container(
             width: maxWidth == 0 ? constraints.maxWidth / 3 - 20 : maxWidth,
-            height: constraints.maxWidth / 3 - 35,
+            height: maxHeight == 0 ? constraints.maxWidth / 3 - 35 : maxHeight,
             // Here constraints.maxWidth provide us the available width for the widget
             decoration: BoxDecoration(
               color: !isAbnormal ? Colors.white : Color(0xFFFFD2D2),
@@ -180,6 +186,7 @@ class vs_item_bp extends StatelessWidget {
               ],
             ),
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
                 Padding(
                   padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
@@ -213,7 +220,9 @@ class vs_item_bp extends StatelessWidget {
                               right: 10,
                               left: 5),
                           child: Text(
-                            '($bp_MAP_value)',
+                            bp_MAP_value.length > 0
+                                ? '($bp_MAP_value)'
+                                : bp_MAP_value,
                             textAlign: TextAlign.end,
                             maxLines: 1,
                             style: TextStyle(
@@ -238,7 +247,7 @@ class vs_item_bp extends StatelessWidget {
                           maxLines: 1,
                           overflow: TextOverflow.clip,
                           style: TextStyle(
-                              fontSize: 36,
+                              fontSize: valueFontSize,
                               fontWeight: FontWeight.bold,
                               color: AppColors.mainColor),
                         ),

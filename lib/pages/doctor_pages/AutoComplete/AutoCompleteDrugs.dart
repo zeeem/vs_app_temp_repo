@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:vital_signs_ui_template/core/configVS.dart';
 import 'package:vital_signs_ui_template/elements/CustomAppBar.dart';
 
+import '../../../core/configVS.dart';
 import 'Drug.dart';
 
 class AutoCompleteDrugs extends StatefulWidget {
@@ -84,6 +85,15 @@ class _AutoCompleteDrugsState extends State<AutoCompleteDrugs> {
                     return row(item);
                   },
                 ),
+          ElevatedButton(
+            onPressed: () {
+              setState(() {
+                PATIENT_INFO.medicationList
+                    .add(searchTextField.textField.controller.text);
+              });
+            },
+            child: Text('Add'),
+          )
         ],
       ),
     );

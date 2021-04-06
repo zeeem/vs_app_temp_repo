@@ -77,3 +77,14 @@ class GLOBALS {
   static List FETCHED_RESPONSE;
   static List<Drug> DGURS_LIST;
 }
+
+class PATIENT_INFO {
+  static List medicationList = [];
+  static List diagnosisList = [];
+  static List normalRangeHR = []; // [60,100]
+  static List normalRangeRR = []; // [60,100]
+  static List normalRangeTemp = []; // [60,100]
+  static List normalRangeSpo2 = []; // [60,100]
+  static List normalRangeBP = []; // [60,100]
+
+}

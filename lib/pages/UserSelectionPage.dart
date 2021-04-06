@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:vital_signs_ui_template/core/consts.dart';
 import 'package:vital_signs_ui_template/elements/CustomAppBar.dart';
-import 'package:vital_signs_ui_template/elements/TryAgainTemplate.dart';
 import 'package:vital_signs_ui_template/pages/Dashboard/AbnormalVsBoard.dart';
-import 'package:vital_signs_ui_template/pages/Dashboard/FilteredCharts/PatientInfo.dart';
 import 'package:vital_signs_ui_template/pages/LoginPage.dart';
 
 import 'TestApi.dart';
 import 'doctor_pages/AutoComplete/AutoCompleteDrugs.dart';
 import 'doctor_pages/HistoryPlots/StickyHeaderTest.dart';
+import 'doctor_pages/PatientInfo/PatientInfoScreen.dart';
 
 class UserSelection extends StatelessWidget {
   @override
@@ -107,7 +106,7 @@ class UserSelection extends StatelessWidget {
                     //navigateTo(context, VSLoadWidgetStlss());
                     //navigateTo(context, FilteredCharts());
                     //navigateTo(context, Test());
-                    navigateTo(context, PatientInfo());
+                    navigateTo(context, PatientInfoScreen());
                   },
                   child: Text(
                     '.',
