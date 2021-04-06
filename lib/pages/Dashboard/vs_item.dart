@@ -13,6 +13,8 @@ class vs_item extends StatelessWidget {
   final double maxWidth;
   final bool isAbnormal;
   final double valueFontSize;
+  final double maxHeight;
+  final Icon icon;
   const vs_item({
     Key key,
     this.title,
@@ -23,6 +25,8 @@ class vs_item extends StatelessWidget {
     this.maxWidth = 0,
     this.isAbnormal = false,
     this.valueFontSize = 36,
+    this.maxHeight = 0,
+    this.icon,
   }) : super(key: key);
 
   @override
@@ -33,7 +37,7 @@ class vs_item extends StatelessWidget {
           onTap: press,
           child: Container(
             width: maxWidth == 0 ? constraints.maxWidth / 3 - 20 : maxWidth,
-            height: constraints.maxWidth / 3 - 35,
+            height: maxHeight == 0 ? constraints.maxWidth / 3 - 35 : maxHeight,
             // Here constraints.maxWidth provide us the available width for the widget
             decoration: BoxDecoration(
               color: !isAbnormal ? Colors.white : Color(0xFFFFD2D2),
@@ -62,7 +66,8 @@ class vs_item extends StatelessWidget {
                         alignment: Alignment.topLeft,
                         height: 30,
 //                            width: 30,
-                        child: Image.asset(iconPath),
+                        child:
+                            iconPath.length > 0 ? Image.asset(iconPath) : icon,
                       ),
                       SizedBox(width: 5),
                       Flexible(
@@ -145,6 +150,7 @@ class vs_item_bp extends StatelessWidget {
   final String bp_MAP_value;
   final double valueFontSize;
   final double maxHeight;
+  final Icon icon;
 
   const vs_item_bp({
     Key key,
@@ -158,6 +164,7 @@ class vs_item_bp extends StatelessWidget {
     this.bp_MAP_value = '100',
     this.valueFontSize = 36,
     this.maxHeight = 0,
+    this.icon,
   }) : super(key: key);
 
   @override
@@ -186,7 +193,7 @@ class vs_item_bp extends StatelessWidget {
               ],
             ),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
                 Padding(
                   padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
@@ -197,7 +204,8 @@ class vs_item_bp extends StatelessWidget {
                         alignment: Alignment.topLeft,
                         height: 30,
 //                            width: 30,
-                        child: Image.asset(iconPath),
+                        child:
+                            iconPath.length > 0 ? Image.asset(iconPath) : icon,
                       ),
                       SizedBox(width: 5),
                       Flexible(

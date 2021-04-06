@@ -79,8 +79,14 @@ class GLOBALS {
 }
 
 class PATIENT_INFO {
-  static List medicationList = [];
-  static List diagnosisList = [];
+  static List<String> medicationList = [
+    'Tylenol',
+    'Aptiom',
+  ];
+  static List<String> diagnosisList = [
+    'High BP',
+    'Heart Disease',
+  ];
   static List normalRangeHR = []; // [60,100]
   static List normalRangeRR = []; // [60,100]
   static List normalRangeTemp = []; // [60,100]

@@ -13,6 +13,7 @@ import 'package:vital_signs_ui_template/pages/doctor_pages/docVSPage.dart';
 import 'package:vital_signs_ui_template/pages/doctor_pages/doctor_parient_history.dart';
 
 import '../AlertHomePage.dart';
+import 'PatientInfo/PatientInfoScreen.dart';
 
 class docPatientListPage extends StatefulWidget {
   final selectedIndex;
@@ -255,22 +256,12 @@ class _DoctorPatientListContainerState
                                             context,
                                             MaterialPageRoute(
                                               builder: (context) =>
-                                                  PatientInfoForm_Element(
+                                                  PatientInfo_Element(
                                                 clickedUser:
                                                     snapshot.data[index],
                                                 patient_gender: "Male",
                                                 patient_DOB:
                                                     new DateTime(1980, 12, 15),
-                                                patient_diagnosis: [
-                                                  "HBP",
-                                                  "OCD",
-                                                  "CCD"
-                                                ],
-                                                patient_medications: [
-                                                  "Med1",
-                                                  "Med2",
-                                                  "Med3"
-                                                ],
                                               ),
                                             ),
                                           );
