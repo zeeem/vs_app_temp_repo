@@ -1,5 +1,6 @@
 import 'package:vital_signs_ui_template/Processing/NetworkGateway/networkManager.dart';
 import 'package:vital_signs_ui_template/elements/User.dart';
+import 'package:vital_signs_ui_template/pages/doctor_pages/AutoComplete/Drug.dart';
 
 class localConfigVS {
   //local warning boolean
@@ -74,4 +75,5 @@ class GLOBALS {
   static NetworkManager API_NETWORK_MANAGER =
       NetworkManager(apiData.baseAPIurl, nursingHome: false);
   static List FETCHED_RESPONSE;
+  static List<Drug> DGURS_LIST;
 }

@@ -7,6 +7,7 @@ import 'package:vital_signs_ui_template/pages/Dashboard/FilteredCharts/PatientIn
 import 'package:vital_signs_ui_template/pages/LoginPage.dart';
 
 import 'TestApi.dart';
+import 'doctor_pages/AutoComplete/AutoCompleteDrugs.dart';
 import 'doctor_pages/HistoryPlots/StickyHeaderTest.dart';
 
 class UserSelection extends StatelessWidget {
@@ -117,11 +118,12 @@ class UserSelection extends StatelessWidget {
                   onPressed: () {
                     navigateTo(
                         context,
-                        TryAgainPage(
-                          displayText: 'Hi, Jon!',
-                          displayText2: 'Connecting to your vital signs.',
-                          isLoadingVisible: true,
-                        ));
+                        // TryAgainPage(
+                        //   displayText: 'Hi, Jon!',
+                        //   displayText2: 'Connecting to your vital signs.',
+                        //   isLoadingVisible: true,
+                        // )
+                        AutoCompleteDrugs());
                   },
                   child: Text(
                     '.',
