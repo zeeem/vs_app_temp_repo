@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:autocomplete_textfield/autocomplete_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:vital_signs_ui_template/elements/User.dart';
+import 'package:vital_signs_ui_template/pages/doctor_pages/AutoComplete/Disease.dart';
 import 'package:vital_signs_ui_template/pages/doctor_pages/AutoComplete/Drug.dart';
 
 import '../../../core/configVS.dart';
@@ -10,7 +11,13 @@ import '../../../core/consts.dart';
 import '../../Dashboard/vs_item.dart';
 import '../docVSPage.dart';
 
-double valMax, valMin;
+Map<String, List<dynamic>> normalRangeMap = {
+  "HR": [60, 100],
+  "RR": [10, 17],
+  "SPO2": [90, 100],
+  "TEMP": [36, 37.5],
+  "BP": [80, 120]
+};
 
 class Patient_info_card extends StatefulWidget {
   final double full_width;
@@ -41,6 +48,8 @@ class _Patient_info_cardState extends State<Patient_info_card> {
   String patient_gender;
 
   String iconPath = "";
+
+  Map<String, List<dynamic>> _normalRangeMap;
 
   AutoCompleteTextField searchTextField;
   GlobalKey<AutoCompleteTextFieldState<Drug>> key = new GlobalKey();
@@ -92,9 +101,12 @@ class _Patient_info_cardState extends State<Patient_info_card> {
     diagnosis = diagnosis.length > 27
         ? diagnosis.replaceRange(27, diagnosis.length, "...")
         : diagnosis;
+
+    _normalRangeMap = normalRangeMap;
   }
 
-  Future<void> showPopUpDialog(BuildContext context, var dialogWidget) async {
+  Future<void> showPopUpDialog(BuildContext context, var dialogWidget,
+      [String buttonText]) async {
     return await showDialog(
         barrierDismissible: false,
         context: context,
@@ -106,24 +118,28 @@ class _Patient_info_cardState extends State<Patient_info_card> {
               child: dialogWidget,
             ),
             actions: <Widget>[
-              TextButton(
-                  onPressed: () {
-                    updateMedicationsAndDiagnosis();
-                    Navigator.of(context).pop();
-                  },
-                  child: Text(
-                    "Go Back",
-                    style: TextStyle(color: Colors.white),
-                  ),
-                  style: ButtonStyle(
-                      backgroundColor:
-                          MaterialStateProperty.all(AppColors.deccolor1),
-                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                          RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10.0),
-                              side: BorderSide(
-                                  //color: Colors.white,
-                                  ))))),
+              SizedBox(
+                width: MediaQuery.of(context).size.width / 3,
+                child: ElevatedButton(
+                    onPressed: () {
+                      updateMedicationsAndDiagnosis();
+                      Navigator.of(context).pop();
+                    },
+                    child: Text(
+                      buttonText ?? "Go Back",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    style: ButtonStyle(
+                        backgroundColor:
+                            MaterialStateProperty.all(AppColors.deccolor1),
+                        shape:
+                            MaterialStateProperty.all<RoundedRectangleBorder>(
+                                RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                    side: BorderSide(
+                                        //color: Colors.white,
+                                        ))))),
+              ),
             ],
           );
         });
@@ -223,7 +239,7 @@ class _Patient_info_cardState extends State<Patient_info_card> {
                 maxWidth: widget.full_width + 12,
                 bp_MAP_value: "",
                 press: () async {
-                  await showPopUpDialog(context, AutoCompleteDrugs());
+                  await showPopUpDialog(context, AutoCompleteDiagnosis());
                   // navigateTo(context, AutoCompleteDrugs());
                   // Function f;
                   // f = await Navigator.push(
@@ -256,30 +272,72 @@ class _Patient_info_cardState extends State<Patient_info_card> {
           ),
           normalRangeTile(
             clickHR: () async {
-              await showPopUpDialog(context, changeNormalRange());
+              await showPopUpDialog(
+                  context,
+                  changeNormalRange(
+                    titleText: "Heart Rate",
+                    vs_key: "HR",
+                  ),
+                  "Save");
+            },
+            clickRR: () async {
+              await showPopUpDialog(
+                  context,
+                  changeNormalRange(
+                    titleText: "Breathing Rate",
+                    vs_key: "RR",
+                  ),
+                  "Save");
+            },
+            clickSpo2: () async {
+              await showPopUpDialog(
+                  context,
+                  changeNormalRange(
+                    titleText: "SpO2",
+                    vs_key: "SPO2",
+                  ),
+                  "Save");
+            },
+            clickTemp: () async {
+              await showPopUpDialog(
+                  context,
+                  changeNormalRange(
+                    titleText: "Temperature",
+                    vs_key: "TEMP",
+                  ),
+                  "Save");
+            },
+            clickBP: () async {
+              await showPopUpDialog(
+                  context,
+                  changeNormalRange(
+                    titleText: "Blood Pressure",
+                    vs_key: "BP",
+                  ),
+                  "Save");
             },
           ),
-          Container(
-            alignment: Alignment.bottomRight,
-            padding: EdgeInsets.fromLTRB(20, 10, 15, 0),
-            child: ElevatedButton(
-              style: ButtonStyle(
-                  backgroundColor:
-                      MaterialStateProperty.all<Color>(AppColors.greenButton)),
-              child: const Text('Open Vital Signs'),
-              onPressed: () {
-                if (widget.clickedUser != null) {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) =>
-                          docVsVisualizerPage(clicked_user: widget.clickedUser),
-                    ),
-                  );
-                }
-              },
-            ),
-          ),
+          // Container(
+          //   alignment: Alignment.bottomRight,
+          //   padding: EdgeInsets.fromLTRB(20, 10, 15, 0),
+          //   child: ElevatedButton(
+          //     style: ButtonStyle(
+          //         backgroundColor:
+          //             MaterialStateProperty.all<Color>(AppColors.greenButton)),
+          //     child: const Text('Open Vital Signs'),
+          //     onPressed: () {
+          //       if (widget.clickedUser != null) {
+          //         Navigator.push(
+          //           context,
+          //           MaterialPageRoute(
+          //             builder: (context) =>
+          //                 docVsVisualizerPage(clicked_user: widget.clickedUser),
+          //           ),
+          //         );
+          //       }
+          //     },
+          //   ),
+          // ),
         ],
       ),
     );
@@ -288,7 +346,6 @@ class _Patient_info_cardState extends State<Patient_info_card> {
 
 class normalRangeTile extends StatelessWidget {
   final Function clickHR, clickRR, clickTemp, clickSpo2, clickBP;
-
   const normalRangeTile(
       {Key key,
       this.clickHR,
@@ -299,7 +356,7 @@ class normalRangeTile extends StatelessWidget {
       : super(key: key);
   @override
   Widget build(BuildContext context) {
-    double fontSize = 23;
+    double fontSize = 24;
     return Container(
       child: Center(
         child: Wrap(
@@ -308,7 +365,8 @@ class normalRangeTile extends StatelessWidget {
           children: <Widget>[
             vs_item(
               title: 'HR',
-              valueToShow: '60/100',
+              valueToShow:
+                  '${normalRangeMap["HR"][0]}/${normalRangeMap["HR"][1]}',
               valueUnit: 'bpm',
               iconPath: 'assets/icons/hr_icon.png',
               press: clickHR,
@@ -316,7 +374,8 @@ class normalRangeTile extends StatelessWidget {
             ),
             vs_item(
               title: 'TEMP',
-              valueToShow: '36/37.5',
+              valueToShow:
+                  '${normalRangeMap["TEMP"][0]}/${normalRangeMap["TEMP"][1]}',
               valueUnit: '°C',
               iconPath: 'assets/icons/temp_icon2.png',
               press: clickTemp,
@@ -324,7 +383,8 @@ class normalRangeTile extends StatelessWidget {
             ),
             vs_item(
               title: 'SPO2',
-              valueToShow: '90/100',
+              valueToShow:
+                  '${normalRangeMap["SPO2"][0]}/${normalRangeMap["SPO2"][1]}',
               valueUnit: '%',
               iconPath: 'assets/icons/spo2_icon.png',
               press: clickSpo2,
@@ -332,7 +392,8 @@ class normalRangeTile extends StatelessWidget {
             ),
             vs_item(
               title: 'RR',
-              valueToShow: '14/18',
+              valueToShow:
+                  '${normalRangeMap["RR"][0]}/${normalRangeMap["RR"][1]}',
               valueUnit: 'rpm',
               iconPath: 'assets/icons/rr_icon.png',
               press: clickRR,
@@ -340,7 +401,8 @@ class normalRangeTile extends StatelessWidget {
             ),
             vs_item_bp(
               title: 'BP',
-              valueToShow: '80/120',
+              valueToShow:
+                  '${normalRangeMap["BP"][0]}/${normalRangeMap["BP"][1]}',
               valueUnit: 'mmHg',
               iconPath: 'assets/icons/bp_icon.png',
               press: clickBP,
@@ -443,9 +505,14 @@ class _AutoCompleteDrugsState extends State<AutoCompleteDrugs> {
                               1) {
                             print("ERROR");
                           } else {
+                            String _drug = searchTextField
+                                .textField.controller.text
+                                .toLowerCase();
+                            _drug = _drug.replaceFirst(
+                                _drug[0], _drug[0].toUpperCase());
+
                             setState(() {
-                              PATIENT_INFO.medicationList.add(
-                                  searchTextField.textField.controller.text);
+                              PATIENT_INFO.medicationList.add(_drug);
                             });
                             searchTextField.textField.controller.clear();
                           }
@@ -480,17 +547,37 @@ class _AutoCompleteDrugsState extends State<AutoCompleteDrugs> {
               Wrap(
                 children: [
                   for (var item in PATIENT_INFO.medicationList)
-                    Card(
-                      child: Padding(
-                        padding: const EdgeInsets.all(13.0),
-                        child: Text(
-                          item.toString(),
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
+                    Stack(
+                      children: [
+                        Card(
+                          child: Padding(
+                            padding: const EdgeInsets.all(13.0),
+                            child: Text(
+                              item.toString(),
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
                           ),
                         ),
-                      ),
-                    )
+                        Positioned(
+                          top: 0.0,
+                          right: -0.5,
+                          child: GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                PATIENT_INFO.medicationList.remove(item);
+                              });
+                            },
+                            child: Icon(
+                              Icons.remove_circle,
+                              color: AppColors.redButton.withOpacity(.8),
+                              size: 18,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                 ],
               ),
               // Center(
@@ -531,65 +618,284 @@ class _AutoCompleteDrugsState extends State<AutoCompleteDrugs> {
   }
 }
 
-navigateTo(BuildContext context, var pageToNavigate) {
-  Navigator.push(
-    context,
-    MaterialPageRoute(builder: (context) => pageToNavigate),
-  );
-  // LoginPage()AbnormalVsBoard
+class AutoCompleteDiagnosis extends StatefulWidget {
+  @override
+  _AutoCompleteDiagnosis createState() => _AutoCompleteDiagnosis();
+}
+
+class _AutoCompleteDiagnosis extends State<AutoCompleteDiagnosis> {
+  AutoCompleteTextField searchTextField;
+  GlobalKey<AutoCompleteTextFieldState<Diagnosis>> key = new GlobalKey();
+  bool loading = true;
+  String selectedMed = "";
+
+  @override
+  void initState() {
+    getDiagnosis();
+    // TODO: implement initState
+    super.initState();
+  }
+
+  Widget row(Diagnosis diagnosis) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Text(
+          diagnosis.diseaseName,
+          style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
+        ),
+      ],
+    );
+  }
+
+  getDiagnosis() async {
+    String data = await DefaultAssetBundle.of(context)
+        .loadString("assets/json/diagnosis.json");
+    print(data);
+
+    // final jsonResult = json.decode(data);
+    GLOBALS.DIAGNOSIS_LIST = loadDiagnosis(data);
+    if (GLOBALS.DIAGNOSIS_LIST.length > 0) {
+      setState(() {
+        loading = false;
+      });
+    }
+  }
+
+  static List<Diagnosis> loadDiagnosis(String jsonString) {
+    final parsed = json.decode(jsonString).cast<Map<String, dynamic>>();
+    return parsed.map<Diagnosis>((json) => Diagnosis.fromJson(json)).toList();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Padding(
+          padding: const EdgeInsets.fromLTRB(10, 10, 5, 10),
+          child: loading
+              ? CircularProgressIndicator()
+              : Row(
+                  children: [
+                    Flexible(
+                      child: searchTextField = AutoCompleteTextField<Diagnosis>(
+                        key: key,
+                        clearOnSubmit: false,
+                        suggestions: GLOBALS.DIAGNOSIS_LIST,
+                        style: TextStyle(color: Colors.black, fontSize: 16.0),
+                        decoration: InputDecoration(
+                          contentPadding:
+                              EdgeInsets.fromLTRB(10.0, 30.0, 10.0, 20.0),
+                          hintText: "Search/Add Diagnosis",
+                          hintStyle: TextStyle(color: Colors.black),
+                        ),
+                        itemFilter: (item, query) {
+                          return item.diseaseName
+                              .toLowerCase()
+                              .startsWith(query.toLowerCase());
+                        },
+                        itemSorter: (a, b) {
+                          return a.diseaseName.compareTo(b.diseaseName);
+                        },
+                        itemSubmitted: (item) {
+                          setState(() {
+                            searchTextField.textField.controller.text =
+                                item.diseaseName;
+                          });
+                        },
+                        itemBuilder: (context, item) {
+                          // ui for the autocompelete row
+                          return row(item);
+                        },
+                      ),
+                    ),
+                    Container(
+                      padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
+                      child: TextButton(
+                        onPressed: () async {
+                          if (searchTextField.textField.controller.text.length <
+                              1) {
+                            print("ERROR");
+                          } else {
+                            setState(() {
+                              PATIENT_INFO.diagnosisList.add(
+                                  searchTextField.textField.controller.text);
+                            });
+                            searchTextField.textField.controller.clear();
+                          }
+                        },
+                        child: Icon(
+                          Icons.add_circle,
+                          color: AppColors.deccolor1,
+                          size: 50,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+        ),
+        SizedBox(
+          height: 10,
+        ),
+        Padding(
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text("Diagnosis",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.textColor,
+                    fontSize: 20,
+                  )),
+              SizedBox(
+                height: 5,
+              ),
+              Wrap(
+                children: [
+                  for (var item in PATIENT_INFO.diagnosisList)
+                    Stack(
+                      children: [
+                        Card(
+                          child: Padding(
+                            padding: const EdgeInsets.all(13.0),
+                            child: Text(
+                              item.toString(),
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
+                        Positioned(
+                          top: 0.0,
+                          right: -0.5,
+                          child: GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                PATIENT_INFO.diagnosisList.remove(item);
+                              });
+                            },
+                            child: Icon(
+                              Icons.remove_circle,
+                              color: AppColors.redButton.withOpacity(.8),
+                              size: 18,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                ],
+              ),
+              // Center(
+              //   child: ButtonWidget(
+              //     buttonTitle: 'Go back',
+              //     // buttonHeight: btn_height,
+              //     onTapFunction: () {
+              //       Navigator.pop(context, () {
+              //         setState(() {});
+              //       });
+              //     },
+              //   ),
+              // )
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  navigateTo(BuildContext context, var pageToNavigate) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => pageToNavigate),
+    );
+    // LoginPage()AbnormalVsBoard
+  }
 }
 
 class changeNormalRange extends StatelessWidget {
-  final rangeControllerMax = TextEditingController();
-  final rangeControllerMin = TextEditingController();
+  final String titleText;
+  final String vs_key; // HR, RR, SPO2, TEMP, BP
+  const changeNormalRange(
+      {Key key, this.titleText = "Vital Sign", this.vs_key = ""})
+      : super(key: key);
+
+  static final rangeControllerMax = TextEditingController();
+  static final rangeControllerMin = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
+    List rangeData = normalRangeMap[vs_key];
+    rangeControllerMin.text = rangeData[0].toString();
+    rangeControllerMax.text = rangeData[1].toString();
+
     return Container(
-      child: Column(
-        children: [
-          Text("Heart Rate - Normal Range"),
-          SizedBox(
-            height: 20,
-          ),
-          Row(
+      child: Padding(
+        padding: const EdgeInsets.only(top: 20),
+        child: Center(
+          child: Column(
             children: [
-              Text("Max: "),
+              Text(
+                "$titleText - Normal Range",
+                style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
+              ),
               SizedBox(
-                width: MediaQuery.of(context).size.width / 2,
-                child: TextField(
-                  controller: rangeControllerMax,
-                  decoration: InputDecoration(
-                      labelText: 'Maximum Range',
-                      labelStyle: TextStyle(
-                          fontFamily: 'OpenSans',
-                          fontWeight: FontWeight.bold,
-                          color: Colors.grey),
-                      focusedBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: Colors.lightBlue))),
-                ),
+                height: 20,
+              ),
+              Row(
+                children: [
+                  Icon(
+                    Icons.arrow_circle_up_rounded,
+                    color: AppColors.deccolor1,
+                    size: 35,
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width / 2,
+                    child: TextField(
+                      controller: rangeControllerMax,
+                      decoration: InputDecoration(
+                          labelText: 'Maximum Range',
+                          labelStyle: TextStyle(
+                              fontWeight: FontWeight.bold, color: Colors.grey),
+                          focusedBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.lightBlue))),
+                    ),
+                  ),
+                ],
+              ),
+              Row(
+                children: [
+                  Icon(
+                    Icons.arrow_circle_down_rounded,
+                    color: AppColors.deccolor1,
+                    size: 35,
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width / 2,
+                    child: TextField(
+                      controller: rangeControllerMin,
+                      decoration: InputDecoration(
+                          labelText: 'Minimum Range',
+                          labelStyle: TextStyle(
+                              fontWeight: FontWeight.bold, color: Colors.grey),
+                          focusedBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.lightBlue))),
+                    ),
+                  ),
+                ],
               ),
             ],
           ),
-          Row(
-            children: [
-              Text("Min: "),
-              SizedBox(
-                width: MediaQuery.of(context).size.width / 2,
-                child: TextField(
-                  controller: rangeControllerMin,
-                  decoration: InputDecoration(
-                      labelText: 'Minimum Range',
-                      labelStyle: TextStyle(
-                          fontFamily: 'OpenSans',
-                          fontWeight: FontWeight.bold,
-                          color: Colors.grey),
-                      focusedBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: Colors.lightBlue))),
-                ),
-              ),
-            ],
-          ),
-        ],
+        ),
       ),
     );
   }

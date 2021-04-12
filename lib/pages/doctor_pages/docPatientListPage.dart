@@ -243,28 +243,28 @@ class _DoctorPatientListContainerState
                                             snapshot.data[index].picture,
                                         priorityLevel: 2,
                                         onPress: () {
-                                          // Navigator.push(
-                                          //   context,
-                                          //   MaterialPageRoute(
-                                          //     builder: (context) =>
-                                          //         docVsVisualizerPage(
-                                          //             clicked_user:
-                                          //                 snapshot.data[index]),
-                                          //   ),
-                                          // );
                                           Navigator.push(
                                             context,
                                             MaterialPageRoute(
                                               builder: (context) =>
-                                                  PatientInfo_Element(
-                                                clickedUser:
-                                                    snapshot.data[index],
-                                                patient_gender: "Male",
-                                                patient_DOB:
-                                                    new DateTime(1980, 12, 15),
-                                              ),
+                                                  docVsVisualizerPage(
+                                                      clicked_user:
+                                                          snapshot.data[index]),
                                             ),
                                           );
+                                          // Navigator.push(
+                                          //   context,
+                                          //   MaterialPageRoute(
+                                          //     builder: (context) =>
+                                          //         PatientInfo_Element(
+                                          //       clickedUser:
+                                          //           snapshot.data[index],
+                                          //       patient_gender: "Male",
+                                          //       patient_DOB:
+                                          //           new DateTime(1980, 12, 15),
+                                          //     ),
+                                          //   ),
+                                          // );
                                         },
                                       );
                                     } else {

@@ -14,6 +14,7 @@ import 'package:vital_signs_ui_template/pages/Dashboard/vs_item.dart';
 
 import '../AlertHomePage.dart';
 import 'HistoryPlots/HistoryPlot.dart';
+import 'PatientInfo/PatientInfoScreen.dart';
 import 'doctor_parient_history.dart';
 //import 'package:flutter_svg/flutter_svg.dart';
 
@@ -131,7 +132,7 @@ class _docVsVisualizerPageState extends State<docVsVisualizerPage> {
       builder: (context, constraints) {
         return Scaffold(
           // resizeToAvoidBottomPadding: false,
-          resizeToAvoidBottomInset: true,
+          resizeToAvoidBottomInset: false, //FIXME
           appBar: CustomAppBar(
             turnOffBackButton: false,
             turnOffSettingsButton: false,
@@ -343,12 +344,35 @@ class doctorVSPage_element extends StatelessWidget {
                 children: [
                   Container(
                     padding: EdgeInsets.fromLTRB(22, 10, 0, 0),
-                    child: Text(
-                      userName,
-                      style: TextStyle(
-                          fontSize: 14.0,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black.withOpacity(.7)),
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => PatientInfo_Element(
+                              clickedUser: _clicked_user,
+                              patient_gender: "Male",
+                              patient_DOB: new DateTime(1980, 12, 15),
+                            ),
+                          ),
+                        );
+                      },
+                      child: Wrap(
+                        children: [
+                          Text(
+                            userName,
+                            style: TextStyle(
+                                fontSize: 14.0,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black.withOpacity(.7)),
+                          ),
+                          Icon(
+                            Icons.info_outline,
+                            color: AppColors.deccolor1,
+                            size: 20,
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                   Container(

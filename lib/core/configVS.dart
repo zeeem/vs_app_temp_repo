@@ -1,5 +1,6 @@
 import 'package:vital_signs_ui_template/Processing/NetworkGateway/networkManager.dart';
 import 'package:vital_signs_ui_template/elements/User.dart';
+import 'package:vital_signs_ui_template/pages/doctor_pages/AutoComplete/Disease.dart';
 import 'package:vital_signs_ui_template/pages/doctor_pages/AutoComplete/Drug.dart';
 
 class localConfigVS {
@@ -76,6 +77,7 @@ class GLOBALS {
       NetworkManager(apiData.baseAPIurl, nursingHome: false);
   static List FETCHED_RESPONSE;
   static List<Drug> DGURS_LIST;
+  static List<Diagnosis> DIAGNOSIS_LIST;
 }
 
 class PATIENT_INFO {

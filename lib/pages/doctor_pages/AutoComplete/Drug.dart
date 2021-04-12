@@ -6,7 +6,7 @@ class Drug {
 
   factory Drug.fromJson(Map<String, dynamic> parsedJson) {
     return Drug(
-      genericName: parsedJson["GENERIC_NAME"],
+      genericName: parsedJson["GENERIC_NAME"].toString(),
       brandName: parsedJson["BRAND_NAMES"] as String,
     );
   }

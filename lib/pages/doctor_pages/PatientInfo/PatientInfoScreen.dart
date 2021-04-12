@@ -34,6 +34,7 @@ class PatientInfo_Element extends StatelessWidget {
   Widget build(BuildContext context) {
     var width = MediaQuery.of(context).size.width - 40;
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: CustomAppBar(
         height: 120,
         turnOffBackButton: false,
