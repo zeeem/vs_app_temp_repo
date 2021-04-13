@@ -99,7 +99,7 @@ class __StickyHeaderGridSPO2State extends State<_StickyHeaderGridSPO2> {
     DateTime timeTo;
     timeTo = timeFrom.add(Duration(hours: 1));
 
-    API_SERVICES.fetchVSData(timeFrom, timeTo, "min");
+    // API_SERVICES.fetchVSData(timeFrom, timeTo, "min");
 
     super.initState();
   }

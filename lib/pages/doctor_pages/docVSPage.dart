@@ -14,6 +14,7 @@ import 'package:vital_signs_ui_template/pages/Dashboard/vs_item.dart';
 
 import '../AlertHomePage.dart';
 import 'HistoryPlots/HistoryPlot.dart';
+import 'HistoryPlots/StickyHeaderTest.dart';
 import 'PatientInfo/PatientInfoScreen.dart';
 import 'doctor_parient_history.dart';
 //import 'package:flutter_svg/flutter_svg.dart';
@@ -357,22 +358,24 @@ class doctorVSPage_element extends StatelessWidget {
                           ),
                         );
                       },
-                      child: Wrap(
-                        children: [
-                          Text(
-                            userName,
-                            style: TextStyle(
-                                fontSize: 14.0,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black.withOpacity(.7)),
-                          ),
-                          Icon(
-                            Icons.info_outline,
-                            color: AppColors.deccolor1,
-                            size: 20,
-                          ),
-                        ],
-                      ),
+                      child: userName.length > 0
+                          ? Wrap(
+                              children: [
+                                Text(
+                                  userName,
+                                  style: TextStyle(
+                                      fontSize: 14.0,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black.withOpacity(.7)),
+                                ),
+                                Icon(
+                                  Icons.info_outline,
+                                  color: AppColors.deccolor1,
+                                  size: 20,
+                                ),
+                              ],
+                            )
+                          : Container(),
                     ),
                   ),
                   Container(
@@ -415,33 +418,36 @@ class doctorVSPage_element extends StatelessWidget {
                                   valueUnit: 'bpm',
                                   valueToShow: '${_doc_hr}',
                                   press: () {
-                                    if (historyData.length > 0) {
-                                      Navigator.of(context).push(
-                                          MaterialPageRoute(
-                                              builder: (BuildContext context) =>
-                                                  HistoryPlot(
-                                                    data: historyData,
-                                                    expandedTitle: 'hr',
-                                                  )));
-                                    } else {
-                                      return AlertDialog(
-                                        title: Text('No history found'),
-                                        content:
-                                            Text('Do you want to try again?'),
-                                        actions: <Widget>[
-                                          FlatButton(
-                                              onPressed: () {
-                                                print('ignored');
-                                              },
-                                              child: Text('No')),
-                                          new FlatButton(
-                                              onPressed: () {
-                                                tempStaticVals.loadAsset();
-                                              },
-                                              child: new Text('Yes')),
-                                        ],
-                                      );
-                                    }
+                                    navigateTo(context, VSplotExample());
+
+                                    // if (historyData.length > 0) {
+                                    //   Navigator.of(context).push(
+                                    //       MaterialPageRoute(
+                                    //           builder: (BuildContext context) =>
+                                    //               HistoryPlot(
+                                    //                 data: historyData,
+                                    //                 expandedTitle: 'hr',
+                                    //               )));
+                                    //   navigateTo(context, VSplotExample());
+                                    // } else {
+                                    //   return AlertDialog(
+                                    //     title: Text('No history found'),
+                                    //     content:
+                                    //         Text('Do you want to try again?'),
+                                    //     actions: <Widget>[
+                                    //       FlatButton(
+                                    //           onPressed: () {
+                                    //             print('ignored');
+                                    //           },
+                                    //           child: Text('No')),
+                                    //       new FlatButton(
+                                    //           onPressed: () {
+                                    //             tempStaticVals.loadAsset();
+                                    //           },
+                                    //           child: new Text('Yes')),
+                                    //     ],
+                                    //   );
+                                    // }
                                   },
                                 ),
                                 InfoCard(
@@ -450,33 +456,34 @@ class doctorVSPage_element extends StatelessWidget {
                                   valueUnit: '°C',
                                   valueToShow: '${_doc_temp}',
                                   press: () {
-                                    if (historyData.length > 0) {
-                                      Navigator.of(context).push(
-                                          MaterialPageRoute(
-                                              builder: (BuildContext context) =>
-                                                  HistoryPlot(
-                                                    data: historyData,
-                                                    expandedTitle: 'temp',
-                                                  )));
-                                    } else {
-                                      return AlertDialog(
-                                        title: Text('No history found'),
-                                        content:
-                                            Text('Do you want to try again?'),
-                                        actions: <Widget>[
-                                          FlatButton(
-                                              onPressed: () {
-                                                print('ignored');
-                                              },
-                                              child: Text('No')),
-                                          new FlatButton(
-                                              onPressed: () {
-                                                tempStaticVals.loadAsset();
-                                              },
-                                              child: new Text('Yes')),
-                                        ],
-                                      );
-                                    }
+                                    navigateTo(context, VSplotExample());
+                                    // if (historyData.length > 0) {
+                                    // Navigator.of(context).push(
+                                    //     MaterialPageRoute(
+                                    //         builder: (BuildContext context) =>
+                                    //             HistoryPlot(
+                                    //               data: historyData,
+                                    //               expandedTitle: 'temp',
+                                    //             )));
+                                    // } else {
+                                    //   return AlertDialog(
+                                    //     title: Text('No history found'),
+                                    //     content:
+                                    //         Text('Do you want to try again?'),
+                                    //     actions: <Widget>[
+                                    //       FlatButton(
+                                    //           onPressed: () {
+                                    //             print('ignored');
+                                    //           },
+                                    //           child: Text('No')),
+                                    //       new FlatButton(
+                                    //           onPressed: () {
+                                    //             tempStaticVals.loadAsset();
+                                    //           },
+                                    //           child: new Text('Yes')),
+                                    //     ],
+                                    //   );
+                                    // }
                                   },
                                 ),
                               ],
@@ -509,33 +516,36 @@ class doctorVSPage_element extends StatelessWidget {
                                   valueUnit: '%',
                                   valueToShow: '${_doc_spo2}',
                                   press: () {
-                                    if (historyData.length > 0) {
-                                      Navigator.of(context).push(
-                                          MaterialPageRoute(
-                                              builder: (BuildContext context) =>
-                                                  HistoryPlot(
-                                                    data: historyData,
-                                                    expandedTitle: 'spo2',
-                                                  )));
-                                    } else {
-                                      return AlertDialog(
-                                        title: Text('No history found'),
-                                        content:
-                                            Text('Do you want to try again?'),
-                                        actions: <Widget>[
-                                          FlatButton(
-                                              onPressed: () {
-                                                print('ignored');
-                                              },
-                                              child: Text('No')),
-                                          new FlatButton(
-                                              onPressed: () {
-                                                tempStaticVals.loadAsset();
-                                              },
-                                              child: new Text('Yes')),
-                                        ],
-                                      );
-                                    }
+                                    navigateTo(context, VSplotExample());
+
+                                    // if (historyData.length > 0) {
+                                    //   Navigator.of(context).push(
+                                    //       MaterialPageRoute(
+                                    //           builder: (BuildContext context) =>
+                                    //               HistoryPlot(
+                                    //                 data: historyData,
+                                    //                 expandedTitle: 'spo2',
+                                    //               )));
+
+                                    // } else {
+                                    //   return AlertDialog(
+                                    //     title: Text('No history found'),
+                                    //     content:
+                                    //         Text('Do you want to try again?'),
+                                    //     actions: <Widget>[
+                                    //       FlatButton(
+                                    //           onPressed: () {
+                                    //             print('ignored');
+                                    //           },
+                                    //           child: Text('No')),
+                                    //       new FlatButton(
+                                    //           onPressed: () {
+                                    //             tempStaticVals.loadAsset();
+                                    //           },
+                                    //           child: new Text('Yes')),
+                                    //     ],
+                                    //   );
+                                    // }
                                   },
                                 ),
                                 InfoCard(
@@ -544,33 +554,34 @@ class doctorVSPage_element extends StatelessWidget {
                                   valueUnit: '°C',
                                   valueToShow: '${_doc_rr}',
                                   press: () {
-                                    if (historyData.length > 0) {
-                                      Navigator.of(context).push(
-                                          MaterialPageRoute(
-                                              builder: (BuildContext context) =>
-                                                  HistoryPlot(
-                                                    data: historyData,
-                                                    expandedTitle: 'rr',
-                                                  )));
-                                    } else {
-                                      return AlertDialog(
-                                        title: Text('No history found'),
-                                        content:
-                                            Text('Do you want to try again?'),
-                                        actions: <Widget>[
-                                          FlatButton(
-                                              onPressed: () {
-                                                print('ignored');
-                                              },
-                                              child: Text('No')),
-                                          new FlatButton(
-                                              onPressed: () {
-                                                tempStaticVals.loadAsset();
-                                              },
-                                              child: new Text('Yes')),
-                                        ],
-                                      );
-                                    }
+                                    navigateTo(context, VSplotExample());
+                                    // if (historyData.length > 0) {
+                                    //   Navigator.of(context).push(
+                                    //       MaterialPageRoute(
+                                    //           builder: (BuildContext context) =>
+                                    //               HistoryPlot(
+                                    //                 data: historyData,
+                                    //                 expandedTitle: 'rr',
+                                    //               )));
+                                    // } else {
+                                    //   return AlertDialog(
+                                    //     title: Text('No history found'),
+                                    //     content:
+                                    //         Text('Do you want to try again?'),
+                                    //     actions: <Widget>[
+                                    //       FlatButton(
+                                    //           onPressed: () {
+                                    //             print('ignored');
+                                    //           },
+                                    //           child: Text('No')),
+                                    //       new FlatButton(
+                                    //           onPressed: () {
+                                    //             tempStaticVals.loadAsset();
+                                    //           },
+                                    //           child: new Text('Yes')),
+                                    //     ],
+                                    //   );
+                                    // }
                                   },
                                 ),
                               ],
@@ -884,4 +895,12 @@ class vsLive_item_bp extends StatelessWidget {
       },
     );
   }
+}
+
+navigateTo(BuildContext context, var pageToNavigate) {
+  Navigator.push(
+    context,
+    MaterialPageRoute(builder: (context) => pageToNavigate),
+  );
+  // LoginPage()AbnormalVsBoard
 }

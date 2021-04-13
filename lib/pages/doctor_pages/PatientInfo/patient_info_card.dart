@@ -694,7 +694,7 @@ class _AutoCompleteDiagnosis extends State<AutoCompleteDiagnosis> {
                         itemFilter: (item, query) {
                           return item.diseaseName
                               .toLowerCase()
-                              .startsWith(query.toLowerCase());
+                              .contains(query.toLowerCase());
                         },
                         itemSorter: (a, b) {
                           return a.diseaseName.compareTo(b.diseaseName);

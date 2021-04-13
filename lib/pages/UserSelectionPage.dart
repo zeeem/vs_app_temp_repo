@@ -1,6 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:vital_signs_ui_template/Processing/NetworkGateway/networkManager.dart';
+import 'package:vital_signs_ui_template/core/configVS.dart';
 import 'package:vital_signs_ui_template/core/consts.dart';
 import 'package:vital_signs_ui_template/elements/CustomAppBar.dart';
+import 'package:vital_signs_ui_template/elements/TryAgainTemplate.dart';
 import 'package:vital_signs_ui_template/pages/Dashboard/AbnormalVsBoard.dart';
 import 'package:vital_signs_ui_template/pages/LoginPage.dart';
 
@@ -9,7 +14,26 @@ import 'doctor_pages/AutoComplete/AutoCompleteDrugs.dart';
 import 'doctor_pages/HistoryPlots/StickyHeaderTest.dart';
 import 'doctor_pages/PatientInfo/PatientInfoScreen.dart';
 
-class UserSelection extends StatelessWidget {
+class UserSelection extends StatefulWidget {
+  @override
+  _UserSelectionState createState() => _UserSelectionState();
+}
+
+class _UserSelectionState extends State<UserSelection> {
+  String username = 'testuservs';
+
+  String password = 'Apple';
+
+  @override
+  void initState() {
+    inti_logout();
+    super.initState();
+  }
+
+  inti_logout() async {
+    await logoutAccount();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,7 +61,14 @@ class UserSelection extends StatelessWidget {
                   child: Column(
                     children: [
                       FlatButton(
-                        onPressed: () {
+                        onPressed: () async {
+                          await logout_and_login();
+
+                          await fetchVSData(
+                              new DateTime(2021, 3, 5, 15, 0, 0).toUtc(),
+                              new DateTime(2021, 3, 5, 16, 0, 0).toUtc(),
+                              'min');
+
                           navigateTo(context, AbnormalVsBoard());
                         },
                         child: Image.asset(
@@ -117,12 +148,13 @@ class UserSelection extends StatelessWidget {
                   onPressed: () {
                     navigateTo(
                         context,
-                        // TryAgainPage(
-                        //   displayText: 'Hi, Jon!',
-                        //   displayText2: 'Connecting to your vital signs.',
-                        //   isLoadingVisible: true,
-                        // )
-                        AutoCompleteDrugs());
+                        TryAgainPage(
+                          displayText: 'Hi, Jon!',
+                          displayText2: 'Connecting to your vital signs.',
+                          isLoadingVisible: true,
+                        )
+                        // AutoCompleteDrugs()
+                        );
                   },
                   child: Text(
                     '.',
@@ -152,5 +184,27 @@ class UserSelection extends StatelessWidget {
       MaterialPageRoute(builder: (context) => pageToNavigate),
     );
     // LoginPage()AbnormalVsBoard
+  }
+
+  logout_and_login() async {
+    int statusCode = await logIntoAccount(username, password);
+    print(statusCode);
+  }
+
+  Future<String> fetchVSData(
+      DateTime timeFrom, DateTime timeTo, String type) async {
+    NetworkManager apiNetworkManager = GLOBALS.API_NETWORK_MANAGER;
+
+    String api_target =
+        "/api/vitalsign/${GLOBALS.USER_PROFILE.id}/?from=$timeFrom&to=$timeTo&type=$type";
+    print('API_TARGET = $api_target');
+    var response = await apiNetworkManager.request('GET', api_target);
+    if (response.statusCode == 200) {
+      var mappedResponse = jsonDecode(response.body);
+      List a = mappedResponse;
+      GLOBALS.FETCHED_RESPONSE = a;
+      print(a.length);
+    }
+    print(response.body);
   }
 }

@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:vital_signs_ui_template/pages/Dashboard/AbnormalVsBoard.dart';
 import 'package:vital_signs_ui_template/pages/doctor_pages/HistoryPlots/PlotDataProcessing.dart';
+import 'package:vital_signs_ui_template/pages/doctor_pages/HistoryPlots/StickyHeaderTest.dart';
 import 'package:vital_signs_ui_template/pages/doctor_pages/HistoryPlots/plot_details.dart';
+import 'package:vital_signs_ui_template/pages/doctor_pages/docVSPage.dart';
 
 import 'vs_item.dart';
 
@@ -75,25 +77,26 @@ class alert_Card extends StatelessWidget {
                 valueUnit: 'bpm',
                 iconPath: 'assets/icons/hr_icon.png',
                 press: () async {
-                  List whole_day_data_hr =
-                      await initial_hourly_plot(vsData_to_use);
+                  // List whole_day_data_hr =
+                  //     await initial_hourly_plot(vsData_to_use);
 
-                  List data_to_send = await processRange(
-                      whole_day_data_hr.sublist(0, 600), 20); //30min data
+                  // List data_to_send = await processRange(
+                  //     whole_day_data_hr.sublist(0, 600), 20); //30min data
                   //goto next page for details
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => PlotDetails(
-                        touchedIndex: 0,
-                        touchedScale: 'min', //hour,min,day
-                        data_to_plot: data_to_send,
-                        long_data: whole_day_data_hr,
-                        showAbnormalDots: true,
-                        touchedVSType: 'hr',
-                      ),
-                    ),
-                  );
+                  // Navigator.push(
+                  //   context,
+                  //   MaterialPageRoute(
+                  //     builder: (context) => PlotDetails(
+                  //       touchedIndex: 0,
+                  //       touchedScale: 'min', //hour,min,day
+                  //       data_to_plot: data_to_send,
+                  //       long_data: whole_day_data_hr,
+                  //       showAbnormalDots: true,
+                  //       touchedVSType: 'hr',
+                  //     ),
+                  //   ),
+                  // );
+                  navigateTo(context, VSplotExample());
                 },
                 isAbnormal: hr_alert,
               ),
