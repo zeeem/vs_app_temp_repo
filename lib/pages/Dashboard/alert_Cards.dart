@@ -106,7 +106,7 @@ class alert_Card extends StatelessWidget {
                 valueUnit: '°C',
                 iconPath: 'assets/icons/temp_icon2.png',
                 press: () {
-                  print('test click');
+                  navigateTo(context, VSplotExample());
                 },
                 isAbnormal: temp_alert,
               ),
@@ -116,25 +116,27 @@ class alert_Card extends StatelessWidget {
                 valueUnit: '%',
                 iconPath: 'assets/icons/spo2_icon.png',
                 press: () async {
-                  List whole_day_data_hr =
-                      await initial_hourly_plot(vsData_to_use);
+                  navigateTo(context, VSplotExample());
 
-                  List data_to_send = await processRange(
-                      whole_day_data_hr.sublist(0, 600), 20); //30min data
-                  //goto next page for details
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => PlotDetails(
-                        touchedIndex: 0,
-                        touchedScale: 'min', //hour,min,day
-                        data_to_plot: data_to_send,
-                        long_data: whole_day_data_hr,
-                        showAbnormalDots: true,
-                        touchedVSType: 'spo2',
-                      ),
-                    ),
-                  );
+                  // List whole_day_data_hr =
+                  //     await initial_hourly_plot(vsData_to_use);
+                  //
+                  // List data_to_send = await processRange(
+                  //     whole_day_data_hr.sublist(0, 600), 20); //30min data
+                  // //goto next page for details
+                  // Navigator.push(
+                  //   context,
+                  //   MaterialPageRoute(
+                  //     builder: (context) => PlotDetails(
+                  //       touchedIndex: 0,
+                  //       touchedScale: 'min', //hour,min,day
+                  //       data_to_plot: data_to_send,
+                  //       long_data: whole_day_data_hr,
+                  //       showAbnormalDots: true,
+                  //       touchedVSType: 'spo2',
+                  //     ),
+                  //   ),
+                  // );
                 },
                 isAbnormal: spo2_alert,
               ),
@@ -143,7 +145,9 @@ class alert_Card extends StatelessWidget {
                 valueToShow: '$rr_val',
                 valueUnit: 'rpm',
                 iconPath: 'assets/icons/rr_icon.png',
-                press: () {},
+                press: () {
+                  navigateTo(context, VSplotExample());
+                },
                 isAbnormal: rr_alert,
               ),
               vs_item_bp(
@@ -151,7 +155,9 @@ class alert_Card extends StatelessWidget {
                 valueToShow: '${bp_val[0]}/${bp_val[1]}',
                 valueUnit: 'mmHg',
                 iconPath: 'assets/icons/bp_icon.png',
-                press: () {},
+                press: () {
+                  navigateTo(context, VSplotExample());
+                },
                 maxWidth: 235,
                 isAbnormal: bp_alert,
                 bp_MAP_value: bp_MAP.toString(),
