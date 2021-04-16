@@ -10,10 +10,8 @@ import 'package:vital_signs_ui_template/elements/CustomAppBar.dart';
 import 'package:vital_signs_ui_template/elements/User.dart';
 import 'package:vital_signs_ui_template/elements/info_card.dart';
 import 'package:vital_signs_ui_template/pages/Dashboard/AbnormalVsBoard.dart';
-import 'package:vital_signs_ui_template/pages/Dashboard/vs_item.dart';
 
 import '../AlertHomePage.dart';
-import 'HistoryPlots/HistoryPlot.dart';
 import 'HistoryPlots/StickyHeaderTest.dart';
 import 'PatientInfo/PatientInfoScreen.dart';
 import 'doctor_parient_history.dart';
@@ -418,7 +416,11 @@ class doctorVSPage_element extends StatelessWidget {
                                   valueUnit: 'bpm',
                                   valueToShow: '${_doc_hr}',
                                   press: () {
-                                    navigateTo(context, VSplotExample());
+                                    navigateTo(
+                                        context,
+                                        VSplotExample(
+                                          clickedVS: "HR",
+                                        ));
 
                                     // if (historyData.length > 0) {
                                     //   Navigator.of(context).push(
@@ -456,7 +458,11 @@ class doctorVSPage_element extends StatelessWidget {
                                   valueUnit: '°C',
                                   valueToShow: '${_doc_temp}',
                                   press: () {
-                                    navigateTo(context, VSplotExample());
+                                    navigateTo(
+                                        context,
+                                        VSplotExample(
+                                          clickedVS: "TEMP",
+                                        ));
                                     // if (historyData.length > 0) {
                                     // Navigator.of(context).push(
                                     //     MaterialPageRoute(
@@ -516,7 +522,11 @@ class doctorVSPage_element extends StatelessWidget {
                                   valueUnit: '%',
                                   valueToShow: '${_doc_spo2}',
                                   press: () {
-                                    navigateTo(context, VSplotExample());
+                                    navigateTo(
+                                        context,
+                                        VSplotExample(
+                                          clickedVS: "SPO2",
+                                        ));
 
                                     // if (historyData.length > 0) {
                                     //   Navigator.of(context).push(
@@ -554,7 +564,11 @@ class doctorVSPage_element extends StatelessWidget {
                                   valueUnit: '°C',
                                   valueToShow: '${_doc_rr}',
                                   press: () {
-                                    navigateTo(context, VSplotExample());
+                                    navigateTo(
+                                        context,
+                                        VSplotExample(
+                                          clickedVS: "RR",
+                                        ));
                                     // if (historyData.length > 0) {
                                     //   Navigator.of(context).push(
                                     //       MaterialPageRoute(

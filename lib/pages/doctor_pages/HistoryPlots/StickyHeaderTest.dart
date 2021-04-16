@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sticky_header/flutter_sticky_header.dart';
 import 'package:intl/intl.dart';
-import 'package:vital_signs_ui_template/elements/API_services.dart';
 import 'package:vital_signs_ui_template/elements/base_plot_element.dart';
 import 'package:vital_signs_ui_template/elements/stickyHeader_common.dart';
 
@@ -58,8 +57,29 @@ bool isMinMaxOnRR = false;
 bool isStdDeviationOn24HoursGraphRR = false;
 
 class VSplotExample extends StatelessWidget {
+  final String clickedVS;
+
+  const VSplotExample({Key key, this.clickedVS = "HR"}) : super(key: key);
+  static List<String> vsPlotSerial = ["HR", "SPO2", "TEMP", "RR", "BP"];
+  static List<Widget> plotWidgets = <Widget>[
+    _StickyHeaderGridHR(index: vsPlotSerial.indexOf("HR")),
+    _StickyHeaderGridSPO2(index: vsPlotSerial.indexOf("SPO2")),
+    _StickyHeaderGridTemp(index: vsPlotSerial.indexOf("TEMP")),
+    _StickyHeaderGridRR(index: vsPlotSerial.indexOf("RR")),
+  ];
+
   @override
   Widget build(BuildContext context) {
+    vsPlotSerial.removeAt(vsPlotSerial.indexOf(clickedVS));
+    vsPlotSerial.insert(0, clickedVS);
+    plotWidgets[vsPlotSerial.indexOf("HR")] =
+        _StickyHeaderGridHR(index: vsPlotSerial.indexOf("HR"));
+    plotWidgets[vsPlotSerial.indexOf("RR")] =
+        _StickyHeaderGridRR(index: vsPlotSerial.indexOf("RR"));
+    plotWidgets[vsPlotSerial.indexOf("TEMP")] =
+        _StickyHeaderGridTemp(index: vsPlotSerial.indexOf("TEMP"));
+    plotWidgets[vsPlotSerial.indexOf("SPO2")] =
+        _StickyHeaderGridSPO2(index: vsPlotSerial.indexOf("SPO2"));
     return GestureDetector(
       // onVerticalDragDown: (var i) {
       //   print('dragged');
@@ -67,13 +87,16 @@ class VSplotExample extends StatelessWidget {
       // },
       child: AppScaffold(
         title: 'ALL CHARTS',
-        slivers: [
-          _StickyHeaderGridSPO2(index: 0),
-          _StickyHeaderGridHR(index: 1),
-          _StickyHeaderGridTemp(index: 2),
-          _StickyHeaderGridRR(index: 3),
-          //_StickyHeaderGridHR(index: 4),
-        ],
+        slivers: plotWidgets,
+        // [
+        //
+        //   //
+        //   //   _StickyHeaderGridSPO2(index: vsPlotSerial.indexOf("SPO2")),
+        //   // _StickyHeaderGridHR(index: vsPlotSerial.indexOf("HR")),
+        //   // _StickyHeaderGridTemp(index: vsPlotSerial.indexOf("TEMP")),
+        //   // _StickyHeaderGridRR(index: vsPlotSerial.indexOf("RR")),
+        //   //_StickyHeaderGridHR(index: 4),
+        // ],
       ),
     );
   }
