@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:autocomplete_textfield/autocomplete_textfield.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:vital_signs_ui_template/elements/User.dart';
 import 'package:vital_signs_ui_template/pages/doctor_pages/AutoComplete/Disease.dart';
 import 'package:vital_signs_ui_template/pages/doctor_pages/AutoComplete/Drug.dart';
@@ -9,7 +10,6 @@ import 'package:vital_signs_ui_template/pages/doctor_pages/AutoComplete/Drug.dar
 import '../../../core/configVS.dart';
 import '../../../core/consts.dart';
 import '../../Dashboard/vs_item.dart';
-import '../docVSPage.dart';
 
 Map<String, List<dynamic>> normalRangeMap = {
   "HR": [60, 100],
@@ -105,8 +105,18 @@ class _Patient_info_cardState extends State<Patient_info_card> {
     _normalRangeMap = normalRangeMap;
   }
 
+  updateNormalRanges(String vsName) {
+    if (double.tryParse(rangeControllerMax.text) >
+        double.tryParse(rangeControllerMin.text)) {
+      normalRangeMap[vsName][0] = rangeControllerMin.text;
+      normalRangeMap[vsName][1] = rangeControllerMax.text;
+    } else {
+      makeToast("Max value must be greater than the Min value");
+    }
+  }
+
   Future<void> showPopUpDialog(BuildContext context, var dialogWidget,
-      [String buttonText]) async {
+      [String buttonText, String rangeVSName]) async {
     return await showDialog(
         barrierDismissible: false,
         context: context,
@@ -123,6 +133,9 @@ class _Patient_info_cardState extends State<Patient_info_card> {
                 child: ElevatedButton(
                     onPressed: () {
                       updateMedicationsAndDiagnosis();
+                      if (rangeVSName != null) {
+                        updateNormalRanges(rangeVSName);
+                      }
                       Navigator.of(context).pop();
                     },
                     child: Text(
@@ -278,7 +291,8 @@ class _Patient_info_cardState extends State<Patient_info_card> {
                     titleText: "Heart Rate",
                     vs_key: "HR",
                   ),
-                  "Save");
+                  "Save",
+                  "HR");
             },
             clickRR: () async {
               await showPopUpDialog(
@@ -287,7 +301,8 @@ class _Patient_info_cardState extends State<Patient_info_card> {
                     titleText: "Breathing Rate",
                     vs_key: "RR",
                   ),
-                  "Save");
+                  "Save",
+                  "RR");
             },
             clickSpo2: () async {
               await showPopUpDialog(
@@ -296,7 +311,8 @@ class _Patient_info_cardState extends State<Patient_info_card> {
                     titleText: "SpO2",
                     vs_key: "SPO2",
                   ),
-                  "Save");
+                  "Save",
+                  "SPO2");
             },
             clickTemp: () async {
               await showPopUpDialog(
@@ -305,7 +321,8 @@ class _Patient_info_cardState extends State<Patient_info_card> {
                     titleText: "Temperature",
                     vs_key: "TEMP",
                   ),
-                  "Save");
+                  "Save",
+                  "TEMP");
             },
             clickBP: () async {
               await showPopUpDialog(
@@ -314,7 +331,8 @@ class _Patient_info_cardState extends State<Patient_info_card> {
                     titleText: "Blood Pressure",
                     vs_key: "BP",
                   ),
-                  "Save");
+                  "Save",
+                  "BP");
             },
           ),
           // Container(
@@ -816,15 +834,15 @@ class _AutoCompleteDiagnosis extends State<AutoCompleteDiagnosis> {
   }
 }
 
+final rangeControllerMax = TextEditingController();
+final rangeControllerMin = TextEditingController();
+
 class changeNormalRange extends StatelessWidget {
   final String titleText;
   final String vs_key; // HR, RR, SPO2, TEMP, BP
   const changeNormalRange(
       {Key key, this.titleText = "Vital Sign", this.vs_key = ""})
       : super(key: key);
-
-  static final rangeControllerMax = TextEditingController();
-  static final rangeControllerMin = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -899,4 +917,15 @@ class changeNormalRange extends StatelessWidget {
       ),
     );
   }
+}
+
+makeToast(String val) {
+  Fluttertoast.showToast(
+      msg: val,
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.BOTTOM,
+      timeInSecForIosWeb: 1,
+      backgroundColor: Colors.black,
+      textColor: Colors.white,
+      fontSize: 14.0);
 }
