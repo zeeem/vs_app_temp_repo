@@ -9,6 +9,7 @@ import 'package:vital_signs_ui_template/pages/registration/condition_page.dart';
 import 'package:vital_signs_ui_template/pages/registration/configuration_page8.dart';
 
 import 'LoginPage.dart';
+import 'UserSelectionPage.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -40,7 +41,7 @@ class _SplashScreenState extends State<SplashScreen> {
       } else {
         Navigator.of(context).pushReplacement(MaterialPageRoute(
             builder: (BuildContext context) =>
-                LoginPage())); //ConditionPage()LoginPage
+                UserSelection())); //ConditionPage()LoginPage
       }
     });
 

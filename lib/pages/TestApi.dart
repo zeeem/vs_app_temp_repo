@@ -16,8 +16,9 @@ class TestAPI extends StatefulWidget {
 }
 
 class _TestAPIState extends State<TestAPI> {
-  String username = 'testuservs';
+  String username = 'testuser1';
   String password = 'Apple';
+
   DateTime now;
 
   DateTime selected_FromTime, selected_ToTime;
@@ -36,6 +37,7 @@ class _TestAPIState extends State<TestAPI> {
   @override
   Future<void> initState() {
     // login_and_print();
+    // logoutAccount();
 
     super.initState();
   }

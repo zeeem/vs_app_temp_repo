@@ -96,7 +96,11 @@ class alert_Card extends StatelessWidget {
                   //     ),
                   //   ),
                   // );
-                  navigateTo(context, VSplotExample());
+                  navigateTo(
+                      context,
+                      VSplotExample(
+                        clickedVS: "HR",
+                      ));
                 },
                 isAbnormal: hr_alert,
               ),
@@ -106,7 +110,11 @@ class alert_Card extends StatelessWidget {
                 valueUnit: '°C',
                 iconPath: 'assets/icons/temp_icon2.png',
                 press: () {
-                  navigateTo(context, VSplotExample());
+                  navigateTo(
+                      context,
+                      VSplotExample(
+                        clickedVS: "TEMP",
+                      ));
                 },
                 isAbnormal: temp_alert,
               ),
@@ -116,7 +124,11 @@ class alert_Card extends StatelessWidget {
                 valueUnit: '%',
                 iconPath: 'assets/icons/spo2_icon.png',
                 press: () async {
-                  navigateTo(context, VSplotExample());
+                  navigateTo(
+                      context,
+                      VSplotExample(
+                        clickedVS: "SPO2",
+                      ));
 
                   // List whole_day_data_hr =
                   //     await initial_hourly_plot(vsData_to_use);
@@ -146,7 +158,11 @@ class alert_Card extends StatelessWidget {
                 valueUnit: 'rpm',
                 iconPath: 'assets/icons/rr_icon.png',
                 press: () {
-                  navigateTo(context, VSplotExample());
+                  navigateTo(
+                      context,
+                      VSplotExample(
+                        clickedVS: "RR",
+                      ));
                 },
                 isAbnormal: rr_alert,
               ),

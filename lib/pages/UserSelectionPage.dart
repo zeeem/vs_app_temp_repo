@@ -20,8 +20,7 @@ class UserSelection extends StatefulWidget {
 }
 
 class _UserSelectionState extends State<UserSelection> {
-  String username = 'testuservs';
-
+  String username = 'testuser1';
   String password = 'Apple';
 
   @override
@@ -64,10 +63,12 @@ class _UserSelectionState extends State<UserSelection> {
                         onPressed: () async {
                           await logout_and_login();
 
-                          await fetchVSData(
-                              new DateTime(2021, 3, 5, 15, 0, 0).toUtc(),
-                              new DateTime(2021, 3, 5, 16, 0, 0).toUtc(),
-                              'min');
+                          if (GLOBALS.FETCHED_RESPONSE == null) {
+                            await fetchVSData(
+                                new DateTime(2021, 3, 5, 15, 0, 0).toUtc(),
+                                new DateTime(2021, 3, 5, 16, 0, 0).toUtc(),
+                                'min');
+                          }
 
                           navigateTo(context, AbnormalVsBoard());
                         },

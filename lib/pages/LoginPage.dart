@@ -25,7 +25,7 @@ class _LoginPage extends State<LoginPage> {
   @override
   void initState() {
     //for demo only
-    userNameController.text = 'smith229';
+    userNameController.text = 'yizhou';
     super.initState();
   }
 
@@ -162,7 +162,7 @@ class _LoginPage extends State<LoginPage> {
             // username = 'test_u2';
             // password = '123123';
 
-            username = 'testuservs';
+            username = 'yizhou';
             password = 'Apple';
           }
 
