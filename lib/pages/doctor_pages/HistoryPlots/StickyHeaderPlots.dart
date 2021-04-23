@@ -6,7 +6,11 @@ import 'package:vital_signs_ui_template/elements/stickyHeader_common.dart';
 
 import '../../../core/configVS.dart';
 
-class StickyHeadertest extends StatefulWidget {
+DateTime startDate =
+    DateTime.parse(GLOBALS.FETCHED_RESPONSE[0]["time"]).toLocal();
+String dateString = DateFormat('dd-MM-yyyy').format(startDate);
+
+class StickyHeaderPlotScreen extends StatefulWidget {
   final int touchedIndex;
   final String touchedScale;
   final String touchedVSType;
@@ -14,7 +18,7 @@ class StickyHeadertest extends StatefulWidget {
   final List long_data;
   final String timeOfData;
 
-  const StickyHeadertest(
+  const StickyHeaderPlotScreen(
       {Key key,
       this.touchedIndex,
       this.touchedScale,
@@ -26,10 +30,10 @@ class StickyHeadertest extends StatefulWidget {
       : super(key: key);
 
   @override
-  _StickyHeadertestState createState() => _StickyHeadertestState();
+  _StickyHeaderPlotScreenState createState() => _StickyHeaderPlotScreenState();
 }
 
-class _StickyHeadertestState extends State<StickyHeadertest> {
+class _StickyHeaderPlotScreenState extends State<StickyHeaderPlotScreen> {
   @override
   Widget build(BuildContext context) {
     return Container();
@@ -56,10 +60,11 @@ bool isEmergencyDotOnRR = false; //false
 bool isMinMaxOnRR = false;
 bool isStdDeviationOn24HoursGraphRR = false;
 
-class VSplotExample extends StatelessWidget {
+class VSPlotWithStickyHeader extends StatelessWidget {
   final String clickedVS;
 
-  const VSplotExample({Key key, this.clickedVS = "HR"}) : super(key: key);
+  const VSPlotWithStickyHeader({Key key, this.clickedVS = "HR"})
+      : super(key: key);
   static List<String> vsPlotSerial = ["HR", "SPO2", "TEMP", "RR", "BP"];
   static List<Widget> plotWidgets = <Widget>[
     _StickyHeaderGridHR(index: vsPlotSerial.indexOf("HR")),
@@ -118,9 +123,9 @@ class _StickyHeaderGridSPO2 extends StatefulWidget {
 class __StickyHeaderGridSPO2State extends State<_StickyHeaderGridSPO2> {
   @override
   void initState() {
-    DateTime timeFrom = DateTime.parse("2021-03-05 20:00:00.000Z");
-    DateTime timeTo;
-    timeTo = timeFrom.add(Duration(hours: 1));
+    // DateTime timeFrom = DateTime.parse("2021-03-05 20:00:00.000Z");
+    // DateTime timeTo;
+    // timeTo = timeFrom.add(Duration(hours: 1));
 
     // API_SERVICES.fetchVSData(timeFrom, timeTo, "min");
 
@@ -133,8 +138,10 @@ class __StickyHeaderGridSPO2State extends State<_StickyHeaderGridSPO2> {
       header: VSHeader(
         index: widget.index,
         icon_location: "assets/icons/spo2_icon.png",
+        dateString: dateString,
+
         title:
-            "Oxygen Saturation", // change header title here eg. SPO2 HR RR BP
+            "O\u2082 Saturation", // change header title here eg. SPO2 HR RR BP
       ),
       sliver: SliverGrid(
         gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
@@ -188,6 +195,7 @@ class __StickyHeaderGridHRState extends State<_StickyHeaderGridHR> {
       header: VSHeader(
           index: widget.index,
           icon_location: "assets/icons/hr_icon.png",
+          dateString: dateString,
           title: "Heart Rate"), // change header title here eg. SPO2 HR RR BP
       sliver: SliverGrid(
         gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
@@ -241,6 +249,7 @@ class __StickyHeaderGridTempState extends State<_StickyHeaderGridTemp> {
       header: VSHeader(
           index: widget.index,
           icon_location: "assets/icons/temp_icon.png",
+          dateString: dateString,
           title: "Temperature"), // change header title here eg. SPO2 HR RR BP
       sliver: SliverGrid(
         gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
@@ -294,6 +303,7 @@ class __StickyHeaderGridRRState extends State<_StickyHeaderGridRR> {
       header: VSHeader(
           index: widget.index,
           icon_location: "assets/icons/rr_icon.png",
+          dateString: dateString,
           title:
               "Respiratory Rate"), // change header title here eg. SPO2 HR RR BP
       sliver: SliverGrid(

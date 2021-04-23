@@ -113,7 +113,7 @@ class _docPatientListPage extends State<docPatientListPage> {
                     case 0:
                       return DoctorPatientListContainer();
                     case 1:
-                      return DoctorPatientHistory();
+                      return DoctorPatientSearch();
                     case 2:
                       return Container(
                         height: MediaQuery.of(context).size.height,
@@ -134,17 +134,17 @@ class _docPatientListPage extends State<docPatientListPage> {
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            title: Text('Home'),
+            icon: Icon(Icons.view_list_outlined),
+            title: Text('Patient List'),
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.assessment),
-            title: Text('History'),
+            title: Text('Search'),
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.perm_phone_msg_rounded),
-            title: Text('Contact'),
-          ),
+          // BottomNavigationBarItem(
+          //   icon: Icon(Icons.perm_phone_msg_rounded),
+          //   title: Text('Contact'),
+          // ),
         ],
         currentIndex: _selectedIndex,
         selectedItemColor: AppColors.deccolor1,

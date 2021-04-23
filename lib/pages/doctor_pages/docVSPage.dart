@@ -12,7 +12,7 @@ import 'package:vital_signs_ui_template/elements/info_card.dart';
 import 'package:vital_signs_ui_template/pages/Dashboard/AbnormalVsBoard.dart';
 
 import '../AlertHomePage.dart';
-import 'HistoryPlots/StickyHeaderTest.dart';
+import 'HistoryPlots/StickyHeaderPlots.dart';
 import 'PatientInfo/PatientInfoScreen.dart';
 import 'doctor_parient_history.dart';
 //import 'package:flutter_svg/flutter_svg.dart';
@@ -34,7 +34,7 @@ class docVsVisualizerPage extends StatefulWidget {
       this.doc_spo2 = '99',
       this.doc_temp = '37.5',
       this.doc_bp = '125/85',
-      this.selectedIndexToOpen = 0})
+      this.selectedIndexToOpen = 1})
       : super(key: key);
 
   @override
@@ -50,9 +50,9 @@ class _docVsVisualizerPageState extends State<docVsVisualizerPage> {
   String _doc_temp;
   String _doc_bp;
   User _clickedUser;
-  int _selectedIndexBottomNavBtn = 0;
+  int _selectedIndexBottomNavBtn = 1;
 
-  int initialIndex = 0;
+  int initialIndex = 1;
   DateTime now;
 
   String _userName;
@@ -154,6 +154,10 @@ class _docVsVisualizerPageState extends State<docVsVisualizerPage> {
                     child: () {
                       switch (_selectedIndexBottomNavBtn) {
                         case 0:
+                          return Container(
+                              height: MediaQuery.of(context).size.height,
+                              child: DoctorPatientSearch());
+                        case 1:
                           return Column(
                             children: <Widget>[
                               Row(
@@ -226,11 +230,6 @@ class _docVsVisualizerPageState extends State<docVsVisualizerPage> {
                               //       ),
                             ],
                           );
-                        case 1:
-                          return Container(
-                              height: MediaQuery.of(context).size.height,
-                              child: DoctorPatientHistory());
-
                         case 2:
                           return contactPatientPage(
                             alert_text:
@@ -250,19 +249,19 @@ class _docVsVisualizerPageState extends State<docVsVisualizerPage> {
           bottomNavigationBar: BottomNavigationBar(
             items: const <BottomNavigationBarItem>[
               BottomNavigationBarItem(
-                icon: Icon(Icons.dashboard),
-                title: Text('Vitals'),
+                icon: Icon(Icons.view_list_outlined),
+                title: Text('Patient List'),
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.assessment),
-                title: Text('Patient list'),
+                icon: Icon(Icons.dashboard),
+                title: Text('Vitals'),
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.perm_phone_msg_rounded),
                 title: Text('Contact'),
               ),
             ],
-            currentIndex: 0,
+            currentIndex: _selectedIndexBottomNavBtn,
             selectedItemColor: AppColors.deccolor1,
             onTap: _onItemTapped,
           ),
@@ -418,7 +417,7 @@ class doctorVSPage_element extends StatelessWidget {
                                   press: () {
                                     navigateTo(
                                         context,
-                                        VSplotExample(
+                                        VSPlotWithStickyHeader(
                                           clickedVS: "HR",
                                         ));
 
@@ -460,7 +459,7 @@ class doctorVSPage_element extends StatelessWidget {
                                   press: () {
                                     navigateTo(
                                         context,
-                                        VSplotExample(
+                                        VSPlotWithStickyHeader(
                                           clickedVS: "TEMP",
                                         ));
                                     // if (historyData.length > 0) {
@@ -524,7 +523,7 @@ class doctorVSPage_element extends StatelessWidget {
                                   press: () {
                                     navigateTo(
                                         context,
-                                        VSplotExample(
+                                        VSPlotWithStickyHeader(
                                           clickedVS: "SPO2",
                                         ));
 
@@ -566,36 +565,9 @@ class doctorVSPage_element extends StatelessWidget {
                                   press: () {
                                     navigateTo(
                                         context,
-                                        VSplotExample(
+                                        VSPlotWithStickyHeader(
                                           clickedVS: "RR",
                                         ));
-                                    // if (historyData.length > 0) {
-                                    //   Navigator.of(context).push(
-                                    //       MaterialPageRoute(
-                                    //           builder: (BuildContext context) =>
-                                    //               HistoryPlot(
-                                    //                 data: historyData,
-                                    //                 expandedTitle: 'rr',
-                                    //               )));
-                                    // } else {
-                                    //   return AlertDialog(
-                                    //     title: Text('No history found'),
-                                    //     content:
-                                    //         Text('Do you want to try again?'),
-                                    //     actions: <Widget>[
-                                    //       FlatButton(
-                                    //           onPressed: () {
-                                    //             print('ignored');
-                                    //           },
-                                    //           child: Text('No')),
-                                    //       new FlatButton(
-                                    //           onPressed: () {
-                                    //             tempStaticVals.loadAsset();
-                                    //           },
-                                    //           child: new Text('Yes')),
-                                    //     ],
-                                    //   );
-                                    // }
                                   },
                                 ),
                               ],
@@ -604,18 +576,6 @@ class doctorVSPage_element extends StatelessWidget {
                         ),
                       ),
                     ),
-                    // vs_horizontal_card(
-                    //   vs_name: 'Oxygen Saturation',
-                    //   vs_value: _doc_spo2,
-                    //   vs_unit: '%',
-                    //   vs_icon_path: 'assets/icons/spo2_icon.png',
-                    // ),
-                    // vs_horizontal_card(
-                    //   vs_name: 'Respiration Rate',
-                    //   vs_value: _doc_rr,
-                    //   vs_unit: 'rpm',
-                    //   vs_icon_path: 'assets/icons/rr_icon.png',
-                    // ),
                     vsLive_item_bp(
                       title: 'Blood Pressure',
                       valueToShow: '${bp_val[0]}/${bp_val[1]}',
@@ -625,75 +585,6 @@ class doctorVSPage_element extends StatelessWidget {
                       maxWidth: 400,
                       bp_MAP_value: bp_MAP.toString(),
                     ),
-                    // vs_horizontal_card(
-                    //   vs_name: 'Blood Pressure',
-                    //   vs_value: _doc_bp,
-                    //   vs_unit: 'mmHg',
-                    //   vs_icon_path: 'assets/icons/bp_icon.png',
-                    // ),
-//                     Center(
-//                       child: Container(
-//                         padding: EdgeInsets.only(
-//                             left: 0, top: 20, right: 0, bottom: 20),
-//                         width: double.infinity,
-//                         decoration: BoxDecoration(
-//                           color: AppColors.deccolor3.withOpacity(.1),
-//                           borderRadius: BorderRadius.circular(25),
-// //                      boxShadow: [
-// //                        BoxShadow(
-// //                          color: Colors.grey.withOpacity(0.05),
-// //                          spreadRadius: 1,
-// //                          blurRadius: 1,
-// //                          offset: Offset(1, 2), // changes position of shadow
-// //                        ),
-// //                      ],
-//                         ),
-//                         child: Row(
-//                           children: <Widget>[
-//                             Container(
-//                               alignment: Alignment.center,
-// //                          height: 40,
-//                               width: 60,
-//                               child: Image.asset('assets/icons/bp_icon.png'),
-//                             ),
-//                             SizedBox(width: 10),
-//                             Padding(
-//                               padding: const EdgeInsets.all(0.0),
-//                               child: Column(
-//                                 crossAxisAlignment: CrossAxisAlignment.start,
-//                                 children: <Widget>[
-//                                   Text(
-//                                     'Blood Pressure',
-//                                     style: TextStyle(
-//                                         color: AppColors.textColor,
-//                                         fontSize: 17),
-//                                   ),
-// //                              SizedBox(height: 4),
-//                                   Row(
-//                                     children: <Widget>[
-//                                       Text(
-//                                         '${_doc_bp}', //widget.doc_bp
-//                                         textAlign: TextAlign.start,
-//                                         style: TextStyle(
-//                                           fontWeight: FontWeight.bold,
-//                                           fontSize: 35,
-//                                         ),
-//                                       ),
-//                                       SizedBox(width: 3),
-//                                       Text(
-//                                         'mmHg',
-//                                         style: TextStyle(fontSize: 20),
-// //                                    textAlign: TextAlign.end,
-//                                       ),
-//                                     ],
-//                                   ),
-//                                 ],
-//                               ),
-//                             ),
-//                           ],
-//                         ),
-//                       ),
-//                     ),
                   ],
                 ),
               ),

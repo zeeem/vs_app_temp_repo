@@ -5,17 +5,18 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:vital_signs_ui_template/core/configVS.dart';
 import 'package:vital_signs_ui_template/core/consts.dart';
+import 'package:vital_signs_ui_template/elements/Shared.dart';
 import 'package:vital_signs_ui_template/elements/User.dart';
 import 'package:vital_signs_ui_template/elements/patient_tiles.dart';
 
 import 'docVSPage.dart';
 
-class DoctorPatientHistory extends StatefulWidget {
+class DoctorPatientSearch extends StatefulWidget {
   @override
-  _DoctorPatientHistoryState createState() => _DoctorPatientHistoryState();
+  _DoctorPatientSearchState createState() => _DoctorPatientSearchState();
 }
 
-class _DoctorPatientHistoryState extends State<DoctorPatientHistory> {
+class _DoctorPatientSearchState extends State<DoctorPatientSearch> {
   Future<List<User>> _getUsers() async {
     return doctorData.patientList;
   }
@@ -42,6 +43,7 @@ class _DoctorPatientHistoryState extends State<DoctorPatientHistory> {
   }
 
   var data = doctorData.patientList;
+
   @override
   Widget build(BuildContext context) {
     if (data == null) {
@@ -88,6 +90,12 @@ class _DoctorPatientHistoryState extends State<DoctorPatientHistory> {
                 itemSubmitted: (item) {
                   setState(() {
                     searchTextField.textField.controller.text = item.name;
+                    Shared.MakeToast("User selected: ${item.name}");
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                docVsVisualizerPage(clicked_user: item)));
                   });
                 },
                 itemBuilder: (context, item) {

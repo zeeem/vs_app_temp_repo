@@ -11,7 +11,7 @@ import 'package:vital_signs_ui_template/pages/LoginPage.dart';
 
 import 'TestApi.dart';
 import 'doctor_pages/AutoComplete/AutoCompleteDrugs.dart';
-import 'doctor_pages/HistoryPlots/StickyHeaderTest.dart';
+import 'doctor_pages/HistoryPlots/StickyHeaderPlots.dart';
 import 'doctor_pages/PatientInfo/PatientInfoScreen.dart';
 
 class UserSelection extends StatefulWidget {
@@ -164,7 +164,7 @@ class _UserSelectionState extends State<UserSelection> {
                 ),
                 FlatButton(
                   onPressed: () {
-                    navigateTo(context, VSplotExample());
+                    navigateTo(context, VSPlotWithStickyHeader());
                   },
                   child: Text(
                     '.',

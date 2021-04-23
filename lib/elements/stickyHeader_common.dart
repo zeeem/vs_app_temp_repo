@@ -68,6 +68,7 @@ class VSHeader extends StatelessWidget {
     Key key,
     this.index,
     this.title,
+    this.dateString,
     this.color = Colors.lightBlue,
     this.icon_location = "assets/icons/hr_icon.png",
   }) : super(key: key);
@@ -76,6 +77,7 @@ class VSHeader extends StatelessWidget {
   final int index;
   final Color color;
   final String icon_location;
+  final String dateString;
 
   @override
   Widget build(BuildContext context) {
@@ -96,17 +98,24 @@ class VSHeader extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 16.0),
       alignment: Alignment.centerLeft,
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          Container(
-            child: Image.asset(icon_location, width: 32, height: 32),
+          Row(
+            children: [
+              Container(
+                child: Image.asset(icon_location, width: 32, height: 32),
+              ),
+              SizedBox(
+                width: 15,
+              ),
+              Container(
+                child: Text(title,
+                    style:
+                        TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+              ),
+            ],
           ),
-          SizedBox(
-            width: 15,
-          ),
-          Container(
-            child: Text(title,
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-          )
+          Text('starts $dateString'),
         ],
       ),
     );

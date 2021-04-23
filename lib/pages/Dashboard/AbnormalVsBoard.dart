@@ -183,7 +183,7 @@ class _AbnormalVsBoardState extends State<AbnormalVsBoard> {
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
-            title: Text('Home'),
+            title: Text('Vitals'),
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.assessment),

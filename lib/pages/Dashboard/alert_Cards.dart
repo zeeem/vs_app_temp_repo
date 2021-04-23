@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:vital_signs_ui_template/pages/Dashboard/AbnormalVsBoard.dart';
 import 'package:vital_signs_ui_template/pages/doctor_pages/HistoryPlots/PlotDataProcessing.dart';
-import 'package:vital_signs_ui_template/pages/doctor_pages/HistoryPlots/StickyHeaderTest.dart';
+import 'package:vital_signs_ui_template/pages/doctor_pages/HistoryPlots/StickyHeaderPlots.dart';
 import 'package:vital_signs_ui_template/pages/doctor_pages/HistoryPlots/plot_details.dart';
 import 'package:vital_signs_ui_template/pages/doctor_pages/docVSPage.dart';
 
@@ -98,7 +98,7 @@ class alert_Card extends StatelessWidget {
                   // );
                   navigateTo(
                       context,
-                      VSplotExample(
+                      VSPlotWithStickyHeader(
                         clickedVS: "HR",
                       ));
                 },
@@ -112,7 +112,7 @@ class alert_Card extends StatelessWidget {
                 press: () {
                   navigateTo(
                       context,
-                      VSplotExample(
+                      VSPlotWithStickyHeader(
                         clickedVS: "TEMP",
                       ));
                 },
@@ -126,7 +126,7 @@ class alert_Card extends StatelessWidget {
                 press: () async {
                   navigateTo(
                       context,
-                      VSplotExample(
+                      VSPlotWithStickyHeader(
                         clickedVS: "SPO2",
                       ));
 
@@ -160,7 +160,7 @@ class alert_Card extends StatelessWidget {
                 press: () {
                   navigateTo(
                       context,
-                      VSplotExample(
+                      VSPlotWithStickyHeader(
                         clickedVS: "RR",
                       ));
                 },
@@ -172,7 +172,7 @@ class alert_Card extends StatelessWidget {
                 valueUnit: 'mmHg',
                 iconPath: 'assets/icons/bp_icon.png',
                 press: () {
-                  navigateTo(context, VSplotExample());
+                  navigateTo(context, VSPlotWithStickyHeader());
                 },
                 maxWidth: 235,
                 isAbnormal: bp_alert,

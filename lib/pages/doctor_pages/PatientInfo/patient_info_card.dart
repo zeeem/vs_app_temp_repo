@@ -6,6 +6,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:vital_signs_ui_template/elements/User.dart';
 import 'package:vital_signs_ui_template/pages/doctor_pages/AutoComplete/Disease.dart';
 import 'package:vital_signs_ui_template/pages/doctor_pages/AutoComplete/Drug.dart';
+import 'package:vital_signs_ui_template/elements/range_card.dart';
 
 import '../../../core/configVS.dart';
 import '../../../core/consts.dart';
@@ -381,47 +382,55 @@ class normalRangeTile extends StatelessWidget {
           runSpacing: 10,
           spacing: 15,
           children: <Widget>[
-            vs_item(
+            range_card(
               title: 'HR',
-              valueToShow:
-                  '${normalRangeMap["HR"][0]}/${normalRangeMap["HR"][1]}',
-              valueUnit: 'bpm',
+              minVal: '${normalRangeMap["HR"][0]}',
+              maxVal: '${normalRangeMap["HR"][1]}',
+              // valueToShow:
+              //     '${normalRangeMap["HR"][0]}/${normalRangeMap["HR"][1]}',
+              valueUnit: '',
               iconPath: 'assets/icons/hr_icon.png',
               press: clickHR,
               valueFontSize: fontSize,
             ),
-            vs_item(
+            range_card(
               title: 'TEMP',
-              valueToShow:
-                  '${normalRangeMap["TEMP"][0]}/${normalRangeMap["TEMP"][1]}',
-              valueUnit: '°C',
+              minVal: '${normalRangeMap["TEMP"][0]}',
+              maxVal: '${normalRangeMap["TEMP"][1]}',
+              // valueToShow:
+              //     '${normalRangeMap["TEMP"][0]}/${normalRangeMap["TEMP"][1]}',
+              valueUnit: '',
               iconPath: 'assets/icons/temp_icon2.png',
               press: clickTemp,
               valueFontSize: fontSize,
             ),
-            vs_item(
+            range_card(
               title: 'SPO2',
-              valueToShow:
-                  '${normalRangeMap["SPO2"][0]}/${normalRangeMap["SPO2"][1]}',
-              valueUnit: '%',
+              minVal: '${normalRangeMap["SPO2"][0]}',
+              maxVal: '${normalRangeMap["SPO2"][1]}',
+              // valueToShow:
+              //     '${normalRangeMap["SPO2"][0]}/${normalRangeMap["SPO2"][1]}',
+              valueUnit: '',
               iconPath: 'assets/icons/spo2_icon.png',
               press: clickSpo2,
               valueFontSize: fontSize,
             ),
-            vs_item(
+            range_card(
               title: 'RR',
-              valueToShow:
-                  '${normalRangeMap["RR"][0]}/${normalRangeMap["RR"][1]}',
-              valueUnit: 'rpm',
+              minVal: '${normalRangeMap["RR"][0]}',
+              maxVal: '${normalRangeMap["RR"][1]}',
+              // valueToShow:
+              //     '${normalRangeMap["RR"][0]}/${normalRangeMap["RR"][1]}',
+              valueUnit: '',
               iconPath: 'assets/icons/rr_icon.png',
               press: clickRR,
               valueFontSize: fontSize,
             ),
-            vs_item_bp(
+            range_card_bp(
               title: 'BP',
               valueToShow:
                   '${normalRangeMap["BP"][0]}/${normalRangeMap["BP"][1]}',
-              valueUnit: 'mmHg',
+              valueUnit: '',
               iconPath: 'assets/icons/bp_icon.png',
               press: clickBP,
               maxWidth: 235,
@@ -762,7 +771,7 @@ class _AutoCompleteDiagnosis extends State<AutoCompleteDiagnosis> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text("Diagnosis",
+              Text("Diagnoses",
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     color: AppColors.textColor,

@@ -64,6 +64,9 @@ class _base_plot_elementState extends State<base_plot_element> {
   DateTime now;
   DateTime selected_FromTime, selected_ToTime;
 
+  int len;
+  List temp_plot;
+
   _radioButtonhandler(String selectedScale) async {
     // DateTime timeFrom = DateTime.parse("2021-03-05 23:01:00.000Z");
     // DateTime timeTo;
@@ -138,7 +141,7 @@ class _base_plot_elementState extends State<base_plot_element> {
           } else {
             _showCustomRange = false;
           }
-          showTitleDialog();
+          showDateSelectionDialogBox();
         });
         return;
       default:
@@ -157,6 +160,7 @@ class _base_plot_elementState extends State<base_plot_element> {
         _vsScaleTimeType = selectedScale_toFetch;
         _showCustomRange = false;
         _isLoading = false;
+        limitChartValue();
       });
     });
   }
@@ -173,14 +177,40 @@ class _base_plot_elementState extends State<base_plot_element> {
     _plotData = widget.plotData;
 
     _selectedRadioButton = 'min';
-    _selectedRadioButton_rangeSelector = 'min';
+    _selectedRadioButton_rangeSelector = '1h';
     selectedPlotScale = 'min';
     selectedPlotScale_rangeSelector = 'min';
 
     _plotData =
         widget.plotData == null ? GLOBALS.FETCHED_RESPONSE : widget.plotData;
     _isLoading = false;
+
+    temp_plot = [];
+    // temp_plot = _plotData;
     super.initState();
+  }
+
+  limitChartValue() {
+    len = _plotData.length;
+    temp_plot = [];
+
+    //limiting each visualization to 60 points only
+    if (len > 61) {
+      int batch = len ~/ 60;
+
+      for (int i = 0; i < len; i++) {
+        if (i % batch == 0) {
+          temp_plot.add(_plotData[i]);
+        }
+        // _plotData = a;
+      }
+
+      print(temp_plot);
+      print(temp_plot.length);
+      setState(() {
+        _plotData = temp_plot;
+      });
+    }
   }
 
   @override
@@ -606,7 +636,7 @@ class _base_plot_elementState extends State<base_plot_element> {
           ),
         ),
         TextButton(
-          onPressed: showTitleDialog,
+          onPressed: showDateSelectionDialogBox,
           child: Text(
             'Custom',
             style: TextStyle(
@@ -680,7 +710,7 @@ class _base_plot_elementState extends State<base_plot_element> {
     //const Color(0xff02d39a),
   ];
 
-  Future showTitleDialog() {
+  Future showDateSelectionDialogBox() {
     return showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -714,10 +744,10 @@ class _base_plot_elementState extends State<base_plot_element> {
                           });
                           print('selected from---------> $selected_FromTime');
                         },
-                        validator: (val) {
-                          print(val);
-                          return null;
-                        },
+                        // validator: (val) {
+                        //   print(val);
+                        //   return null;
+                        // },
                         onSaved: (val) => print(val),
                       ),
                     ),
@@ -806,10 +836,11 @@ class _base_plot_elementState extends State<base_plot_element> {
               FlatButton(
                 onPressed: () async {
                   if (_keyDialogForm.currentState.validate()) {
-                    _plotData = await API_SERVICES.fetchVSData(
+                    var temp_plotData = await API_SERVICES.fetchVSData(
                         selected_FromTime, selected_ToTime, selectedPlotScale);
                     Timer(Duration(seconds: 1), () {
                       setState(() {
+                        _plotData = temp_plotData;
                         print(_plotData);
                         _showCustomRange = false;
                         _isLoading = false;
