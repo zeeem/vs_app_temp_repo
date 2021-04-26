@@ -10,9 +10,8 @@ import 'package:vital_signs_ui_template/pages/Dashboard/AbnormalVsBoard.dart';
 import 'package:vital_signs_ui_template/pages/LoginPage.dart';
 
 import 'TestApi.dart';
-import 'doctor_pages/AutoComplete/AutoCompleteDrugs.dart';
 import 'doctor_pages/HistoryPlots/StickyHeaderPlots.dart';
-import 'doctor_pages/PatientInfo/PatientInfoScreen.dart';
+import 'doctor_pages/HistoryPlots/StickyHeader_Test.dart';
 
 class UserSelection extends StatefulWidget {
   @override
@@ -137,8 +136,8 @@ class _UserSelectionState extends State<UserSelection> {
                   onPressed: () {
                     //navigateTo(context, VSLoadWidgetStlss());
                     //navigateTo(context, FilteredCharts());
-                    //navigateTo(context, Test());
-                    navigateTo(context, PatientInfoScreen());
+                    navigateTo(context, StickyHeader_Test());
+                    //navigateTo(context, PatientInfoScreen());
                   },
                   child: Text(
                     '.',

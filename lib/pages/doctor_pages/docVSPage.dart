@@ -14,7 +14,7 @@ import 'package:vital_signs_ui_template/pages/Dashboard/AbnormalVsBoard.dart';
 import '../AlertHomePage.dart';
 import 'HistoryPlots/StickyHeaderPlots.dart';
 import 'PatientInfo/PatientInfoScreen.dart';
-import 'doctor_parient_history.dart';
+import 'doctor_patient_history.dart';
 //import 'package:flutter_svg/flutter_svg.dart';
 
 class docVsVisualizerPage extends StatefulWidget {

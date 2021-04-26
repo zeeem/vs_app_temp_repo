@@ -12,7 +12,7 @@ import 'PlotDataProcessing.dart';
 import 'package:intl/intl.dart';
 
 import '../docPatientListPage.dart';
-import '../doctor_parient_history.dart';
+import '../doctor_patient_history.dart';
 import '../doctor_profile_page.dart';
 
 class HistoryPlotStickyElement extends StatefulWidget {

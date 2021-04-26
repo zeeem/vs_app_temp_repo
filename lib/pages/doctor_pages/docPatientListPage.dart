@@ -8,12 +8,10 @@ import 'package:vital_signs_ui_template/core/consts.dart';
 import 'package:vital_signs_ui_template/elements/CustomAppBar.dart';
 import 'package:vital_signs_ui_template/elements/User.dart';
 import 'package:vital_signs_ui_template/elements/patient_tiles.dart';
-import 'package:vital_signs_ui_template/pages/Dashboard/FilteredCharts/PatientInfo.dart';
 import 'package:vital_signs_ui_template/pages/doctor_pages/docVSPage.dart';
-import 'package:vital_signs_ui_template/pages/doctor_pages/doctor_parient_history.dart';
+import 'package:vital_signs_ui_template/pages/doctor_pages/doctor_patient_history.dart';
 
 import '../AlertHomePage.dart';
-import 'PatientInfo/PatientInfoScreen.dart';
 
 class docPatientListPage extends StatefulWidget {
   final selectedIndex;
