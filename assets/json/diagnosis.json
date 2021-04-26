@@ -6,7 +6,7 @@
     "DISEASE_NAME": "Amyotrophic Lateral Sclerosis (ALS)"
   },
   {
-    "DISEASE_NAME": "Arrhythmia of the Heart"
+    "DISEASE_NAME": "Arrhythmia"
   },
   {
     "DISEASE_NAME": "Arthritis"
@@ -15,7 +15,7 @@
     "DISEASE_NAME": "Atrial Fibrillation"
   },
   {
-    "DISEASE_NAME": "Autism"
+    "DISEASE_NAME": "Autistic spectrum disorder"
   },
   {
     "DISEASE_NAME": "Bedsores (pressure ulcers)"
@@ -30,16 +30,19 @@
     "DISEASE_NAME": "Cataracts"
   },
   {
-    "DISEASE_NAME": "Cholesterol"
+    "DISEASE_NAME": "DYSLIPIDEMIA"
   },
   {
-    "DISEASE_NAME": "Chronic Kidney Failure"
+    "DISEASE_NAME": "Chronic Renal Failure"
+  },
+  {
+    "DISEASE_NAME": "Irritable bowel Disease (IBD)"
   },
   {
     "DISEASE_NAME": "COPD, or Chronic Obstructive Pulmonary Disease"
   },
   {
-    "DISEASE_NAME": "Diabetes"
+    "DISEASE_NAME": "Diabetes Mellitus"
   },
   {
     "DISEASE_NAME": "Fibromyalgia"
@@ -48,10 +51,16 @@
     "DISEASE_NAME": "Glaucoma"
   },
   {
-    "DISEASE_NAME": "Heart Disease"
+    "DISEASE_NAME": "Coronary Heart Disease"
   },
   {
-    "DISEASE_NAME": "Hepatitis"
+    "DISEASE_NAME": "Hepatitis A"
+  },
+  {
+    "DISEASE_NAME": "Hepatitis B"
+  },
+  {
+    "DISEASE_NAME": "Hepatitis C"
   },
   {
     "DISEASE_NAME": "HIV/AIDS"
@@ -132,10 +141,10 @@
     "DISEASE_NAME": "Rheumatoid Arthritis"
   },
   {
-    "DISEASE_NAME": "Staph Infections"
+    "DISEASE_NAME": "Staphylococcus Infections"
   },
   {
-    "DISEASE_NAME": "Stroke"
+    "DISEASE_NAME": "Cerebrovascular accident (CVA)"
   },
   {
     "DISEASE_NAME": "Thrush, Oral"
@@ -159,12 +168,30 @@
     "DISEASE_NAME": "Wrinkles"
   },
   {
-    "DISEASE_NAME": "Prostrate condition"
+    "DISEASE_NAME": "Benign prostate hypertrophy"
+  },
+  {
+    "DISEASE_NAME": "Prostate Cancer"
   },
   {
     "DISEASE_NAME": "Depression"
   },
   {
-    "DISEASE_NAME": "Cardiovascular"
+    "DISEASE_NAME": "Stable Angina"
+  },
+  {
+    "DISEASE_NAME": "Fatty Liver"
+  },
+  {
+    "DISEASE_NAME": "ASTHMA"
+  },
+  {
+    "DISEASE_NAME": "Anxiety Disorder"
+  },
+  {
+    "DISEASE_NAME": "Unstable Angina"
+  },
+  {
+    "DISEASE_NAME": "Myocardial Infarct Or Heart Attack"
   }
 ]

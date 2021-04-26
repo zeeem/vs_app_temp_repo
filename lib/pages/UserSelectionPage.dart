@@ -103,7 +103,7 @@ class _UserSelectionState extends State<UserSelection> {
                     height: 20,
                   ),
                   Text(
-                    'MD,Nurse,..',
+                    'MD,Caregiver,..',
                     style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 20,

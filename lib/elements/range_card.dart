@@ -98,18 +98,6 @@ class range_card extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.end,
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: <Widget>[
-                      // Padding(
-                      //   padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-                      //   child: Text(
-                      //     '$valueToShow',
-                      //     maxLines: 1,
-                      //     overflow: TextOverflow.clip,
-                      //     style: TextStyle(
-                      //         fontSize: valueFontSize,
-                      //         fontWeight: FontWeight.bold,
-                      //         color: AppColors.mainColor),
-                      //   ),
-                      // ),
                       Padding(
                         padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
                         child: Column(
@@ -193,6 +181,7 @@ class range_card_bp extends StatelessWidget {
   final String bp_MAP_value;
   final double valueFontSize;
   final double maxHeight;
+  final List Dminmax_Sminmax;
   final Icon icon;
 
   const range_card_bp({
@@ -208,6 +197,7 @@ class range_card_bp extends StatelessWidget {
     this.valueFontSize = 36,
     this.maxHeight = 0,
     this.icon,
+    this.Dminmax_Sminmax = const [60, 90, 90, 130],
   }) : super(key: key);
 
   @override
@@ -264,64 +254,138 @@ class range_card_bp extends StatelessWidget {
                           overflow: TextOverflow.clip,
                         ),
                       ),
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.only(
-                              // bottom: 10,
-                              right: 10,
-                              left: 5),
-                          child: Text(
-                            bp_MAP_value.length > 0
-                                ? '($bp_MAP_value)'
-                                : bp_MAP_value,
-                            textAlign: TextAlign.end,
-                            maxLines: 1,
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: AppColors.mainColor,
-                                fontSize: 22),
-                          ),
-                        ),
-                      ),
                     ],
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(left: 5, bottom: 0),
+                  padding: const EdgeInsets.only(left: 5, bottom: 0, right: 5),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.end,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(0, 0, 5, 0),
-                        child: Text(
-                          '$valueToShow',
-                          maxLines: 1,
-                          overflow: TextOverflow.clip,
-                          style: TextStyle(
-                              fontSize: valueFontSize,
-                              fontWeight: FontWeight.bold,
-                              color: AppColors.mainColor),
-                        ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'dia-min',
+                                  maxLines: 1,
+                                  overflow: TextOverflow.clip,
+                                  style: TextStyle(
+                                      fontSize: valueFontSize / 2,
+                                      fontWeight: FontWeight.bold,
+                                      color: AppColors.textColor),
+                                ),
+                                Text(
+                                  '${Dminmax_Sminmax[0]}',
+                                  maxLines: 1,
+                                  overflow: TextOverflow.clip,
+                                  style: TextStyle(
+                                      fontSize: valueFontSize,
+                                      fontWeight: FontWeight.bold,
+                                      color: AppColors.mainColor),
+                                ),
+                              ],
+                            ),
+                          ),
+                          SizedBox(
+                            width: 5,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'dia-max',
+                                  maxLines: 1,
+                                  overflow: TextOverflow.clip,
+                                  style: TextStyle(
+                                      fontSize: valueFontSize / 2,
+                                      fontWeight: FontWeight.bold,
+                                      color: AppColors.textColor),
+                                ),
+                                Text(
+                                  '${Dminmax_Sminmax[1]}',
+                                  maxLines: 1,
+                                  overflow: TextOverflow.clip,
+                                  style: TextStyle(
+                                      fontSize: valueFontSize,
+                                      fontWeight: FontWeight.bold,
+                                      color: AppColors.mainColor),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
                       ),
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.only(
-                            bottom: 10,
-                            right: 10,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'sys-min',
+                                  maxLines: 1,
+                                  overflow: TextOverflow.clip,
+                                  style: TextStyle(
+                                      fontSize: valueFontSize / 2,
+                                      fontWeight: FontWeight.bold,
+                                      color: AppColors.textColor),
+                                ),
+                                Text(
+                                  '${Dminmax_Sminmax[2]}',
+                                  maxLines: 1,
+                                  overflow: TextOverflow.clip,
+                                  style: TextStyle(
+                                      fontSize: valueFontSize,
+                                      fontWeight: FontWeight.bold,
+                                      color: AppColors.mainColor),
+                                ),
+                              ],
+                            ),
                           ),
-                          child: Text(
-                            '$valueUnit',
-                            textAlign: TextAlign.end,
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: AppColors.mainColor,
-                                fontSize: 10),
+                          SizedBox(
+                            width: 5,
                           ),
-                        ),
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'sys-max',
+                                  maxLines: 1,
+                                  overflow: TextOverflow.clip,
+                                  style: TextStyle(
+                                      fontSize: valueFontSize / 2,
+                                      fontWeight: FontWeight.bold,
+                                      color: AppColors.textColor),
+                                ),
+                                Text(
+                                  '${Dminmax_Sminmax[3]}',
+                                  maxLines: 1,
+                                  overflow: TextOverflow.clip,
+                                  style: TextStyle(
+                                      fontSize: valueFontSize,
+                                      fontWeight: FontWeight.bold,
+                                      color: AppColors.mainColor),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
                       ),
                     ],
                   ),
-                )
+                ),
               ],
             ),
           ),

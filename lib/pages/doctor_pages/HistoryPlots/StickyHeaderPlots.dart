@@ -155,7 +155,7 @@ class __StickyHeaderGridSPO2State extends State<_StickyHeaderGridSPO2> {
             child: Container(
               padding: EdgeInsets.fromLTRB(0, 0, 0, 100),
               child: base_plot_element(
-                normalZone: [91, 100],
+                normalZone: [90, 100],
                 vsType: "spo2",
                 vsDefaultType: "mean",
                 vsScaleTimeType: "min",
@@ -263,7 +263,7 @@ class __StickyHeaderGridTempState extends State<_StickyHeaderGridTemp> {
             child: Container(
               padding: EdgeInsets.fromLTRB(0, 0, 0, 100),
               child: base_plot_element(
-                normalZone: [37, 37],
+                normalZone: [36, 38],
                 vsType: "temp",
                 vsDefaultType: "mean",
                 vsScaleTimeType: "min",
@@ -318,7 +318,7 @@ class __StickyHeaderGridRRState extends State<_StickyHeaderGridRR> {
             child: Container(
               padding: EdgeInsets.fromLTRB(0, 0, 0, 100),
               child: base_plot_element(
-                normalZone: [12, 16],
+                normalZone: [12, 25],
                 vsType: "rr",
                 vsDefaultType: "mean",
                 vsScaleTimeType: "min",

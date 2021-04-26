@@ -14,11 +14,13 @@ import '../../Dashboard/vs_item.dart';
 
 Map<String, List<dynamic>> normalRangeMap = {
   "HR": [60, 100],
-  "RR": [10, 17],
+  "RR": [12, 25],
   "SPO2": [90, 100],
-  "TEMP": [36, 37.5],
-  "BP": [80, 120]
+  "TEMP": [36, 38],
+  "BP": [60, 90, 90, 130] //diastolic min-max, systolic min-max
 };
+
+bool isTextInSearchField = false; //Fixme: need to make it work
 
 class Patient_info_card extends StatefulWidget {
   final double full_width;
@@ -133,7 +135,12 @@ class _Patient_info_cardState extends State<Patient_info_card> {
                 width: MediaQuery.of(context).size.width / 3,
                 child: ElevatedButton(
                     onPressed: () {
+                      if (rangeVSName == null && isTextInSearchField == true) {
+                        makeToast("Hit (+) to save the changes.");
+                        return;
+                      }
                       updateMedicationsAndDiagnosis();
+                      isTextInSearchField = false;
                       if (rangeVSName != null) {
                         updateNormalRanges(rangeVSName);
                       }
@@ -428,8 +435,7 @@ class normalRangeTile extends StatelessWidget {
             ),
             range_card_bp(
               title: 'BP',
-              valueToShow:
-                  '${normalRangeMap["BP"][0]}/${normalRangeMap["BP"][1]}',
+              Dminmax_Sminmax: normalRangeMap["BP"],
               valueUnit: '',
               iconPath: 'assets/icons/bp_icon.png',
               press: clickBP,
@@ -516,6 +522,13 @@ class _AutoCompleteDrugsState extends State<AutoCompleteDrugs> {
                           setState(() {
                             searchTextField.textField.controller.text =
                                 item.brandName;
+                            if (searchTextField
+                                    .textField.controller.text.length >
+                                1) {
+                              isTextInSearchField = true;
+                            } else {
+                              isTextInSearchField = false;
+                            }
                           });
                         },
                         itemBuilder: (context, item) {
@@ -530,7 +543,7 @@ class _AutoCompleteDrugsState extends State<AutoCompleteDrugs> {
                         onPressed: () async {
                           if (searchTextField.textField.controller.text.length <
                               1) {
-                            print("ERROR");
+                            makeToast("Diagnosis field can not be empty!");
                           } else {
                             String _drug = searchTextField
                                 .textField.controller.text
@@ -542,6 +555,7 @@ class _AutoCompleteDrugsState extends State<AutoCompleteDrugs> {
                               PATIENT_INFO.medicationList.add(_drug);
                             });
                             searchTextField.textField.controller.clear();
+                            isTextInSearchField = false;
                           }
                         },
                         child: Icon(
@@ -730,6 +744,14 @@ class _AutoCompleteDiagnosis extends State<AutoCompleteDiagnosis> {
                           setState(() {
                             searchTextField.textField.controller.text =
                                 item.diseaseName;
+                            // checking if the search bar has texts which not added
+                            if (searchTextField
+                                    .textField.controller.text.length >
+                                1) {
+                              isTextInSearchField = true;
+                            } else {
+                              isTextInSearchField = false;
+                            }
                           });
                         },
                         itemBuilder: (context, item) {
@@ -744,13 +766,14 @@ class _AutoCompleteDiagnosis extends State<AutoCompleteDiagnosis> {
                         onPressed: () async {
                           if (searchTextField.textField.controller.text.length <
                               1) {
-                            print("ERROR");
+                            makeToast("Diagnosis field can not be empty!");
                           } else {
                             setState(() {
                               PATIENT_INFO.diagnosisList.add(
                                   searchTextField.textField.controller.text);
                             });
                             searchTextField.textField.controller.clear();
+                            isTextInSearchField = false;
                           }
                         },
                         child: Icon(
@@ -816,17 +839,6 @@ class _AutoCompleteDiagnosis extends State<AutoCompleteDiagnosis> {
                     ),
                 ],
               ),
-              // Center(
-              //   child: ButtonWidget(
-              //     buttonTitle: 'Go back',
-              //     // buttonHeight: btn_height,
-              //     onTapFunction: () {
-              //       Navigator.pop(context, () {
-              //         setState(() {});
-              //       });
-              //     },
-              //   ),
-              // )
             ],
           ),
         ),
