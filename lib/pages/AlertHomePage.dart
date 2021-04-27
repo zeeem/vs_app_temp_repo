@@ -323,21 +323,29 @@ class contactPatientPage extends StatelessWidget {
                           },
                         ),
                         ButtonWidget(
-                          buttonTitle: 'Text Message',
-                          buttonHeight: btn_height,
-                          secondaryButtonStyle: 5,
-                          buttonIconData: Icons.sms,
-                          onTapFunction: () {
-                            _callNumber('7804445140');
-                          },
-                        ),
-                        ButtonWidget(
                           buttonTitle: 'Email',
                           buttonHeight: btn_height,
                           secondaryButtonStyle: 5,
                           buttonIconData: Icons.email,
                           onTapFunction: () {
                             _callNumber('7804445140');
+                          },
+                        ),
+                        ButtonWidget(
+                          buttonTitle: 'Emergency contacts',
+                          buttonHeight: btn_height,
+                          secondaryButtonStyle: 5,
+                          buttonIconData: Icons.sms,
+                          onTapFunction: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => AbnormalVsBoard(
+                                  //FIXME: need to fix the screen end point
+                                  selectedIndexToOpen: 2,
+                                ),
+                              ),
+                            );
                           },
                         ),
                         ButtonWidget(

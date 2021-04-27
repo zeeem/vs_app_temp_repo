@@ -96,6 +96,8 @@ class _Patient_info_cardState extends State<Patient_info_card> {
           .toString()
           .replaceAll("[", "")
           .replaceAll(']', "");
+
+      PATIENT_INFO.NORMAL_RANGES = normalRangeMap;
     });
 
     medications = medications.length > 27
@@ -511,17 +513,23 @@ class _AutoCompleteDrugsState extends State<AutoCompleteDrugs> {
                           hintStyle: TextStyle(color: Colors.black),
                         ),
                         itemFilter: (item, query) {
-                          return item.brandName
+                          return item.medQuery
                               .toLowerCase()
-                              .startsWith(query.toLowerCase());
+                              .contains(query.toLowerCase());
                         },
                         itemSorter: (a, b) {
-                          return a.brandName.compareTo(b.brandName);
+                          return a.medQuery.compareTo(b.medQuery);
                         },
                         itemSubmitted: (item) {
                           setState(() {
-                            searchTextField.textField.controller.text =
-                                item.brandName;
+                            if (item.brandName == "-") {
+                              searchTextField.textField.controller.text =
+                                  item.genericName;
+                            } else {
+                              searchTextField.textField.controller.text =
+                                  item.brandName;
+                            }
+
                             if (searchTextField
                                     .textField.controller.text.length >
                                 1) {
@@ -641,7 +649,7 @@ class _AutoCompleteDrugsState extends State<AutoCompleteDrugs> {
 
   getDrugs() async {
     String data = await DefaultAssetBundle.of(context)
-        .loadString("assets/json/drugs.json");
+        .loadString("assets/json/drugs_new.json");
     print(data);
 
     // final jsonResult = json.decode(data);

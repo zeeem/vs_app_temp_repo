@@ -155,7 +155,7 @@ class __StickyHeaderGridSPO2State extends State<_StickyHeaderGridSPO2> {
             child: Container(
               padding: EdgeInsets.fromLTRB(0, 0, 0, 100),
               child: base_plot_element(
-                normalZone: [90, 100],
+                normalZone: PATIENT_INFO.NORMAL_RANGES["SPO2"] ?? [90, 100],
                 vsType: "spo2",
                 vsDefaultType: "mean",
                 vsScaleTimeType: "min",
@@ -209,7 +209,7 @@ class __StickyHeaderGridHRState extends State<_StickyHeaderGridHR> {
             child: Container(
               padding: EdgeInsets.fromLTRB(0, 0, 0, 100),
               child: base_plot_element(
-                normalZone: [60, 100],
+                normalZone: PATIENT_INFO.NORMAL_RANGES["HR"] ?? [60, 100],
                 vsType: "hr",
                 vsDefaultType: "mean",
                 vsScaleTimeType: "min",
@@ -263,7 +263,7 @@ class __StickyHeaderGridTempState extends State<_StickyHeaderGridTemp> {
             child: Container(
               padding: EdgeInsets.fromLTRB(0, 0, 0, 100),
               child: base_plot_element(
-                normalZone: [36, 38],
+                normalZone: PATIENT_INFO.NORMAL_RANGES["TEMP"] ?? [36, 38],
                 vsType: "temp",
                 vsDefaultType: "mean",
                 vsScaleTimeType: "min",
@@ -318,7 +318,7 @@ class __StickyHeaderGridRRState extends State<_StickyHeaderGridRR> {
             child: Container(
               padding: EdgeInsets.fromLTRB(0, 0, 0, 100),
               child: base_plot_element(
-                normalZone: [12, 25],
+                normalZone: PATIENT_INFO.NORMAL_RANGES["RR"] ?? [12, 25],
                 vsType: "rr",
                 vsDefaultType: "mean",
                 vsScaleTimeType: "min",

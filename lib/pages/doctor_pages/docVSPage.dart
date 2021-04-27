@@ -206,6 +206,7 @@ class _docVsVisualizerPageState extends State<docVsVisualizerPage> {
                                         )
                                       : AbnormalVSList(
                                           //userName: _userNam,
+                                          clicked_user: _clickedUser,
                                           userName: '',
                                           historyData: historyData,
                                         ),
@@ -238,6 +239,7 @@ class _docVsVisualizerPageState extends State<docVsVisualizerPage> {
 
                         default:
                           return AbnormalVSList(
+                            clicked_user: _clickedUser,
                             userName: _userName,
                             historyData: historyData,
                           );
@@ -560,7 +562,7 @@ class doctorVSPage_element extends StatelessWidget {
                                 InfoCard(
                                   title: "RR",
                                   iconPath: 'assets/icons/rr_icon.png',
-                                  valueUnit: '°C',
+                                  valueUnit: 'rpm',
                                   valueToShow: '${_doc_rr}',
                                   press: () {
                                     navigateTo(
@@ -576,14 +578,34 @@ class doctorVSPage_element extends StatelessWidget {
                         ),
                       ),
                     ),
-                    vsLive_item_bp(
-                      title: 'Blood Pressure',
-                      valueToShow: '${bp_val[0]}/${bp_val[1]}',
-                      valueUnit: 'mmHg',
-                      iconPath: 'assets/icons/bp_icon.png',
-                      press: () {},
-                      maxWidth: 400,
-                      bp_MAP_value: bp_MAP.toString(),
+                    Wrap(
+                      children: [
+                        vsLive_item_bp(
+                          title: 'Blood Pressure',
+                          valueToShow: '${bp_val[0]}/${bp_val[1]}',
+                          valueUnit: 'mmHg',
+                          iconPath: 'assets/icons/bp_icon.png',
+                          press: () {},
+                          maxWidth: 240,
+                          bp_MAP_value: bp_MAP.toString(),
+                        ),
+                        SizedBox(
+                          width: 15,
+                        ),
+                        InfoIconCard(
+                          title: "FALL",
+                          iconPath: 'assets/icons/fall_icon_green.png',
+                          maxWidth: 95,
+                          miniIconPath: 'assets/icons/alert_borderline.png',
+                          press: () {
+                            // navigateTo(
+                            //     context,
+                            //     VSPlotWithStickyHeader(
+                            //       clickedVS: "RR",
+                            //     ));
+                          },
+                        ),
+                      ],
                     ),
                   ],
                 ),

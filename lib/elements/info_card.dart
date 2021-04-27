@@ -121,3 +121,96 @@ class InfoCard extends StatelessWidget {
     );
   }
 }
+
+class InfoIconCard extends StatelessWidget {
+  final String title;
+  final String iconPath;
+  final Function press;
+  final String miniIconPath;
+  final double maxWidth;
+  const InfoIconCard({
+    Key key,
+    this.title,
+    this.miniIconPath,
+    this.iconPath,
+    this.press,
+    this.maxWidth = 100,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        return GestureDetector(
+          onTap: press,
+          child: Container(
+            width: maxWidth == 0 ? constraints.maxWidth / 3 - 20 : maxWidth,
+            height: constraints.maxWidth / 2 - 50,
+
+            // Here constraints.maxWidth provide us the available width for the widget
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(10),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.4),
+                  spreadRadius: 1,
+                  blurRadius: 10,
+                  offset: Offset(1, 2), // changes position of shadow
+                ),
+              ],
+            ),
+            child: SingleChildScrollView(
+              child: Column(
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Row(
+                      children: <Widget>[
+                        Container(
+                          alignment: Alignment.topLeft,
+                          height: 20,
+//                            width: 30,
+                          child: Image.asset(miniIconPath),
+                        ),
+                        // wrapped within an expanded widget to allow for small density device
+
+                        SizedBox(width: 5),
+                        Flexible(
+                          child: Text(
+                            title,
+                            style: TextStyle(
+                              fontWeight: FontWeight.normal,
+                              fontSize: 16,
+                              color: AppColors.textColor,
+                            ),
+                            maxLines: 1,
+                            textAlign: TextAlign.left,
+                            overflow: TextOverflow.clip,
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 0, bottom: 0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Container(
+                          height: 70,
+//                            width: 30,
+                          child: Image.asset(iconPath),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+}

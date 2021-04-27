@@ -6,6 +6,7 @@ import 'package:vital_signs_ui_template/elements/CustomAppBar.dart';
 import 'package:vital_signs_ui_template/elements/User.dart';
 import 'package:vital_signs_ui_template/pages/doctor_pages/HistoryPlots/HistoryPlot_element.dart';
 import 'package:vital_signs_ui_template/pages/doctor_pages/HistoryPlots/HistoryPlot_sticky_element.dart';
+import 'package:vital_signs_ui_template/pages/doctor_pages/PatientInfo/PatientInfoScreen.dart';
 import 'package:vital_signs_ui_template/pages/doctor_pages/docVSPage.dart';
 
 import '../AlertHomePage.dart';
@@ -205,8 +206,10 @@ class _AbnormalVsBoardState extends State<AbnormalVsBoard> {
 class AbnormalVSList extends StatefulWidget {
   final String userName;
   final List historyData;
+  final User clicked_user;
 
-  const AbnormalVSList({Key key, this.userName, this.historyData})
+  const AbnormalVSList(
+      {Key key, this.userName, this.historyData, this.clicked_user})
       : super(key: key);
 
   @override
@@ -223,8 +226,10 @@ class _AbnormalVSListState extends State<AbnormalVSList> {
   @override
   void initState() {
     // TODO: implement initState
-    userName = widget.userName;
+
+    userName = widget.clicked_user.name ?? widget.userName;
     historyData = widget.historyData;
+
     super.initState();
   }
 
@@ -297,7 +302,41 @@ class _AbnormalVSListState extends State<AbnormalVSList> {
                           ],
                         ),
                       )
-                    : Container(),
+                    : Container(
+                        padding: EdgeInsets.fromLTRB(22, 10, 0, 0),
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => PatientInfo_Element(
+                                  clickedUser: widget.clicked_user,
+                                  patient_gender: "Male",
+                                  patient_DOB: new DateTime(1980, 12, 15),
+                                ),
+                              ),
+                            );
+                          },
+                          child: userName.length > 0
+                              ? Wrap(
+                                  children: [
+                                    Text(
+                                      userName ?? "",
+                                      style: TextStyle(
+                                          fontSize: 14.0,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.black.withOpacity(.7)),
+                                    ),
+                                    Icon(
+                                      Icons.info_outline,
+                                      color: AppColors.deccolor1,
+                                      size: 20,
+                                    ),
+                                  ],
+                                )
+                              : Container(),
+                        ),
+                      ),
                 Container(
                   //padding: EdgeInsets.fromLTRB(0, 0, 20, 0),
                   child: FlatButton(

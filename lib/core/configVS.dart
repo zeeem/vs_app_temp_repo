@@ -89,10 +89,5 @@ class PATIENT_INFO {
     'High BP',
     'Heart Disease',
   ];
-  static List normalRangeHR = []; // [60,100]
-  static List normalRangeRR = []; // [60,100]
-  static List normalRangeTemp = []; // [60,100]
-  static List normalRangeSpo2 = []; // [60,100]
-  static List normalRangeBP = []; // [60,100]
-
+  static Map<String, List<dynamic>> NORMAL_RANGES;
 }

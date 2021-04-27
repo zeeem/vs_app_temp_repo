@@ -231,52 +231,52 @@ class _base_plot_elementState extends State<base_plot_element> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              SizedBox(
-                height: 20,
-                child: FlatButton(
-                    onPressed: () {
-                      if (isRangeOnSpecificHour) {
-                        setState(() {
-                          isRangeOnSpecificHour = false;
-                        });
-                      } else {
-                        setState(() {
-                          isRangeOnSpecificHour = true;
-                        });
-                      }
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.fromLTRB(0, 0, 20, 0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Text(
-                            "---- ",
-                            style: TextStyle(
-                                color: isRangeOnSpecificHour
-                                    ? Colors.redAccent
-                                    : Colors.grey,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 20),
-                          ),
-                          Text(
-                            "Normal zone",
-                            style: TextStyle(
-                              color: AppColors.textColor,
-                              fontSize: 12,
-                            ),
-                          ),
-                          Icon(
-                            Icons.fiber_manual_record_rounded,
-                            color: isRangeOnSpecificHour
-                                ? Colors.green
-                                : Colors.grey,
-                            size: 10,
-                          ),
-                        ],
-                      ),
-                    )),
-              ),
+              // SizedBox(
+              //   height: 20,
+              //   child: FlatButton(
+              //       onPressed: () {
+              //         if (isRangeOnSpecificHour) {
+              //           setState(() {
+              //             isRangeOnSpecificHour = false;
+              //           });
+              //         } else {
+              //           setState(() {
+              //             isRangeOnSpecificHour = true;
+              //           });
+              //         }
+              //       },
+              //       child: Padding(
+              //         padding: const EdgeInsets.fromLTRB(0, 0, 20, 0),
+              //         child: Row(
+              //           mainAxisAlignment: MainAxisAlignment.end,
+              //           children: [
+              //             Text(
+              //               "---- ",
+              //               style: TextStyle(
+              //                   color: isRangeOnSpecificHour
+              //                       ? Colors.redAccent
+              //                       : Colors.grey,
+              //                   fontWeight: FontWeight.bold,
+              //                   fontSize: 20),
+              //             ),
+              //             Text(
+              //               "Normal zone",
+              //               style: TextStyle(
+              //                 color: AppColors.textColor,
+              //                 fontSize: 12,
+              //               ),
+              //             ),
+              //             Icon(
+              //               Icons.fiber_manual_record_rounded,
+              //               color: isRangeOnSpecificHour
+              //                   ? Colors.green
+              //                   : Colors.grey,
+              //               size: 10,
+              //             ),
+              //           ],
+              //         ),
+              //       )),
+              // ),
               SizedBox(
                 height: 20,
                 child: FlatButton(
@@ -284,10 +284,12 @@ class _base_plot_elementState extends State<base_plot_element> {
                       if (isEmergencyDotOn) {
                         setState(() {
                           isEmergencyDotOn = false;
+                          isRangeOnSpecificHour = false;
                         });
                       } else {
                         setState(() {
                           isEmergencyDotOn = true;
+                          isRangeOnSpecificHour = true;
                         });
                       }
                     },
@@ -423,13 +425,21 @@ class _base_plot_elementState extends State<base_plot_element> {
                               ? ExtraLinesData(horizontalLines: [
                                   HorizontalLine(
                                     //y: isSwitched? 75:0,
-                                    y: _normalZone.first * 1.0,
+                                    y: double.tryParse(
+                                            _normalZone.first.toString()) ??
+                                        double.tryParse(
+                                                _normalZone.first.toString()) *
+                                            1.0,
                                     color: Colors.redAccent,
                                     strokeWidth: 1,
                                   ),
                                   HorizontalLine(
                                     //y: isSwitched? 75:0,
-                                    y: _normalZone.last * 1.0,
+                                    y: double.tryParse(
+                                            _normalZone.last.toString()) ??
+                                        double.tryParse(
+                                                _normalZone.last.toString()) *
+                                            1.0,
                                     color: Colors.redAccent,
                                     strokeWidth: 1,
                                   ),
@@ -490,8 +500,13 @@ class _base_plot_elementState extends State<base_plot_element> {
                                   ? FlDotData(
                                       show: true,
                                       checkToShowDot: (spot, belowBarData) {
-                                        return spot.y < _normalZone.first ||
-                                            spot.y > _normalZone.last;
+                                        return spot.y <
+                                                double.tryParse(_normalZone
+                                                    .first
+                                                    .toString()) ||
+                                            spot.y >
+                                                double.tryParse(_normalZone.last
+                                                    .toString());
                                       },
                                       getDotPainter: (spot, percent, barData,
                                               index) =>

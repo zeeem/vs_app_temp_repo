@@ -19,7 +19,7 @@ class UserSelection extends StatefulWidget {
 }
 
 class _UserSelectionState extends State<UserSelection> {
-  String username = 'testuser1';
+  String username = 'becker';
   String password = 'Apple';
 
   @override
