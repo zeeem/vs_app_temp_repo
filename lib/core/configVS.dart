@@ -89,5 +89,11 @@ class PATIENT_INFO {
     'High BP',
     'Heart Disease',
   ];
-  static Map<String, List<dynamic>> NORMAL_RANGES;
+  static Map<String, List<dynamic>> NORMAL_RANGES = {
+    "HR": [60, 100],
+    "RR": [12, 25],
+    "SPO2": [90, 100],
+    "TEMP": [36, 38],
+    "BP": [60, 90, 90, 130] //diastolic min-max, systolic min-max
+  };
 }

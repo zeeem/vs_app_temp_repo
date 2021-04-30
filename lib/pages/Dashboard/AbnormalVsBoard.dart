@@ -227,7 +227,12 @@ class _AbnormalVSListState extends State<AbnormalVSList> {
   void initState() {
     // TODO: implement initState
 
-    userName = widget.clicked_user.name ?? widget.userName;
+    try {
+      userName = widget.clicked_user.name;
+    } catch (e) {
+      userName = widget.userName;
+    }
+
     historyData = widget.historyData;
 
     super.initState();
