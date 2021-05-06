@@ -6,6 +6,7 @@ import 'package:vital_signs_ui_template/core/configVS.dart';
 import 'Processing/AlertSystem/AlertManagerPointData.dart';
 import 'Processing/NetworkGateway/networkManager.dart';
 import 'pages/UserSelectionPage.dart';
+import 'package:dcdg/dcdg.dart';
 
 void main() {
   runApp(MyApp());
