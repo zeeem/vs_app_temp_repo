@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:soundpool/soundpool.dart';
-import 'package:vital_signs_ui_template/Processing/AlertSystem/AlertManagerPointData.dart';
-import 'package:vital_signs_ui_template/core/configVS.dart';
-import 'package:vital_signs_ui_template/elements/ButtonWidget.dart';
-import 'package:vital_signs_ui_template/elements/CustomAppBar.dart';
-import 'package:vital_signs_ui_template/pages/Dashboard/AbnormalVsBoard.dart';
+import 'package:vital_signs_app/Processing/AlertSystem/AlertManagerPointData.dart';
+import 'package:vital_signs_app/core/configVS.dart';
+import 'package:vital_signs_app/elements/ButtonWidget.dart';
+import 'package:vital_signs_app/elements/CustomAppBar.dart';
+import 'package:vital_signs_app/pages/Dashboard/AbnormalVsBoard.dart';
 
 import 'doctor_pages/docPatientListPage.dart';
 

@@ -4,7 +4,7 @@ import 'package:date_time_picker/date_time_picker.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:vital_signs_ui_template/elements/API_services.dart';
+import 'package:vital_signs_app/elements/API_services.dart';
 
 import '../core/configVS.dart';
 import '../core/consts.dart';

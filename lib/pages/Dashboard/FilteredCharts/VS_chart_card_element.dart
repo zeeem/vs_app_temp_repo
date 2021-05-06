@@ -1,7 +1,7 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:vital_signs_ui_template/core/configVS.dart';
+import 'package:vital_signs_app/core/configVS.dart';
 
 class chart_card_element extends StatefulWidget {
   final String vsType;

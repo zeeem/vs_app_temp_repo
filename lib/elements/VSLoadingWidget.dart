@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:vital_signs_ui_template/core/consts.dart';
-import 'package:vital_signs_ui_template/elements/CustomAppBar.dart';
-import 'package:vital_signs_ui_template/elements/info_card.dart';
+import 'package:vital_signs_app/core/consts.dart';
+import 'package:vital_signs_app/elements/CustomAppBar.dart';
+import 'package:vital_signs_app/elements/info_card.dart';
 //import 'package:flutter_svg/flutter_svg.dart';
 
 String final_HR_to_show = '-';

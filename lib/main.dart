@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:package_info/package_info.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:vital_signs_ui_template/core/configVS.dart';
+import 'package:vital_signs_app/core/configVS.dart';
 
 import 'Processing/AlertSystem/AlertManagerPointData.dart';
 import 'Processing/NetworkGateway/networkManager.dart';

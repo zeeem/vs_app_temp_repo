@@ -3,13 +3,13 @@ import 'dart:collection';
 import 'dart:convert' show utf8;
 import 'dart:math';
 
-import 'package:vital_signs_ui_template/core/configVS.dart';
+import 'package:vital_signs_app/core/configVS.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_blue/flutter_blue.dart';
-import 'package:vital_signs_ui_template/Processing/widgets.dart';
-import 'package:vital_signs_ui_template/core/consts.dart';
-import 'package:vital_signs_ui_template/elements/info_card.dart';
+import 'package:vital_signs_app/Processing/widgets.dart';
+import 'package:vital_signs_app/core/consts.dart';
+import 'package:vital_signs_app/elements/info_card.dart';
 //import 'my_flutter_icons.dart';
 import 'DataProcessing.dart';
 import 'package:scidart/numdart.dart';

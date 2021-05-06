@@ -3,10 +3,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/painting.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:vital_signs_ui_template/core/configVS.dart';
+import 'package:vital_signs_app/core/configVS.dart';
 import 'package:flutter/services.dart';
-import 'package:vital_signs_ui_template/core/consts.dart';
-import 'package:vital_signs_ui_template/elements/CustomAppBar.dart';
+import 'package:vital_signs_app/core/consts.dart';
+import 'package:vital_signs_app/elements/CustomAppBar.dart';
 
 class ProfilePage extends StatefulWidget {
   @override

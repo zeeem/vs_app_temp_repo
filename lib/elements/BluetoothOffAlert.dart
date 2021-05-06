@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_blue/flutter_blue.dart';
 import 'package:system_setting/system_setting.dart';
-import 'package:vital_signs_ui_template/elements/ButtonWidget.dart';
+import 'package:vital_signs_app/elements/ButtonWidget.dart';
 
 import 'CustomAppBar.dart';
 

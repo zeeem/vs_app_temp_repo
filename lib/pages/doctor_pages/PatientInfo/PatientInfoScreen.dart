@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:vital_signs_ui_template/elements/User.dart';
-import 'package:vital_signs_ui_template/pages/doctor_pages/PatientInfo/patient_info_card.dart';
+import 'package:vital_signs_app/elements/User.dart';
+import 'package:vital_signs_app/pages/doctor_pages/PatientInfo/patient_info_card.dart';
 
 import '../../../elements/CustomAppBar.dart';
 

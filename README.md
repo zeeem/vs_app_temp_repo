@@ -1,8 +1,8 @@
-# vital_signs_ui_template
+# vital_signs_app
 
 UI added, VS visualization page, BT connectivity
 
-## change the project folder name to `vital_signs_ui_template`
+## change the project folder name to `vital_signs_app`
 
 For the static variables look into `core/configVS.dart`. 
 I was using the local_config part for storing the alert range. You can use json file to do this as david asked.

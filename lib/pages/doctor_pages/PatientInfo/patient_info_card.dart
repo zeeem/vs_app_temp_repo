@@ -3,10 +3,10 @@ import 'dart:convert';
 import 'package:autocomplete_textfield/autocomplete_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:vital_signs_ui_template/elements/User.dart';
-import 'package:vital_signs_ui_template/pages/doctor_pages/AutoComplete/Disease.dart';
-import 'package:vital_signs_ui_template/pages/doctor_pages/AutoComplete/Drug.dart';
-import 'package:vital_signs_ui_template/elements/range_card.dart';
+import 'package:vital_signs_app/elements/User.dart';
+import 'package:vital_signs_app/pages/doctor_pages/AutoComplete/Disease.dart';
+import 'package:vital_signs_app/pages/doctor_pages/AutoComplete/Drug.dart';
+import 'package:vital_signs_app/elements/range_card.dart';
 
 import '../../../core/configVS.dart';
 import '../../../core/consts.dart';

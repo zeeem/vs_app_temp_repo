@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 //import 'package:flutter_blue/flutter_blue.dart';
 //import 'package:fluttertoast/fluttertoast.dart';
 //import 'package:rflutter_alert/rflutter_alert.dart';
-//import 'package:vital_signs_ui_template/elements/BluetoothOffAlert.dart';
+//import 'package:vital_signs_app/elements/BluetoothOffAlert.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:vital_signs_ui_template/Processing/NetworkGateway/networkManager.dart';
-import 'package:vital_signs_ui_template/core/configVS.dart';
-import 'package:vital_signs_ui_template/elements/ButtonWidget.dart';
-import 'package:vital_signs_ui_template/elements/CustomAppBar.dart';
+import 'package:vital_signs_app/Processing/NetworkGateway/networkManager.dart';
+import 'package:vital_signs_app/core/configVS.dart';
+import 'package:vital_signs_app/elements/ButtonWidget.dart';
+import 'package:vital_signs_app/elements/CustomAppBar.dart';
 
-//import 'package:vital_signs_ui_template/pages/VS_Viz_New.dart';
+//import 'package:vital_signs_app/pages/VS_Viz_New.dart';
 
 import 'configuration_page8.dart';
 

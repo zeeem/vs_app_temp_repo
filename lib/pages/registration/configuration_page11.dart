@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:vital_signs_ui_template/elements/ButtonWidget.dart';
-import 'package:vital_signs_ui_template/elements/CustomAppBar.dart';
-import 'package:vital_signs_ui_template/pages/connectDevice.dart';
+import 'package:vital_signs_app/elements/ButtonWidget.dart';
+import 'package:vital_signs_app/elements/CustomAppBar.dart';
+import 'package:vital_signs_app/pages/connectDevice.dart';
 
 class ConfigurationPage11 extends StatefulWidget {
   @override

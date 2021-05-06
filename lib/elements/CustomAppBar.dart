@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:vital_signs_ui_template/core/consts.dart';
-import 'package:vital_signs_ui_template/pages/registration/profile_page.dart';
+import 'package:vital_signs_app/core/consts.dart';
+import 'package:vital_signs_app/pages/registration/profile_page.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final double height;

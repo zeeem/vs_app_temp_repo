@@ -3,10 +3,10 @@ import 'dart:convert';
 import 'package:autocomplete_textfield/autocomplete_textfield.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:vital_signs_ui_template/core/configVS.dart';
-import 'package:vital_signs_ui_template/core/consts.dart';
-import 'package:vital_signs_ui_template/elements/ButtonWidget.dart';
-import 'package:vital_signs_ui_template/elements/CustomAppBar.dart';
+import 'package:vital_signs_app/core/configVS.dart';
+import 'package:vital_signs_app/core/consts.dart';
+import 'package:vital_signs_app/elements/ButtonWidget.dart';
+import 'package:vital_signs_app/elements/CustomAppBar.dart';
 
 import '../../../core/configVS.dart';
 import 'Drug.dart';

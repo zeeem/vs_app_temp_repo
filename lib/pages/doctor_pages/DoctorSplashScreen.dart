@@ -1,8 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:vital_signs_ui_template/elements/CustomAppBar.dart';
-import 'package:vital_signs_ui_template/elements/TryAgainTemplate.dart';
+import 'package:vital_signs_app/elements/CustomAppBar.dart';
+import 'package:vital_signs_app/elements/TryAgainTemplate.dart';
 
 import 'docPatientListPage.dart';
 

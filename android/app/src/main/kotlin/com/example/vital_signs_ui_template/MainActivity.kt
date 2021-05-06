@@ -1,4 +1,4 @@
-package com.example.vital_signs_ui_template
+package com.example.vital_signs_app
 
 import io.flutter.embedding.android.FlutterActivity
 

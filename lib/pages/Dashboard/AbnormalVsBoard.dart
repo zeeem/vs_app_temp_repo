@@ -1,13 +1,11 @@
 import 'package:csv/csv.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:vital_signs_ui_template/core/consts.dart';
-import 'package:vital_signs_ui_template/elements/CustomAppBar.dart';
-import 'package:vital_signs_ui_template/elements/User.dart';
-import 'package:vital_signs_ui_template/pages/doctor_pages/HistoryPlots/HistoryPlot_element.dart';
-import 'package:vital_signs_ui_template/pages/doctor_pages/HistoryPlots/HistoryPlot_sticky_element.dart';
-import 'package:vital_signs_ui_template/pages/doctor_pages/PatientInfo/PatientInfoScreen.dart';
-import 'package:vital_signs_ui_template/pages/doctor_pages/docVSPage.dart';
+import 'package:vital_signs_app/core/consts.dart';
+import 'package:vital_signs_app/elements/CustomAppBar.dart';
+import 'package:vital_signs_app/elements/User.dart';
+import 'package:vital_signs_app/pages/doctor_pages/PatientInfo/PatientInfoScreen.dart';
+import 'package:vital_signs_app/pages/doctor_pages/VSPage_doc.dart';
 
 import '../AlertHomePage.dart';
 import 'alert_Cards.dart';
@@ -51,24 +49,24 @@ class _AbnormalVsBoardState extends State<AbnormalVsBoard> {
     });
   }
 
-  loadAsset() async {
-    final myData = await rootBundle.loadString("assets/csv/dummy2.csv");
-
-    //print(myData);
-    List<dynamic> csvTable = CsvToListConverter().convert(myData);
-    print(csvTable[0].last);
-
-    historyData = csvTable;
-
-    tempStaticVals.historyplot = historyData;
-    // print(historyData);
-  }
+  // loadAsset() async {
+  //   final myData = await rootBundle.loadString("assets/csv/dummy2.csv");
+  //
+  //   //print(myData);
+  //   List<dynamic> csvTable = CsvToListConverter().convert(myData);
+  //   print(csvTable[0].last);
+  //
+  //   historyData = csvTable;
+  //
+  //   tempStaticVals.historyplot = historyData;
+  //   // print(historyData);
+  // }
 
   @override
   void initState() {
     if (tempStaticVals.historyplot == null) {
       // load assets
-      loadAsset();
+      // loadAsset();
     } else {
       historyData = tempStaticVals.historyplot;
     }
@@ -130,34 +128,12 @@ class _AbnormalVsBoardState extends State<AbnormalVsBoard> {
                       return doctorVSPage_element();
 
                     case 1:
-                      if (_openedHistoryVSType != null) {
-                        return HistoryPlotElement(
-                          data: historyData,
-                          expandedTitle: _openedHistoryVSType,
-                        );
-                      } else if (_openedHistoryVSType == 'test') {
-                        return HistoryPlotStickyElement(
-                          data: historyData,
-                          expandedTitle: _openedHistoryVSType,
-                        );
-                      } else {
-                        return AbnormalVSList(
-                          userName: _userName,
-                          historyData: historyData,
-                        );
-                      }
+                      return AbnormalVSList(
+                        userName: _userName,
+                        historyData: historyData,
+                      );
                       break;
 
-                    // Navigator.push(
-                    //   context,
-                    //   MaterialPageRoute(
-                    //     builder: (context) => HistoryPlot(
-                    //       data: historyData,
-                    //       expandedTitle: 'hr',
-                    //     ),
-                    //   ),
-                    // );
-                    // break;
                     case 2:
                       return Container(
                         height: MediaQuery.of(context).size.height,

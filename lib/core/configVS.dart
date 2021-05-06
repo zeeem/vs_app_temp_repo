@@ -1,7 +1,7 @@
-import 'package:vital_signs_ui_template/Processing/NetworkGateway/networkManager.dart';
-import 'package:vital_signs_ui_template/elements/User.dart';
-import 'package:vital_signs_ui_template/pages/doctor_pages/AutoComplete/Disease.dart';
-import 'package:vital_signs_ui_template/pages/doctor_pages/AutoComplete/Drug.dart';
+import 'package:vital_signs_app/Processing/NetworkGateway/networkManager.dart';
+import 'package:vital_signs_app/elements/User.dart';
+import 'package:vital_signs_app/pages/doctor_pages/AutoComplete/Disease.dart';
+import 'package:vital_signs_app/pages/doctor_pages/AutoComplete/Drug.dart';
 
 class localConfigVS {
   //local warning boolean

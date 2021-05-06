@@ -3,13 +3,13 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:vital_signs_ui_template/core/configVS.dart';
-import 'package:vital_signs_ui_template/core/consts.dart';
-import 'package:vital_signs_ui_template/elements/CustomAppBar.dart';
-import 'package:vital_signs_ui_template/elements/User.dart';
-import 'package:vital_signs_ui_template/elements/patient_tiles.dart';
-import 'package:vital_signs_ui_template/pages/doctor_pages/docVSPage.dart';
-import 'package:vital_signs_ui_template/pages/doctor_pages/doctor_patient_history.dart';
+import 'package:vital_signs_app/core/configVS.dart';
+import 'package:vital_signs_app/core/consts.dart';
+import 'package:vital_signs_app/elements/CustomAppBar.dart';
+import 'package:vital_signs_app/elements/User.dart';
+import 'package:vital_signs_app/elements/patient_tiles.dart';
+import 'package:vital_signs_app/pages/doctor_pages/VSPage_doc.dart';
+import 'package:vital_signs_app/pages/doctor_pages/doctor_patient_history.dart';
 
 import '../AlertHomePage.dart';
 

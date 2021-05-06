@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sticky_header/flutter_sticky_header.dart';
-import 'package:vital_signs_ui_template/core/consts.dart';
+import 'package:vital_signs_app/core/consts.dart';
 
 import 'CustomAppBar.dart';
 

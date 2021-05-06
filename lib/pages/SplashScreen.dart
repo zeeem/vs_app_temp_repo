@@ -1,12 +1,11 @@
 import 'dart:async';
 import 'package:loading/indicator/ball_spin_fade_loader_indicator.dart';
 import 'package:loading/loading.dart';
-import 'package:vital_signs_ui_template/core/configVS.dart';
-import 'package:vital_signs_ui_template/core/consts.dart';
+import 'package:vital_signs_app/core/configVS.dart';
+import 'package:vital_signs_app/core/consts.dart';
 import 'package:flutter/material.dart';
-import 'package:vital_signs_ui_template/pages/Backup_old/intro_page.dart';
-import 'package:vital_signs_ui_template/pages/registration/condition_page.dart';
-import 'package:vital_signs_ui_template/pages/registration/configuration_page8.dart';
+import 'package:vital_signs_app/pages/registration/condition_page.dart';
+import 'package:vital_signs_app/pages/registration/configuration_page8.dart';
 
 import 'LoginPage.dart';
 import 'UserSelectionPage.dart';

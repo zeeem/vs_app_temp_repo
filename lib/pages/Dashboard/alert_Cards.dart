@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:vital_signs_ui_template/pages/Dashboard/AbnormalVsBoard.dart';
-import 'package:vital_signs_ui_template/pages/doctor_pages/HistoryPlots/PlotDataProcessing.dart';
-import 'package:vital_signs_ui_template/pages/doctor_pages/HistoryPlots/StickyHeaderPlots.dart';
-import 'package:vital_signs_ui_template/pages/doctor_pages/HistoryPlots/plot_details.dart';
-import 'package:vital_signs_ui_template/pages/doctor_pages/docVSPage.dart';
+import 'package:vital_signs_app/pages/Dashboard/AbnormalVsBoard.dart';
+import 'package:vital_signs_app/pages/doctor_pages/HistoryPlots/PlotDataProcessing.dart';
+import 'package:vital_signs_app/pages/doctor_pages/HistoryPlots/StickyHeaderPlots.dart';
+import 'package:vital_signs_app/pages/doctor_pages/VSPage_doc.dart';
 
 import 'vs_item.dart';
 

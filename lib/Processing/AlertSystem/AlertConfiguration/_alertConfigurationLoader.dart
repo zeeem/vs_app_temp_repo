@@ -3,13 +3,13 @@
 /// @date: 2020-10-22 13:21
 /// @lastUpdate: 2020-10-23 13:50
 
-import 'package:vital_signs_ui_template/Processing/NetworkGateway/networkManager.dart'
+import 'package:vital_signs_app/Processing/NetworkGateway/networkManager.dart'
     show networkManager;
 import 'alertConfiguration.dart';
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:vital_signs_ui_template/Processing/fileManager.dart';
+import 'package:vital_signs_app/Processing/fileManager.dart';
 
 class AlertConfigurationLoader {
   String _fileName = "config.json";

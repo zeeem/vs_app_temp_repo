@@ -2,11 +2,11 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:vital_signs_ui_template/Processing/NetworkGateway/networkManager.dart';
-import 'package:vital_signs_ui_template/core/configVS.dart';
-import 'package:vital_signs_ui_template/core/consts.dart';
-import 'package:vital_signs_ui_template/elements/ButtonWidget.dart';
-import 'package:vital_signs_ui_template/elements/CustomAppBar.dart';
+import 'package:vital_signs_app/Processing/NetworkGateway/networkManager.dart';
+import 'package:vital_signs_app/core/configVS.dart';
+import 'package:vital_signs_app/core/consts.dart';
+import 'package:vital_signs_app/elements/ButtonWidget.dart';
+import 'package:vital_signs_app/elements/CustomAppBar.dart';
 
 import 'doctor_pages/DoctorSplashScreen.dart';
 import 'registration/condition_page.dart';

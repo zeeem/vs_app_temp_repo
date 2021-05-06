@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_blue/flutter_blue.dart';
-import 'package:vital_signs_ui_template/core/configVS.dart';
-import 'package:vital_signs_ui_template/core/consts.dart';
-import 'package:vital_signs_ui_template/pages/VS_Viz_New.dart';
+import 'package:vital_signs_app/core/configVS.dart';
+import 'package:vital_signs_app/core/consts.dart';
+import 'package:vital_signs_app/pages/VS_Viz_New.dart';
 
 class ConnectDevice extends StatelessWidget {
   @override

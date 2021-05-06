@@ -11,17 +11,17 @@ import 'package:loading/indicator/line_scale_indicator.dart';
 import 'package:loading/loading.dart';
 import 'package:scidart/numdart.dart';
 import 'package:soundpool/soundpool.dart';
-import 'package:vital_signs_ui_template/Processing/AlertSystem/AlertManagerPointData.dart';
-// import 'package:vital_signs_ui_template/Processing/DataProcessing_backup.dart';
-import 'package:vital_signs_ui_template/Processing/ProcessingAlgorithm/DataProcessing_new_v2.dart'; // use DataProcessing_backup.dart for previous stable version
+import 'package:vital_signs_app/Processing/AlertSystem/AlertManagerPointData.dart';
+// import 'package:vital_signs_app/Processing/DataProcessing_backup.dart';
+import 'package:vital_signs_app/Processing/ProcessingAlgorithm/DataProcessing_new_v2.dart'; // use DataProcessing_backup.dart for previous stable version
 //import 'package:scidart/scidart.dart';
-import 'package:vital_signs_ui_template/Processing/fileManager.dart';
-import 'package:vital_signs_ui_template/core/configVS.dart';
-import 'package:vital_signs_ui_template/core/consts.dart';
-import 'package:vital_signs_ui_template/elements/ButtonWidget.dart';
-import 'package:vital_signs_ui_template/elements/CustomAppBar.dart';
-import 'package:vital_signs_ui_template/elements/info_card.dart';
-import 'package:vital_signs_ui_template/pages/AlertHomePage.dart';
+import 'package:vital_signs_app/Processing/fileManager.dart';
+import 'package:vital_signs_app/core/configVS.dart';
+import 'package:vital_signs_app/core/consts.dart';
+import 'package:vital_signs_app/elements/ButtonWidget.dart';
+import 'package:vital_signs_app/elements/CustomAppBar.dart';
+import 'package:vital_signs_app/elements/info_card.dart';
+import 'package:vital_signs_app/pages/AlertHomePage.dart';
 
 Array IR_raw_500 = Array.empty();
 Array RED_raw_500 = Array.empty();

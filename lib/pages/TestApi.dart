@@ -4,9 +4,9 @@ import 'package:date_time_picker/date_time_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:vital_signs_ui_template/Processing/NetworkGateway/networkManager.dart';
-import 'package:vital_signs_ui_template/core/configVS.dart';
-import 'package:vital_signs_ui_template/elements/User.dart';
+import 'package:vital_signs_app/Processing/NetworkGateway/networkManager.dart';
+import 'package:vital_signs_app/core/configVS.dart';
+import 'package:vital_signs_app/elements/User.dart';
 
 import '../core/configVS.dart';
 

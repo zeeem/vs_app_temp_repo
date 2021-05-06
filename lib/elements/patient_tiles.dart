@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:vital_signs_ui_template/core/consts.dart';
+import 'package:vital_signs_app/core/consts.dart';
 
 class PatientTiles extends StatelessWidget {
   final String title;

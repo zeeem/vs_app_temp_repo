@@ -1,13 +1,13 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:vital_signs_ui_template/Processing/NetworkGateway/networkManager.dart';
-import 'package:vital_signs_ui_template/core/configVS.dart';
-import 'package:vital_signs_ui_template/core/consts.dart';
-import 'package:vital_signs_ui_template/elements/CustomAppBar.dart';
-import 'package:vital_signs_ui_template/elements/TryAgainTemplate.dart';
-import 'package:vital_signs_ui_template/pages/Dashboard/AbnormalVsBoard.dart';
-import 'package:vital_signs_ui_template/pages/LoginPage.dart';
+import 'package:vital_signs_app/Processing/NetworkGateway/networkManager.dart';
+import 'package:vital_signs_app/core/configVS.dart';
+import 'package:vital_signs_app/core/consts.dart';
+import 'package:vital_signs_app/elements/CustomAppBar.dart';
+import 'package:vital_signs_app/elements/TryAgainTemplate.dart';
+import 'package:vital_signs_app/pages/Dashboard/AbnormalVsBoard.dart';
+import 'package:vital_signs_app/pages/LoginPage.dart';
 
 import 'TestApi.dart';
 import 'doctor_pages/HistoryPlots/StickyHeaderPlots.dart';
@@ -114,65 +114,68 @@ class _UserSelectionState extends State<UserSelection> {
             ],
           ),
           SizedBox(
-            height: 20,
+            height: 40,
           ),
-          Padding(
-            padding: const EdgeInsets.only(top: 20),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              //Debug options
-              children: [
-                FlatButton(
-                  onPressed: () {
-                    // navigateTo(context, SplashScreen());
-                    navigateTo(context, TestAPI());
-                  },
-                  child: Text(
-                    '.',
-                    style: TextStyle(color: Colors.black26),
-                  ),
-                ),
-                FlatButton(
-                  onPressed: () {
-                    //navigateTo(context, VSLoadWidgetStlss());
-                    //navigateTo(context, FilteredCharts());
-                    navigateTo(context, StickyHeader_Test());
-                    //navigateTo(context, PatientInfoScreen());
-                  },
-                  child: Text(
-                    '.',
-                    style: TextStyle(color: Colors.black26),
-                  ),
-                ),
-                FlatButton(
-                  onPressed: () {
-                    navigateTo(
-                        context,
-                        TryAgainPage(
-                          displayText: 'Hi, Jon!',
-                          displayText2: 'Connecting to your vital signs.',
-                          isLoadingVisible: true,
-                        )
-                        // AutoCompleteDrugs()
-                        );
-                  },
-                  child: Text(
-                    '.',
-                    style: TextStyle(color: Colors.black26),
-                  ),
-                ),
-                FlatButton(
-                  onPressed: () {
-                    navigateTo(context, VSPlotWithStickyHeader());
-                  },
-                  child: Text(
-                    '.',
-                    style: TextStyle(color: Colors.black26),
-                  ),
-                ),
-              ],
-            ),
-          ),
+
+          // FIXME: these are debugging button for tests only
+
+          // Padding(
+          //   padding: const EdgeInsets.only(top: 20),
+          //   child: Row(
+          //     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          //     //Debug options
+          //     children: [
+          //       FlatButton(
+          //         onPressed: () {
+          //           // navigateTo(context, SplashScreen());
+          //           navigateTo(context, TestAPI());
+          //         },
+          //         child: Text(
+          //           '.',
+          //           style: TextStyle(color: Colors.black26),
+          //         ),
+          //       ),
+          //       FlatButton(
+          //         onPressed: () {
+          //           //navigateTo(context, VSLoadWidgetStlss());
+          //           //navigateTo(context, FilteredCharts());
+          //           navigateTo(context, StickyHeader_Test());
+          //           //navigateTo(context, PatientInfoScreen());
+          //         },
+          //         child: Text(
+          //           '.',
+          //           style: TextStyle(color: Colors.black26),
+          //         ),
+          //       ),
+          //       FlatButton(
+          //         onPressed: () {
+          //           navigateTo(
+          //               context,
+          //               TryAgainPage(
+          //                 displayText: 'Hi, Jon!',
+          //                 displayText2: 'Connecting to your vital signs.',
+          //                 isLoadingVisible: true,
+          //               )
+          //               // AutoCompleteDrugs()
+          //               );
+          //         },
+          //         child: Text(
+          //           '.',
+          //           style: TextStyle(color: Colors.black26),
+          //         ),
+          //       ),
+          //       FlatButton(
+          //         onPressed: () {
+          //           navigateTo(context, VSPlotWithStickyHeader());
+          //         },
+          //         child: Text(
+          //           '.',
+          //           style: TextStyle(color: Colors.black26),
+          //         ),
+          //       ),
+          //     ],
+          //   ),
+          // ),
         ],
       ),
     );

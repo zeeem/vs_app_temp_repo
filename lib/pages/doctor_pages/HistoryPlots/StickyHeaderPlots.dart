@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sticky_header/flutter_sticky_header.dart';
 import 'package:intl/intl.dart';
-import 'package:vital_signs_ui_template/elements/base_plot_element.dart';
-import 'package:vital_signs_ui_template/elements/stickyHeader_common.dart';
+import 'package:vital_signs_app/elements/base_plot_element.dart';
+import 'package:vital_signs_app/elements/stickyHeader_common.dart';
 
 import '../../../core/configVS.dart';
 

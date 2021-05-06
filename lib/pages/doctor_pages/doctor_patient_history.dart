@@ -3,13 +3,13 @@ import 'dart:async';
 import 'package:autocomplete_textfield/autocomplete_textfield.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:vital_signs_ui_template/core/configVS.dart';
-import 'package:vital_signs_ui_template/core/consts.dart';
-import 'package:vital_signs_ui_template/elements/Shared.dart';
-import 'package:vital_signs_ui_template/elements/User.dart';
-import 'package:vital_signs_ui_template/elements/patient_tiles.dart';
+import 'package:vital_signs_app/core/configVS.dart';
+import 'package:vital_signs_app/core/consts.dart';
+import 'package:vital_signs_app/elements/Shared.dart';
+import 'package:vital_signs_app/elements/User.dart';
+import 'package:vital_signs_app/elements/patient_tiles.dart';
 
-import 'docVSPage.dart';
+import 'VSPage_doc.dart';
 
 class DoctorPatientSearch extends StatefulWidget {
   @override
